@@ -1,0 +1,57 @@
+@import "../../../styles/includes";
+
+.item {
+
+  border-top: 1px $gray solid;
+  box-sizing: border-box;
+  &:hover {
+    cursor: pointer;
+    background-color: $lighter-gray;
+  }
+
+  td {
+    font-size: 16px;
+    padding: 20px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+}
+
+.icon {
+  vertical-align: bottom;
+}
+
+.faIcon {
+  color: $gray;
+  margin-right: 10px;
+  margin-left: 20px;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.faIconContainer {
+  flex:1;
+  width: 100%;
+  display: flex;
+  justify-items: flex-end;
+  align-items: center;
+  span {
+    width: 100%;
+    flex-grow: 1;
+    flex-shrink: 0;
+  }
+}
+
+.challengeName {
+  flex-wrap: nowrap;
+  display: flex;
+  :global .name {
+    flex:1;
+  }
+}

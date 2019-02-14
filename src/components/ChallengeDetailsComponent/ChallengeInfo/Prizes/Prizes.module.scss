@@ -1,0 +1,26 @@
+@import "../../../../styles/includes";
+
+.prizes{
+  display: flex;
+  :nth-child(1) {
+    border-bottom-color: $green;
+  }
+}
+.prize{
+  font-size: 22px;
+  line-height: 29px;
+  border-bottom: 2px solid $lighter-gray;
+  margin-right: 21px;
+}
+
+.rank {
+  display: block;
+  color: $light-text;
+  font-size: 14px;
+  line-height: 19px;
+  text-align: right;
+}
+
+.amount {
+  display: block;
+}

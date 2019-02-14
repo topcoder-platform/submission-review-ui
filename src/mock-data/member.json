@@ -1,0 +1,24 @@
+{
+  "maxRating": {
+    "rating": 0,
+    "track": null,
+    "subTrack": null
+  },
+  "userId": 40153800,
+  "description": null,
+  "handle": "thomaskranitsas",
+  "handleLower": "thomaskranitsas",
+  "color": "#fcd617",
+  "status": "ACTIVE",
+  "homeCountryCode": null,
+  "competitionCountryCode": "GRC",
+  "photoURL": null,
+  "tracks": [
+    "DEVELOP"
+  ],
+  "createdAt": "2017-08-10T06:33:56.000Z",
+  "createdBy": null,
+  "updatedAt": "2017-08-11T04:22:30.000Z",
+  "updatedBy": "8547899",
+  "copilot": false
+}
