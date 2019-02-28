@@ -1,8 +1,6 @@
 /**
  * Provides mock API calls
  */
-import sampleUserResponse from '../mock-data/member'
-import sampleChallengesResponse from '../mock-data/challenges'
 import sampleChallengeDetailsResponse from '../mock-data/challenge-details'
 import sampleDesignChallengeDetailsResponse from '../mock-data/design-challenge-details'
 import sampleMMChallengeDetailsResponse from '../mock-data/mm-challenge-details'
@@ -21,22 +19,6 @@ async function _mockEndpoint (result) {
   return new Promise((resolve) => {
     setTimeout(() => resolve(result), MOCK_TIMEOUT_INTERVAL)
   })
-}
-
-/**
- * Mock api request for fetching user details
- * @returns {Promise<*>}
- */
-export async function fetchAuthenticatedUser () {
-  return _mockEndpoint(sampleUserResponse)
-}
-
-/**
- * Mock api request for fetching challenges
- * @returns {Promise<*>}
- */
-export async function fetchChallenges () {
-  return _mockEndpoint(sampleChallengesResponse)
 }
 
 /**

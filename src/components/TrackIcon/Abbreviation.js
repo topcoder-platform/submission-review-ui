@@ -27,7 +27,8 @@ const Abbreviation = {
     REPORTING: 'Rp',
     FIRST2FINISH: 'F2F',
     FIRST_2_FINISH: 'F2F',
-    CODE: 'Cd'
+    CODE: 'Cd',
+    DEVELOP_MARATHON_MATCH: 'MM'
   },
   DESIGN: {
     BANNERS_OR_ICONS: 'BI',

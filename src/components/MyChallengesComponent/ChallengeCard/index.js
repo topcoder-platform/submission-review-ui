@@ -35,9 +35,9 @@ const getEndDate = (c) => {
  * @returns {*}
  */
 const getTimeLeft = (phase) => {
-  if (!phase) return { late: false, text: STALLED_TIME_LEFT_MSG }
+  if (!phase) return STALLED_TIME_LEFT_MSG
   if (phase.phaseType === 'Final Fix') {
-    return { late: false, text: FF_TIME_LEFT_MSG }
+    return FF_TIME_LEFT_MSG
   }
 
   let time = moment(phase.scheduledEndTime).diff()
@@ -73,7 +73,7 @@ const getPhaseInfo = (c) => {
 
 const ChallengeCard = ({ challenge, options, history }) => {
   const onClick = () => history.push(`challenges/${challenge.id}`)
-  const roles = challenge.roles && challenge.roles.map(r => (
+  const roles = challenge.userDetails && challenge.userDetails.roles && challenge.userDetails.roles.map(r => (
     <span className='block' key={`challenge-role-${r}`}>{r}</span>
   ))
   const { phaseMessage, endTime } = getPhaseInfo(challenge)

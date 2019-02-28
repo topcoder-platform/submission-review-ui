@@ -7,11 +7,13 @@ import PropTypes from 'prop-types'
 import Abbreviation from './Abbreviation'
 import cn from 'classnames'
 import styles from './TrackIcon.module.scss'
+import { MARATHON_MATCH_SUBTRACKS } from '../../config/constants'
 
 const TrackIcon = ({ track, subTrack, className }) => {
+  const styleTrack = MARATHON_MATCH_SUBTRACKS.includes(subTrack) ? 'data_science' : track.toLowerCase()
   return (
     <span className={cn(styles.icon, className)}>
-      <div className={`${track.toLowerCase()}`}>
+      <div className={`${styleTrack}`}>
         {Abbreviation[track][subTrack] || 'NA'}
       </div>
     </span>

@@ -1,5 +1,5 @@
 'use strict'
-
+const _ = require('lodash')
 const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
@@ -19,6 +19,7 @@ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const paths = require('./paths')
 const getClientEnvironment = require('./env')
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin')
+const constants = require('./constants')
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false'
@@ -490,6 +491,9 @@ module.exports = function (webpackEnv) {
             : undefined
         )
       ),
+      new webpack.DefinePlugin({
+        'process.env': _.mapValues(constants, (value) => JSON.stringify(value))
+      }),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       isEnvProduction &&

@@ -20,6 +20,8 @@ export const LOAD_SUBMISSION_DETAILS_SUCCESS = 'LOAD_SUBMISSION_DETAILS_SUCCESS'
 export const LOAD_SUBMISSION_DETAILS_PENDING = 'LOAD_SUBMISSION_DETAILS_PENDING'
 export const LOAD_SUBMISSION_DETAILS_FAILURE = 'LOAD_SUBMISSION_DETAILS_FAILURE'
 
+export const SAVE_AUTH_TOKEN = 'SAVE_AUTH_TOKEN'
+
 // Name of challenge tracks
 export const CHALLENGE_TRACKS = {
   DEVELOP: 'DEVELOP',
@@ -45,7 +47,18 @@ export const MARATHON_MATCH_SUBTRACKS = [
   'DEVELOP_MARATHON_MATCH'
 ]
 
-export const COMMUNITY_APP_URL = process.env.COMMUNITY_APP_URL || 'https://www.topcoder-dev.com'
+export const ACCOUNTS_APP_CONNECTOR_URL = process.env.ACCOUNTS_APP_CONNECTOR_URL
+export const ACCOUNTS_APP_LOGIN_URL = process.env.ACCOUNTS_APP_LOGIN_URL
+
+export const COMMUNITY_APP_URL = process.env.COMMUNITY_APP_URL
+
+export const MEMBER_API_URL = process.env.MEMBER_API_URL
+export const MEMBER_API_V3_URL = process.env.MEMBER_API_V3_URL
+
+export const ARENA_URL = process.env.ARENA_URL
+export const DATA_SCIENCE_CHALLENGES_URL = `${COMMUNITY_APP_URL}/challenges?filter[tracks][datasci]=true`
+export const DESIGN_CHALLENGES_URL = `${COMMUNITY_APP_URL}/challenges?filter[tracks][design]=true`
+export const DEVELOPMENT_CHALLENGES_URL = `${COMMUNITY_APP_URL}/challenges?filter[tracks][develop]=true`
 
 export const getTCChallengeURL = (challengeId) => `${COMMUNITY_APP_URL}/challenges/${challengeId}`
 export const getTCMemberURL = (handle) => `${COMMUNITY_APP_URL}/members/${handle}`

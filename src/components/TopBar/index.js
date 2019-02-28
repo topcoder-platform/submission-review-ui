@@ -5,20 +5,20 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
-import { Link } from 'react-router-dom'
 import styles from './Topbar.module.scss'
 import Handle from '../Handle'
+import { COMMUNITY_APP_URL } from '../../config/constants'
 
 const TopBar = ({ user }) => {
   return (
     <div className={styles.topbar}>
       {user &&
-        <div className={styles.details}>
-          Welcome, <Handle handle={user.handle} color={user.color} />
-          <Link to='#'>
-            <FontAwesomeIcon icon={faSignInAlt} className={styles.icon} />
-          </Link>
-        </div>
+      <div className={styles.details}>
+        Welcome, <Handle handle={user.handle} rating={user.maxRating.rating} />
+        <a href={`${COMMUNITY_APP_URL}/logout`}>
+          <FontAwesomeIcon icon={faSignInAlt} className={styles.icon} />
+        </a>
+      </div>
       }
     </div>
   )
