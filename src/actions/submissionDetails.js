@@ -1,4 +1,5 @@
-import * as service from '../services/mock-services'
+import _ from 'lodash'
+import { fetchSubmissionReviews } from '../services/submissionReview'
 import {
   LOAD_SUBMISSION_DETAILS_FAILURE,
   LOAD_SUBMISSION_DETAILS_PENDING,
@@ -6,15 +7,32 @@ import {
 } from '../config/constants'
 
 export function loadSubmissionDetails (submissionId) {
-  return (dispatch) => {
-    dispatch({
-      type: LOAD_SUBMISSION_DETAILS_PENDING
-    })
-    service.fetchSubmissionDetails().then(submissionDetails => dispatch({
-      type: LOAD_SUBMISSION_DETAILS_SUCCESS,
-      submissionDetails
-    })).catch(e => dispatch({
-      type: LOAD_SUBMISSION_DETAILS_FAILURE
-    }))
+  return async (dispatch, getState) => {
+    const getLoadingId = () => _.get(getState(), 'submissionDetails.loadingId')
+
+    // if it's not loading already
+    if (submissionId !== getLoadingId()) {
+      dispatch({
+        type: LOAD_SUBMISSION_DETAILS_PENDING,
+        submissionId
+      })
+
+      try {
+        const submissionDetails = await fetchSubmissionReviews(submissionId)
+
+        // prevent possible race condition
+        if (submissionId === getLoadingId()) {
+          dispatch({
+            type: LOAD_SUBMISSION_DETAILS_SUCCESS,
+            submissionDetails
+          })
+        }
+      } catch (error) {
+        console.error(error)
+        dispatch({
+          type: LOAD_SUBMISSION_DETAILS_FAILURE
+        })
+      }
+    }
   }
 }

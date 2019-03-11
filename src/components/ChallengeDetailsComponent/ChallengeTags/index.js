@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './ChallengeTags.module.scss'
 import Tag from '../../Tag'
+import { fixedTrack } from '../../../util/tc'
 
 const ChallengeTags = ({ challenge, challengeTypes }) => {
   const {
@@ -14,7 +15,7 @@ const ChallengeTags = ({ challenge, challengeTypes }) => {
 
   const techAndPlatforms = [...(technologies || []), ...(platforms || [])]
 
-  const trackTag = <Tag track={track} subTrack={subTrack} challengeTypes={challengeTypes} />
+  const trackTag = <Tag track={fixedTrack(track, subTrack)} subTrack={subTrack} challengeTypes={challengeTypes} />
   const techAndPlatformTags = techAndPlatforms.map((t, i) => <Tag value={t} key={`tag-${t}-${i}`} />)
   const roleTags = (roles || []).map((r, i) => <Tag roleTag value={r} key={`role-${r}-${i}`} />)
   return (

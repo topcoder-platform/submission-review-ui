@@ -10,7 +10,7 @@ function getOrdinal (num) {
 }
 
 function numberWithCommas (x) {
-  return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
 const Prizes = ({ prizes }) => {

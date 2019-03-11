@@ -5,5 +5,7 @@ module.exports = {
   MEMBER_API_URL: 'http://api.topcoder.com/v4/members',
   MEMBER_API_V3_URL: 'http://api.topcoder.com/v3/members',
   ARENA_URL: 'https://arena.topcoder.com',
-  DEV_APP_URL: 'http://local.topcoder.com'
+  DEV_APP_URL: 'http://local.topcoder.com',
+  CHALLENGE_API_URL: 'http://api.topcoder.com/v4',
+  SUBMISSION_REVIEW_API_URL: ''
 }

@@ -73,8 +73,8 @@ const getPhaseInfo = (c) => {
 
 const ChallengeCard = ({ challenge, options, history }) => {
   const onClick = () => history.push(`challenges/${challenge.id}`)
-  const roles = challenge.userDetails && challenge.userDetails.roles && challenge.userDetails.roles.map(r => (
-    <span className='block' key={`challenge-role-${r}`}>{r}</span>
+  const roles = challenge.userDetails && challenge.userDetails.roles && challenge.userDetails.roles.map((r, i) => (
+    <span className='block' key={`challenge-role-${r}-${i}`}>{r}</span>
   ))
   const { phaseMessage, endTime } = getPhaseInfo(challenge)
   return (

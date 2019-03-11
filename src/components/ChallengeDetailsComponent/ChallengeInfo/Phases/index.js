@@ -12,15 +12,18 @@ const Phases = ({ phases }) => {
   const isOpen = (status) => status === PHASE_STATUS.OPEN
 
   const phaseComponents = phases
-    .sort((a, b) => moment(a.scheduledStartTime).diff(b.scheduledStartTime))
     .map(
       p => {
-        const day = moment(p.scheduledStartTime).format('MMM DD')
-        const time = moment(p.scheduledStartTime).format('HH:mma')
+        const startTime = moment(p.actualStartTime || p.scheduledStartTime)
+        const day = startTime.format('MMM DD')
+        const time = startTime.format('HH:mma')
         const duration = getRoundFormattedDuration(p.duration)
         return (
-          <div className={cn(styles.phase, { [styles.open]: isOpen(p.status) })} key={`phase-${p.type}`}>
-            <div className={cn(styles.type, { [styles.open]: isOpen(p.status) })}>{circle(p.status)}<span>{p.type}</span></div>
+          <div className={cn(styles.phase, { [styles.open]: isOpen(p.status) })} key={p.phaseId}>
+            <div className={cn(styles.type, { [styles.open]: isOpen(p.status) })}>
+              {circle(p.status)}
+              <span>{p.type}</span>
+            </div>
             <div className={styles.date}><span className='bold' >{day}</span>, {time}</div>
             <div className={styles.duration} >{duration}</div>
           </div>
