@@ -34,6 +34,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "7.11.1",
     "eslint-plugin-standard": "^4.0.0",
+    "express": "^4.16.4",
     "file-loader": "2.0.0",
     "fs-extra": "7.0.0",
     "html-webpack-plugin": "4.0.0-alpha.2",
@@ -74,7 +75,8 @@
     "webpack-manifest-plugin": "2.0.4"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "node server.js",
+    "dev": "node scripts/start.js",
     "build": "node scripts/build.js",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
