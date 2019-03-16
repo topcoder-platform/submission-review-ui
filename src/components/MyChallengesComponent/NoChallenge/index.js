@@ -41,6 +41,7 @@ const NoChallenge = () => {
       <p>What are you interested in?</p>
       <div className={styles.tags}>
         {tags.map(tag => <a
+          key={tag.name}
           href={tag.link}
           className={cn(styles.tag, tag.class)}>
           {tag.name}

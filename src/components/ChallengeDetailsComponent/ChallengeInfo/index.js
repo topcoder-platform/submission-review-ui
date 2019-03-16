@@ -19,7 +19,7 @@ const ChallengeInfo = ({ challenge }) => {
   return (
     <div className={styles.container}>
       <div className={styles.prizeAndStats}>
-        <Prizes prizes={prizes} />
+        <Prizes prizes={prizes || [0]} />
         <div className={styles.stats}>
           <div><span className='bold'>{numberOfRegistrants}</span> Registrants</div>
           <div><span className='bold'>{numberOfSubmissions}</span> Submissions</div>

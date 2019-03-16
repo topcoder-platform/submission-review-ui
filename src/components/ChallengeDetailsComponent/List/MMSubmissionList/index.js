@@ -10,13 +10,15 @@ import { Link } from 'react-router-dom'
 import Table from '../../../Table'
 import styles from './MMSubmissionList.module.scss'
 import Handle from '../../../Handle'
+import NoSubmissions from '../NoSubmissions'
 
 // Table options for non MM matches
 const options = [
-  {
-    name: 'Rank',
-    width: 2
-  },
+  // API Not Implemented Yet
+  // {
+  //   name: 'Rank',
+  //   width: 2
+  // },
   {
     name: 'Competitor',
     width: 6
@@ -25,13 +27,18 @@ const options = [
     name: 'Time',
     width: 6
   },
+  // API Not Implemented Yet
+  // {
+  //   name: 'Final',
+  //   width: 5
+  // },
+  // {
+  //   name: 'Provisional',
+  //   width: 3
+  // }
   {
-    name: 'Final',
-    width: 5
-  },
-  {
-    name: 'Provisional',
-    width: 3
+    name: '',
+    width: 1
   }
 ]
 
@@ -39,12 +46,13 @@ const expandableOptions = [
   {
     name: 'Submission'
   },
-  {
-    name: 'Final'
-  },
-  {
-    name: 'Provisonal'
-  },
+  // API Not Implemented Yet
+  // {
+  //   name: 'Final'
+  // },
+  // {
+  //   name: 'Provisonal'
+  // },
   {
     name: 'Time'
   }
@@ -60,16 +68,16 @@ class MMSubmissionList extends React.Component {
     }
   }
 
-  toggleRow (submitterId) {
+  toggleRow (memberId) {
     const { expandStates } = this.state
     this.setState({
-      expandStates: { ...expandStates, [submitterId]: !expandStates[submitterId] }
+      expandStates: { ...expandStates, [memberId]: !expandStates[memberId] }
     })
   }
 
-  renderExpandButton (submitterId, onClick) {
+  renderExpandButton (memberId, onClick) {
     const { expandStates } = this.state
-    const isExpanded = !!expandStates[submitterId]
+    const isExpanded = !!expandStates[memberId]
     const rotation = isExpanded ? 90 : null
     return (
       <FontAwesomeIcon
@@ -89,21 +97,22 @@ class MMSubmissionList extends React.Component {
     const getFormattedTime = (time) => moment(time).format('DD MMM YYYY, HH:mm:ss')
     const rows = submissions.map(
       s => (
-        <tr className={styles.expandableContentRow} key={`expanded-row-${s.submissionId}`}>
+        <tr className={styles.expandableContentRow} key={`expanded-row-${s.id}`}>
           <td />
           <td>
-            <Link className={styles.submissionLink} to={`/challenges/${challengeId}/submissions/${s.submissionId}`}>
-              {s.submissionId}
+            <Link className={styles.submissionLink} to={`/challenges/${challengeId}/submissions/${s.id}`}>
+              {s.id}
             </Link>
           </td>
-          <td>
+          {/* API Not Implemented Yet */}
+          {/* <td>
             <span>{s.finalScore || '-'}</span>
           </td>
           <td>
             <span>{s.provisionalScore || '-'}</span>
-          </td>
+          </td> */}
           <td>
-            <span className={styles.date}>{getFormattedTime(s.submissionTime)}</span>
+            <span className={styles.date}>{getFormattedTime(s.created)}</span>
           </td>
         </tr>
       )
@@ -120,37 +129,45 @@ class MMSubmissionList extends React.Component {
   render () {
     const { submissions, challengeId } = this.props
     const { expandStates } = this.state
+
+    if (submissions.length === 0) {
+      return <NoSubmissions />
+    }
+
     const rows = submissions.map(
       (s, i) => {
         const submission = s.submissions[0]
-        const { submissionTime, finalScore, provisionalScore } = submission
-        const reviewDate = moment(submissionTime).format('MMM DD, HH:mma')
-        const rank = i + 1 // Submissions are sorted by rank
-        const expandButton = this.renderExpandButton(s.submitterId, () => this.toggleRow(s.submitterId))
+        const time = moment(submission.created).format('MMM DD, HH:mma')
+        const expandButton = this.renderExpandButton(s.memberId, () => this.toggleRow(s.memberId))
         const expandRows = this.renderExpandableRows(s.submissions)
         return (
           <Table.ExpandableRow
-            key={`mm-submission-${s.submitterId}-${i}-${challengeId}`}
+            key={`mm-submission-${s.memberId}-${i}-${challengeId}`}
             className={styles.item}
-            expanded={expandStates[s.submitterId]}
+            expanded={expandStates[s.memberId]}
             expandRows={expandRows}
           >
-            <Table.Col width={options[0].width}>
+            {/* API Not Implemented Yet */}
+            {/* <Table.Col width={options[0].width}>
               <span className={styles.rank}>-/{rank}</span>
-            </Table.Col>
-            <Table.Col width={options[1].width}>
+            </Table.Col> */}
+            <Table.Col width={options[0].width}>
               <div className={styles.handle}>
-                <Handle handle={s.submitter} color={s.color} />
+                <Handle handle={s.memberHandle} color={s.memberHandleColor} />
               </div>
             </Table.Col>
-            <Table.Col width={options[2].width}>
-              <span className={styles.date}>{reviewDate}</span>
+            <Table.Col width={options[1].width}>
+              <span className={styles.date}>{time}</span>
             </Table.Col>
-            <Table.Col width={options[3].width}>
+            {/* API Not Implemented Yet */}
+            {/* <Table.Col width={options[3].width}>
               <span>{finalScore || '-'}</span>
             </Table.Col>
             <Table.Col width={options[4].width}>
               <span className={styles.provisionalScore}>{provisionalScore || '-'}</span>
+              {expandButton}
+            </Table.Col> */}
+            <Table.Col width={options[2].width}>
               {expandButton}
             </Table.Col>
           </Table.ExpandableRow>

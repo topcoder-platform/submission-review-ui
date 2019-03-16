@@ -10,7 +10,8 @@ import cn from 'classnames'
 import Table from '../../Table'
 import Handle from '../../Handle'
 import Loader from '../../Loader'
-import { REVIEW_STATUS } from '../../../config/constants'
+import { downloadSubmissionURL } from '../../../config/constants'
+import NoReviews from './NoReviews'
 import styles from './SubmissionDetails.module.scss'
 
 // Table options for review list
@@ -33,9 +34,16 @@ const options = [
   }
 ]
 
-const SubmissionDetails = ({ submissionDetails, challengeId, isSubmissionLoading }) => {
-  const { submissionId, finalScore, finalStatus, reviews } = submissionDetails
-  const submissionDownloadLink = '#'
+function formattedScore (score) {
+  if (typeof score === 'number') {
+    return score.toFixed(2)
+  } else {
+    return score
+  }
+}
+
+const SubmissionDetails = ({ submissionId, submissionDetails, challengeId, isSubmissionLoading, downloadToken }) => {
+  const { review, reviewSummation } = submissionDetails
   const challengeDetailsLink = `/challenges/${challengeId}`
 
   if (isSubmissionLoading) {
@@ -43,34 +51,36 @@ const SubmissionDetails = ({ submissionDetails, challengeId, isSubmissionLoading
   }
 
   const finalReview = {
-    type: 'Final score',
+    reviewType: 'Final score',
     reviewer: '',
-    score: finalScore,
-    status: finalStatus,
+    score: reviewSummation ? reviewSummation.aggregateScore : 'N/A',
+    isPassing: reviewSummation ? reviewSummation.isPassing : undefined,
     className: '-'
   }
 
-  const rows = reviews && [...reviews, finalReview].map(
-    r => {
-      const { type, reviewer, color, score, status } = r
-      const isFailed = status === REVIEW_STATUS.FAILED
-      const isPassed = status === REVIEW_STATUS.PASSED
+  const rows = review && [...review, finalReview].map(
+    (r, i) => {
+      const { reviewType, reviewer, color, score, isPassing } = r
+      const isFailed = isPassing === false
+      const isPassed = isPassing === true
+      const statusIsDefined = isPassed || isFailed
+      const status = isPassing ? 'Passed' : 'Failed'
       return (
-        <Table.Row key={`review-${type}-${reviewer}`} className={styles.item}>
+        <Table.Row key={`review-${reviewType}-${reviewer}-${i}`} className={styles.item}>
           <Table.Col width={options[0].width}>
-            <span className={r.className || styles.type}>{type}</span>
+            <span className={r.className || styles.type}>{reviewType}</span>
           </Table.Col>
           <Table.Col width={options[1].width}>
             <Handle handle={reviewer} color={color} />
           </Table.Col>
           <Table.Col width={options[2].width}>
-            <span className={cn(styles.score, { [styles.fail]: isFailed })}>{score}</span>
+            <span className={cn(styles.score, { [styles.fail]: isFailed })}>{formattedScore(score)}</span>
           </Table.Col>
           <Table.Col width={options[3].width}>
             <span className={cn(styles.status, {
               [styles.fail]: isFailed,
               [styles.passed]: isPassed
-            })}>{status}</span>
+            })}>{statusIsDefined ? status : 'N/A'}</span>
           </Table.Col>
         </Table.Row>
       )
@@ -85,19 +95,28 @@ const SubmissionDetails = ({ submissionDetails, challengeId, isSubmissionLoading
           <h2 className={styles.heading}>
             Submission details
             (
-            <a href={submissionDownloadLink}>{submissionId}<FontAwesomeIcon icon={faDownload} /></a>
+            <a href={downloadSubmissionURL(submissionId, downloadToken)}>
+              {submissionId}
+              <FontAwesomeIcon icon={faDownload} />
+            </a>
             )
           </h2>
         </div>
-        <Table rows={rows} options={options} className={styles.list} />
+        {(!review || review.length === 0)
+          ? <NoReviews />
+          : <Table rows={rows} options={options} className={styles.list} />
+        }
+
       </>
   )
 }
 
 SubmissionDetails.propTypes = {
+  submissionId: PropTypes.string,
   submissionDetails: PropTypes.object,
   challengeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  isSubmissionLoading: PropTypes.bool
+  isSubmissionLoading: PropTypes.bool,
+  downloadToken: PropTypes.string
 }
 
 export default SubmissionDetails

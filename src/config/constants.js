@@ -12,6 +12,10 @@ export const LOAD_CHALLENGE_DETAILS_SUCCESS = 'LOAD_CHALLENGE_DETAILS_SUCCESS'
 export const LOAD_CHALLENGE_DETAILS_PENDING = 'LOAD_CHALLENGE_DETAILS_PENDING'
 export const LOAD_CHALLENGE_DETAILS_FAILURE = 'LOAD_CHALLENGE_DETAILS_FAILURE'
 
+export const LOAD_CHALLENGE_SUBMISSIONS_SUCCESS = 'LOAD_CHALLENGE_SUBMISSIONS_SUCCESS'
+export const LOAD_CHALLENGE_SUBMISSIONS_PENDING = 'LOAD_CHALLENGE_SUBMISSIONS_PENDING'
+export const LOAD_CHALLENGE_SUBMISSIONS_FAILURE = 'LOAD_CHALLENGE_SUBMISSIONS_FAILURE'
+
 export const LOAD_CHALLENGE_TYPES_SUCCESS = 'LOAD_CHALLENGE_TYPES_SUCCESS'
 export const LOAD_CHALLENGE_TYPES_PENDING = 'LOAD_CHALLENGE_TYPES_PENDING'
 export const LOAD_CHALLENGE_TYPES_FAILURE = 'LOAD_CHALLENGE_TYPES_FAILURE'
@@ -36,12 +40,6 @@ export const PHASE_STATUS = {
   SCHEDULED: 'Scheduled'
 }
 
-// List of review statuses
-export const REVIEW_STATUS = {
-  PASSED: 'Passed',
-  FAILED: 'Failed'
-}
-
 // List of subtracks that should be considered as Marathon Matches
 export const MARATHON_MATCH_SUBTRACKS = [
   'DEVELOP_MARATHON_MATCH'
@@ -51,6 +49,10 @@ export const ACCOUNTS_APP_CONNECTOR_URL = process.env.ACCOUNTS_APP_CONNECTOR_URL
 export const ACCOUNTS_APP_LOGIN_URL = process.env.ACCOUNTS_APP_LOGIN_URL
 
 export const COMMUNITY_APP_URL = process.env.COMMUNITY_APP_URL
+
+export const CHALLENGE_API_URL = process.env.CHALLENGE_API_URL
+
+export const SUBMISSION_REVIEW_API_URL = process.env.SUBMISSION_REVIEW_API_URL
 
 export const MEMBER_API_URL = process.env.MEMBER_API_URL
 export const MEMBER_API_V3_URL = process.env.MEMBER_API_V3_URL
@@ -62,6 +64,8 @@ export const DEVELOPMENT_CHALLENGES_URL = `${COMMUNITY_APP_URL}/challenges?filte
 
 export const getTCChallengeURL = (challengeId) => `${COMMUNITY_APP_URL}/challenges/${challengeId}`
 export const getTCMemberURL = (handle) => `${COMMUNITY_APP_URL}/members/${handle}`
+export const downloadSubmissionURL = (submissionId, token) =>
+  `${SUBMISSION_REVIEW_API_URL}/challengeSubmissions/${submissionId}/download?token=${token}`
 
 export const SYSTEM_USERS = [
   'TC System',

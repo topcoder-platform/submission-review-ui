@@ -14,21 +14,40 @@ import SubmissionDetails from './SubmissionDetails'
 
 const isMarathonMatch = c => (MARATHON_MATCH_SUBTRACKS.includes(c.subTrack))
 
-const ChallengeDetailsComponent = ({ challenge, challengeTypes, submissionId, submissionDetails, isSubmissionLoading }) => {
-  const { submissions, challengeId, name } = challenge
+const ChallengeDetailsComponent = ({
+  challenge,
+  challengeTypes,
+  submissionId,
+  challengeSubmissions,
+  isChallengeSubmissionsLoading,
+  submissionDetails,
+  isSubmissionLoading,
+  userToken }) => {
+  const { challengeId, challengeTitle } = challenge
   const challengeTags = <ChallengeTags challenge={challenge} challengeTypes={challengeTypes} />
   const isOnSubmissionDetailsPage = !!submissionId
   return (
     <div>
-      <Helmet title={name || 'Challenge Details'} />
-      <PageHeader title={name} tags={challengeTags} />
+      <Helmet title={challengeTitle || 'Challenge Details'} />
+      <PageHeader title={challengeTitle} tags={challengeTags} />
       <div className={styles.challenges}>
         <ChallengeInfo challenge={challenge} />
         {!isOnSubmissionDetailsPage &&
-          <List isMarathonMatch={isMarathonMatch(challenge)} submissions={submissions} challengeId={challengeId} />}
+          <List
+            challenge={challenge}
+            isMarathonMatch={isMarathonMatch(challenge)}
+            isChallengeSubmissionsLoading={isChallengeSubmissionsLoading}
+            challengeSubmissions={challengeSubmissions}
+            challengeId={challengeId}
+          />}
         {isOnSubmissionDetailsPage &&
-          <SubmissionDetails isSubmissionLoading={isSubmissionLoading} submissionDetails={submissionDetails}
-            challengeId={challengeId} />}
+          <SubmissionDetails
+            submissionId={submissionId}
+            isSubmissionLoading={isSubmissionLoading}
+            submissionDetails={submissionDetails}
+            challengeId={challengeId}
+            downloadToken={userToken}
+          />}
       </div>
     </div>
   )
@@ -39,11 +58,14 @@ ChallengeDetailsComponent.propTypes = {
   challengeTypes: PropTypes.arrayOf(PropTypes.object),
   submissionId: PropTypes.string,
   submissionDetails: PropTypes.object,
-  isSubmissionLoading: PropTypes.bool
+  isSubmissionLoading: PropTypes.bool,
+  challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
+  isChallengeSubmissionsLoading: PropTypes.bool,
+  userToken: PropTypes.string
 }
 
 ChallengeDetailsComponent.defaultProps = {
-  challenge: {},
+  challenge: null,
   challengeTypes: []
 }
 
