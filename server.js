@@ -3,8 +3,6 @@ const path = require('path')
 
 const app = express()
 
-// the __dirname is the current directory from where the script is running
-
 const requireHTTPS = (req, res, next) => {
   // The 'x-forwarded-proto' check is for Heroku
   if (!req.secure && req.get('x-forwarded-proto') !== 'https' && process.env.NODE_ENV !== "development") {
