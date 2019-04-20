@@ -5,6 +5,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignInAlt } from '@fortawesome/free-solid-svg-icons'
+import { get } from 'lodash'
 import styles from './Topbar.module.scss'
 import Handle from '../Handle'
 import { COMMUNITY_APP_URL } from '../../config/constants'
@@ -14,7 +15,7 @@ const TopBar = ({ user }) => {
     <div className={styles.topbar}>
       {user &&
       <div className={styles.details}>
-        Welcome, <Handle handle={user.handle} rating={user.maxRating.rating} />
+        Welcome, <Handle handle={user.handle} rating={get(user, 'maxRating.rating', 0)} />
         <a href={`${COMMUNITY_APP_URL}/logout`}>
           <FontAwesomeIcon icon={faSignInAlt} className={styles.icon} />
         </a>
