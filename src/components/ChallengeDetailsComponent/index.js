@@ -1,6 +1,7 @@
 /**
  * Component to render challenge details and submission details pages
  */
+import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
@@ -11,6 +12,7 @@ import ChallengeInfo from './ChallengeInfo'
 import { MARATHON_MATCH_SUBTRACKS } from '../../config/constants'
 import List from './List'
 import SubmissionDetails from './SubmissionDetails'
+import { Redirect } from 'react-router-dom'
 
 const isMarathonMatch = c => (MARATHON_MATCH_SUBTRACKS.includes(c.subTrack))
 
@@ -22,10 +24,18 @@ const ChallengeDetailsComponent = ({
   isChallengeSubmissionsLoading,
   submissionDetails,
   isSubmissionLoading,
+  isArtifactsLoading,
+  submissionArtifacts,
+  currentTab,
+  switchTab,
   userToken }) => {
   const { challengeId, challengeTitle } = challenge
   const challengeTags = <ChallengeTags challenge={challenge} challengeTypes={challengeTypes} />
   const isOnSubmissionDetailsPage = !!submissionId
+  if (challengeSubmissions.length === 0 && submissionId) {
+    const submissionIds = _.map(challengeSubmissions, s => (s.submissions[0].id))
+    if (!_.includes(submissionIds, submissionId)) return <Redirect to={`/challenges/${challengeId}`} />
+  }
   return (
     <div>
       <Helmet title={challengeTitle || 'Challenge Details'} />
@@ -47,6 +57,10 @@ const ChallengeDetailsComponent = ({
             submissionDetails={submissionDetails}
             challengeId={challengeId}
             downloadToken={userToken}
+            isArtifactsLoading={isArtifactsLoading}
+            submissionArtifacts={submissionArtifacts}
+            currentTab={currentTab}
+            switchTab={switchTab}
           />}
       </div>
     </div>
@@ -61,7 +75,11 @@ ChallengeDetailsComponent.propTypes = {
   isSubmissionLoading: PropTypes.bool,
   challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
   isChallengeSubmissionsLoading: PropTypes.bool,
-  userToken: PropTypes.string
+  userToken: PropTypes.string,
+  isArtifactsLoading: PropTypes.bool,
+  submissionArtifacts: PropTypes.object,
+  currentTab: PropTypes.string,
+  switchTab: PropTypes.func
 }
 
 ChallengeDetailsComponent.defaultProps = {

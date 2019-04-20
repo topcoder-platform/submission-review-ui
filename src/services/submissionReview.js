@@ -20,3 +20,13 @@ export async function fetchSubmissionReviews (submissionId) {
   const response = await axiosInstance.get(`${SUBMISSION_REVIEW_API_URL}/challengeSubmissions/${submissionId}/reviews`)
   return response.data
 }
+
+/**
+ * Api request for fetching submission artifacts
+ * @param {String} submissionId - UUID of the submission
+ * @returns {Promise<*>}
+ */
+export async function fetchSubmissionArtifacts (submissionId) {
+  const response = await axiosInstance.get(`${SUBMISSION_REVIEW_API_URL}/challengeSubmissions/${submissionId}/artifacts`)
+  return response.data
+}
