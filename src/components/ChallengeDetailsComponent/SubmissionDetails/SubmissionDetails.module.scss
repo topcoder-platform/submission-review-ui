@@ -125,7 +125,6 @@ h2.heading {
 
   div:last-of-type {
     &.active {
-      background-color: $light-bg;
       border-left: 1px solid $white-text;
       border-right: 0;
     }
