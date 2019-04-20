@@ -22,18 +22,20 @@
 }
 
 .phases {
-  flex: 4 4;
+  flex: 2;
   width: 100%;
   padding: 20px 0;
+  min-width: 420px;
 }
 
 .actions {
-  flex: 2 2;
+  flex: 2;
   width: 100%;
   background-color: $light-gray;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  max-width: 223px;
 }
 
 .challengeButton {

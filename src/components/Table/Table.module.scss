@@ -1,6 +1,7 @@
 @import "../../styles/includes";
 
 table {
+  border-spacing: 0;
    tbody > tr {
     display: flex;
     flex-wrap: wrap;

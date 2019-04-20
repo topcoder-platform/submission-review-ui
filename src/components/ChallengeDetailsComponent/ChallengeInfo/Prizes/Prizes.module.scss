@@ -5,6 +5,9 @@
   :nth-child(1) {
     border-bottom-color: $green;
   }
+  align-content: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 .prize{
   font-size: 22px;

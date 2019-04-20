@@ -1,19 +1,18 @@
 /**
  * Component to render a row for ChallengeList component
  */
+import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import moment from 'moment'
 import 'moment-duration-format'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFile, faUser } from '@fortawesome/free-solid-svg-icons'
-import Table from '../../Table'
+
 import TrackIcon from '../../TrackIcon'
 import styles from './ChallengeCard.module.scss'
 import { getFormattedDuration, getLastDate } from '../../../util/date'
-
-const { Row, Col } = Table
 
 const STALLED_MSG = 'Stalled'
 const DRAFT_MSG = 'In Draft'
@@ -71,30 +70,50 @@ const getPhaseInfo = (c) => {
   return { phaseMessage, endTime }
 }
 
-const ChallengeCard = ({ challenge, options, history }) => {
-  const onClick = () => history.push(`challenges/${challenge.id}`)
-  const roles = challenge.userDetails && challenge.userDetails.roles && challenge.userDetails.roles.map((r, i) => (
-    <span className='block' key={`challenge-role-${r}-${i}`}>{r}</span>
-  ))
+const ChallengeCard = ({ challenge }) => {
+  let roles
+  if (challenge.userDetails && challenge.userDetails.roles.length > 0) {
+    // remove duplicate roles
+    const uniqRoles = _.uniq(challenge.userDetails.roles)
+    if (uniqRoles.length <= 3) {
+      roles = uniqRoles.map((r, i) => (
+        <span className={styles.block} key={`challenge-role-${r}-${i}`}>{r}</span>
+      ))
+    } else {
+      roles = uniqRoles.slice(0, 3).map((r, i) => {
+        if (i < 2) {
+          return (
+            <span className={styles.block} key={`challenge-role-${r}-${i}`}>{r}</span>
+          )
+        }
+
+        return (
+          <span className={styles.block} key={`challenge-role-${r}-${i}`}>2 more</span>
+        )
+      })
+    }
+  }
   const { phaseMessage, endTime } = getPhaseInfo(challenge)
   return (
-    <Row className={styles.item} onClick={onClick}>
-      <Col width={options[0].width} className={styles.challengeName}>
-        <div>
-          <TrackIcon className={styles.icon} track={challenge.track} subTrack={challenge.subTrack} />
+    <Link to={`challenges/${challenge.id}`}>
+      <div className={styles.item}>
+        <div className={styles.col1}>
+          <div>
+            <TrackIcon className={styles.icon} track={challenge.track} subTrack={challenge.subTrack} />
+          </div>
+          <div className={styles.name}>
+            <span className={styles.block}>{challenge.name}</span>
+            <span className='block light-text'>Ends {getEndDate(challenge)}</span>
+          </div>
         </div>
-        <div className='name'>
-          <span className='block'>{challenge.name}</span>
-          <span className='block light-text'>Ends {getEndDate(challenge)}</span>
+        <div className={styles.col2}>
+          {roles}
         </div>
-      </Col>
-      <Col width={options[1].width}>{roles}</Col>
-      <Col width={options[2].width}>
-        <span className='block'>{phaseMessage}</span>
-        <span className='block light-text'>{endTime}</span>
-      </Col>
-      <Col width={options[3].width}>
-        <div className={styles.stats}>
+        <div className={styles.col3}>
+          <span className={styles.block}>{phaseMessage}</span>
+          <span className='block light-text'>{endTime}</span>
+        </div>
+        <div className={styles.col4}>
           <div className={styles.faIconContainer}>
             <FontAwesomeIcon icon={faUser} className={styles.faIcon} />
             <span>{challenge.numRegistrants}</span>
@@ -104,15 +123,14 @@ const ChallengeCard = ({ challenge, options, history }) => {
             <span>{challenge.numSubmissions}</span>
           </div>
         </div>
-      </Col>
-    </Row>
+      </div>
+    </Link>
+
   )
 }
 
 ChallengeCard.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  challenge: PropTypes.object,
-  history: PropTypes.object
+  challenge: PropTypes.object
 }
 
 export default withRouter(ChallengeCard)
