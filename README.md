@@ -30,7 +30,7 @@ Development configuration is in `config/constants/development.js`
 
 To run the app in development mode run
 ```bash
-npm start
+npm run dev
 ```
 You can access the app from [http://localhost:3000](http://localhost:3000)
 
