@@ -62,7 +62,7 @@ const getPhaseInfo = (c) => {
     try {
       statusPhase = Object.clone(checkPhases[0])
       statusPhase.phaseType = 'Submission'
-    } catch(e) {}
+    } catch (e) {}
   }
   let phaseMessage = STALLED_MSG
   if (statusPhase) phaseMessage = statusPhase.phaseType
