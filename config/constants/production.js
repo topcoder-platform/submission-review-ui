@@ -7,5 +7,5 @@ module.exports = {
   ARENA_URL: 'https://arena.topcoder.com',
   DEV_APP_URL: 'https://submission-review.topcoder.com',
   CHALLENGE_API_URL: 'https://api.topcoder.com/v4',
-  SUBMISSION_REVIEW_API_URL: 'https://submission-review-api.herokuapp.com'
+  SUBMISSION_REVIEW_API_URL: 'https://submission-review-api.topcoder.com'
 }
