@@ -29,7 +29,7 @@ export const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json'
   },
-  timeout: 20000
+  timeout: 60000
 })
 
 // request interceptor to pass auth token
