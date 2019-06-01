@@ -1,15 +1,25 @@
-import * as service from '../services/mock-services'
+import { fetchMemberChallenges } from '../services/challenges'
 import { LOAD_CHALLENGES_FAILURE, LOAD_CHALLENGES_PENDING, LOAD_CHALLENGES_SUCCESS } from '../config/constants'
 
+/**
+ * Member challenges related redux actions
+ */
+
+/**
+ * Loads active challenges of the authenticated user
+ */
 export function loadChallenges () {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({
       type: LOAD_CHALLENGES_PENDING
     })
-    service.fetchChallenges().then(challenges => dispatch({
+
+    const { handle } = getState().auth.user
+
+    fetchMemberChallenges(handle).then(challenges => dispatch({
       type: LOAD_CHALLENGES_SUCCESS,
       challenges
-    })).catch(e => dispatch({
+    })).catch(() => dispatch({
       type: LOAD_CHALLENGES_FAILURE
     }))
   }

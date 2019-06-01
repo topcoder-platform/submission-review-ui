@@ -11,7 +11,7 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case LOAD_CHALLENGES_SUCCESS:
-      return { ...state, challenges: action.challenges, isLoading: false, isLoggedIn: true }
+      return { ...state, challenges: action.challenges, isLoading: false }
     case LOAD_CHALLENGES_PENDING:
       return { ...state, isLoading: true }
     case LOAD_CHALLENGES_FAILURE:

@@ -1,6 +1,7 @@
 /**
  * Component to render challenge details and submission details pages
  */
+import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
@@ -11,24 +12,56 @@ import ChallengeInfo from './ChallengeInfo'
 import { MARATHON_MATCH_SUBTRACKS } from '../../config/constants'
 import List from './List'
 import SubmissionDetails from './SubmissionDetails'
+import { Redirect } from 'react-router-dom'
 
 const isMarathonMatch = c => (MARATHON_MATCH_SUBTRACKS.includes(c.subTrack))
 
-const ChallengeDetailsComponent = ({ challenge, challengeTypes, submissionId, submissionDetails, isSubmissionLoading }) => {
-  const { submissions, challengeId, name } = challenge
+const ChallengeDetailsComponent = ({
+  challenge,
+  challengeTypes,
+  submissionId,
+  challengeSubmissions,
+  isChallengeSubmissionsLoading,
+  submissionDetails,
+  isSubmissionLoading,
+  isArtifactsLoading,
+  submissionArtifacts,
+  currentTab,
+  switchTab,
+  userToken }) => {
+  const { challengeId, challengeTitle } = challenge
   const challengeTags = <ChallengeTags challenge={challenge} challengeTypes={challengeTypes} />
   const isOnSubmissionDetailsPage = !!submissionId
+  if (challengeSubmissions.length === 0 && submissionId) {
+    const submissionIds = _.map(challengeSubmissions, s => (s.submissions[0].id))
+    if (!_.includes(submissionIds, submissionId)) return <Redirect to={`/challenges/${challengeId}`} />
+  }
   return (
     <div>
-      <Helmet title={name || 'Challenge Details'} />
-      <PageHeader title={name} tags={challengeTags} />
+      <Helmet title={challengeTitle || 'Challenge Details'} />
+      <PageHeader title={challengeTitle} tags={challengeTags} />
       <div className={styles.challenges}>
         <ChallengeInfo challenge={challenge} />
         {!isOnSubmissionDetailsPage &&
-          <List isMarathonMatch={isMarathonMatch(challenge)} submissions={submissions} challengeId={challengeId} />}
+          <List
+            challenge={challenge}
+            isMarathonMatch={isMarathonMatch(challenge)}
+            isChallengeSubmissionsLoading={isChallengeSubmissionsLoading}
+            challengeSubmissions={challengeSubmissions}
+            challengeId={challengeId}
+          />}
         {isOnSubmissionDetailsPage &&
-          <SubmissionDetails isSubmissionLoading={isSubmissionLoading} submissionDetails={submissionDetails}
-            challengeId={challengeId} />}
+          <SubmissionDetails
+            submissionId={submissionId}
+            isSubmissionLoading={isSubmissionLoading}
+            submissionDetails={submissionDetails}
+            challengeId={challengeId}
+            downloadToken={userToken}
+            isArtifactsLoading={isArtifactsLoading}
+            submissionArtifacts={submissionArtifacts}
+            currentTab={currentTab}
+            switchTab={switchTab}
+          />}
       </div>
     </div>
   )
@@ -39,11 +72,18 @@ ChallengeDetailsComponent.propTypes = {
   challengeTypes: PropTypes.arrayOf(PropTypes.object),
   submissionId: PropTypes.string,
   submissionDetails: PropTypes.object,
-  isSubmissionLoading: PropTypes.bool
+  isSubmissionLoading: PropTypes.bool,
+  challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
+  isChallengeSubmissionsLoading: PropTypes.bool,
+  userToken: PropTypes.string,
+  isArtifactsLoading: PropTypes.bool,
+  submissionArtifacts: PropTypes.object,
+  currentTab: PropTypes.string,
+  switchTab: PropTypes.func
 }
 
 ChallengeDetailsComponent.defaultProps = {
-  challenge: {},
+  challenge: null,
   challengeTypes: []
 }
 

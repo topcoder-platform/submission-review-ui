@@ -1,34 +1,33 @@
 /**
  * Component to render list of challenges
  */
+import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
-import Table from '../../Table'
-import ChallengeCard from '../ChallengeCard'
 import styles from './ChallengeList.module.scss'
-
-const options = [
-  {
-    name: 'Challenge',
-    width: 6
-  },
-  {
-    name: 'My roles',
-    width: 2
-  },
-  {
-    name: 'Current phase',
-    width: 3
-  },
-  {
-    name: '',
-    width: 2
-  }
-]
+import NoChallenge from '../NoChallenge'
+import ChallengeCard from '../ChallengeCard'
 
 const ChallengeList = ({ challenges }) => {
-  const rows = challenges.map(c => <ChallengeCard challenge={c} options={options} key={`challenge-card-${c.id}`} />)
-  return (<Table rows={rows} options={options} className={styles.list} />)
+  if (challenges.length === 0) return <NoChallenge />
+
+  return (
+    <div className={styles.list}>
+      <div className={styles.header}>
+        <div className={styles.col1}>Challenge</div>
+        <div className={styles.col2}>My roles</div>
+        <div className={styles.col3}>Current phase</div>
+        <div className={styles.col4}>&nbsp;</div>
+      </div>
+      <ul>
+        {
+          _.map(challenges, (c) => {
+            return <li key={`challenge-card-${c.id}`}><ChallengeCard challenge={c} /></li>
+          })
+        }
+      </ul>
+    </div>
+  )
 }
 
 ChallengeList.propTypes = {

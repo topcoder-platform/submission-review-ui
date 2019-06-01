@@ -13,6 +13,7 @@ process.on('unhandledRejection', err => {
 
 // Ensure environment variables are read.
 require('../config/env')
+const constants = require('../config/constants')
 
 const fs = require('fs')
 const chalk = require('chalk')
@@ -92,13 +93,13 @@ checkBrowsers(paths.appPath, isInteractive)
     // Launch WebpackDevServer.
     devServer.listen(port, HOST, err => {
       if (err) {
-        return console.log(err)
+        return console.error(err)
       }
       if (isInteractive) {
         clearConsole()
       }
       console.log(chalk.cyan('Starting the development server...\n'))
-      openBrowser(urls.localUrlForBrowser)
+      openBrowser(constants.DEV_APP_URL ? `${constants.DEV_APP_URL}:${process.env.PORT || 3000}` : urls.localUrlForBrowser)
     })
 
     const SIGNALS = ['SIGINT', 'SIGTERM']
@@ -111,7 +112,7 @@ checkBrowsers(paths.appPath, isInteractive)
   })
   .catch(err => {
     if (err && err.message) {
-      console.log(err.message)
+      console.error(err.message)
     }
     process.exit(1)
   })

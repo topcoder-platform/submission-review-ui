@@ -1,4 +1,4 @@
-# Topcoder - Submission Review App UI 
+# Topcoder - Submission Review App UI
 
 ### Requirements
 
@@ -11,17 +11,36 @@ To install dependencies run
 npm install
 ```
 
+### Configuration
+You can see the configuration paramaters below.
+Production configuration is in `config/constants/production.js`
+Development configuration is in `config/constants/development.js`
+
+- `ACCOUNTS_APP_CONNECTOR_URL`: The url of Accounts app connector
+- `ACCOUNTS_APP_LOGIN_URL`: The url of Accounts app login page
+- `COMMUNITY_APP_URL`: The base url of community app
+- `MEMBER_API_URL`: The members api endpoint
+- `MEMBER_API_V3_URL`: v3 members api endpoint
+- `ARENA_URL`: The url of Topcoder Arena
+- `DEV_APP_URL`: (Development) The URL to start the app from (eg http://local.topcoder-dev.com)
+- `CHALLENGE_API_URL`: The challenge API URL
+- `SUBMISSION_REVIEW_API_URL`: The submission review API URL
+
 ### Development
 
 To run the app in development mode run
 ```bash
-npm start
+npm run dev
 ```
 You can access the app from [http://localhost:3000](http://localhost:3000)
 
 The page will reload if you make edits.
 
 You will also see any lint errors in the console.
+
+`NOTE`: Redirection from login page doesn't work with localhost urls because account app doesn't allow it,
+in order to test it you can add `127.0.0.1 	local.topcoder-dev.com` to your /etc/hosts file and access the app from
+[http://local.topcoder-dev.com:3000](http://local.topcoder-dev.com:3000) address
 
 ### Lint check
 
@@ -68,7 +87,7 @@ git commit -m "Heroku commit"
 git push heroku master
 ```
 
-You can access the app by running 
+You can access the app by running
 ```bash
 heroku open
 ```

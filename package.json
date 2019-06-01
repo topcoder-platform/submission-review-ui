@@ -8,6 +8,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.7.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "@svgr/webpack": "2.4.1",
+    "axios": "^0.18.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "9.0.0",
     "babel-jest": "23.6.0",
@@ -33,6 +34,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-react": "7.11.1",
     "eslint-plugin-standard": "^4.0.0",
+    "express": "^4.16.4",
     "file-loader": "2.0.0",
     "fs-extra": "7.0.0",
     "html-webpack-plugin": "4.0.0-alpha.2",
@@ -40,6 +42,7 @@
     "jest": "23.6.0",
     "jest-pnp-resolver": "1.0.1",
     "jest-resolve": "23.6.0",
+    "lodash": "^4.17.11",
     "mini-css-extract-plugin": "0.4.3",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.2.2",
@@ -63,6 +66,7 @@
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.0",
+    "tc-accounts": "git+https://github.com/appirio-tech/accounts-app.git#dev",
     "terser": "^3.16.1",
     "terser-webpack-plugin": "1.1.0",
     "url-loader": "1.1.1",
@@ -71,10 +75,11 @@
     "webpack-manifest-plugin": "2.0.4"
   },
   "scripts": {
-    "start": "node scripts/start.js",
+    "start": "node server.js",
+    "dev": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint --fix ./src",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {

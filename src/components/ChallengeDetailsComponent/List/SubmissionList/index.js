@@ -9,16 +9,17 @@ import cn from 'classnames'
 import Table from '../../../Table'
 import styles from './SubmissionList.module.scss'
 import Handle from '../../../Handle'
+import NoSubmissions from '../NoSubmissions'
 
 // Table options for non MM matches
 const options = [
   {
     name: 'Submission ID',
-    width: 6
+    width: 8
   },
   {
     name: 'Review Date',
-    width: 5
+    width: 4
   },
   {
     name: 'Score',
@@ -27,27 +28,39 @@ const options = [
 ]
 
 const SubmissionList = ({ submissions, challengeId }) => {
+  if (submissions.length === 0) {
+    return <NoSubmissions />
+  }
+
   const rows = submissions.map(
     (s, i) => {
       const submission = s.submissions[0]
-      const { submissionId, submissionTime, score, isFailed } = submission
-      const reviewDate = moment(submissionTime).format('MMM DD, HH:mma')
+      const { id, reviewSummation } = submission
+      const aggregateScore = reviewSummation ? reviewSummation.aggregateScore.toFixed(2) : 'N/A'
+      const reviewDate = reviewSummation
+        ? moment(reviewSummation.updated || reviewSummation.created).format('MMM DD, HH:mma')
+        : 'N/A'
+      const isFailed = reviewSummation ? reviewSummation.isPassing : false
 
       return (
-        <Table.Row key={`submission-${s.submitterId}-${i}`} className={styles.item}>
+        <Table.Row key={`submission-${s.memberId}-${i}`} className={styles.item}>
           <Table.Col width={options[0].width}>
-            <Link className={styles.submissionLink} to={`/challenges/${challengeId}/submissions/${submissionId}`}>
-              {submissionId}
+            <Link className={styles.submissionLink} to={`/challenges/${challengeId}/submissions/${id}`}>
+              {id}
             </Link>
-            <div className={styles.handle}>
-              <span>(</span><Handle handle={s.submitter} color={s.color} /><span>)</span>
-            </div>
+            {
+              s.memberHandle && (
+                <div className={styles.handle}>
+                  <span>(</span><Handle handle={s.memberHandle} color={s.memberHandleColor} /><span>)</span>
+                </div>
+              )
+            }
           </Table.Col>
           <Table.Col width={options[1].width}>
             <span className={styles.date}>{reviewDate}</span>
           </Table.Col>
           <Table.Col width={options[2].width}>
-            <span className={cn(styles.score, { [styles.fail]: !!isFailed })} >{score > -1 ? score.toFixed(2) : 'N/A'}</span>
+            <span className={cn(styles.score, { [styles.fail]: isFailed })} >{aggregateScore}</span>
           </Table.Col>
         </Table.Row>
       )
