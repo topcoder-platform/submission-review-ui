@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eo pipefail
-APP_NAME="topcoder-x-processor"
+APP_NAME="submission-review-ui"
 UPDATE_CACHE=""
 docker-compose -f docker/docker-compose.yml build $APP_NAME
 docker create --name app $APP_NAME:latest
