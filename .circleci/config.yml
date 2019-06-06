@@ -67,7 +67,7 @@ workflows:
           filters:
             branches:
               only:
-                - develop-circleci
+                - develop
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
