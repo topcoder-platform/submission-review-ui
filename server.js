@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+const healthCheck = require('topcoder-healthcheck-dropin')
 
 const app = express()
 
@@ -11,8 +12,13 @@ const requireHTTPS = (req, res, next) => {
   next()
 }
 
-app.use(requireHTTPS)
+function check() {
+  // Return 200 OK for health check
+  return true;
+}
 
+app.use(requireHTTPS)
+app.use(healthCheck.middleware([check]))
 app.use(express.static(__dirname))
 app.use(express.static(path.join(__dirname, 'build')))
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')))
@@ -20,5 +26,3 @@ const port = process.env.PORT || 3000
 app.listen(port)
 
 console.log(`App is listening on port ${port}`)
-
-
