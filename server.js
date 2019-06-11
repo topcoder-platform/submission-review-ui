@@ -12,9 +12,9 @@ const requireHTTPS = (req, res, next) => {
   next()
 }
 
-function check() {
+function check () {
   // Return 200 OK for health check
-  return true;
+  return true
 }
 
 app.use(requireHTTPS)
