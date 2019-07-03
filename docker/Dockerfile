@@ -12,6 +12,6 @@ RUN npm install
 RUN npm run lint
 # RUN npm rebuild node-sass
 RUN npm run build
-RUN npm run test
+# RUN npm run test
 
 CMD npm start
