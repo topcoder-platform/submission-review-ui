@@ -1,5 +1,5 @@
 # Use the base image with Node.js
-FROM node:latest
+FROM node:10.16.0
 
 # Copy the current directory into the Docker image
 COPY . /submission-review-ui
