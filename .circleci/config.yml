@@ -29,7 +29,7 @@ builddeploy_steps: &builddeploy_steps
       - run: *install_dependency
       - run: *install_deploysuite
       - restore_cache: *restore_cache_settings_for_build
-      - run: ./build.sh
+      - run: ./build.sh $NODE_ENV
       - save_cache: *save_cache_settings
       - deploy:
           name: Running MasterScript.
@@ -54,6 +54,7 @@ jobs:
   "build-prod":
     <<: *defaults
     environment:
+      NODE_ENV: "production"
       DEPLOY_ENV: "prod"    
       APPNAME: "submission-review-ui"  
     steps: *builddeploy_steps
