@@ -5,5 +5,3 @@ services:
     build:
       context: ../
       dockerfile: docker/Dockerfile
-    env_file:
-      - api.env      
