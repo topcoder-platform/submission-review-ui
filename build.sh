@@ -5,8 +5,7 @@ APP_NAME="submission-review-ui"
 UPDATE_CACHE=""
 echo $ENV
 echo "NODE_ENV=$ENV" >docker/api.env
-
-docker-compose -f docker/docker-compose.yml build $APP_NAME
+docker-compose -f docker/docker-compose.yml build --build-arg NODE_ENV=${ENV} $APP_NAME
 docker create --name app $APP_NAME:latest
 
 if [ -d node_modules ]
