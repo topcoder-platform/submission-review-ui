@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import { Link } from 'react-router-dom'
 import cn from 'classnames'
+import _ from 'lodash'
 import Table from '../../../Table'
 import styles from './SubmissionList.module.scss'
 import Handle from '../../../Handle'
@@ -32,7 +33,7 @@ const SubmissionList = ({ submissions, challengeId }) => {
     return <NoSubmissions />
   }
 
-  const rows = submissions.map(
+  const rows = _.orderBy(submissions, 'type').map(
     (s, i) => {
       const submission = s.submissions[0]
       const { id, reviewSummation } = submission
@@ -52,6 +53,13 @@ const SubmissionList = ({ submissions, challengeId }) => {
               s.memberHandle && (
                 <div className={styles.handle}>
                   <span>(</span><Handle handle={s.memberHandle} color={s.memberHandleColor} /><span>)</span>
+                </div>
+              )
+            }
+            {
+              s.type && (
+                <div className={styles.submissionType}>
+                  {s.type}
                 </div>
               )
             }
