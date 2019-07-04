@@ -3,7 +3,10 @@ set -eo pipefail
 ENV=$1
 APP_NAME="submission-review-ui"
 UPDATE_CACHE=""
-docker-compose -f docker/docker-compose.yml build $APP_NAME -e NODE_ENV=$ENV
+echo $ENV
+echo "NODE_ENV=$ENV" >docker/api.env
+
+docker-compose -f docker/docker-compose.yml build $APP_NAME
 docker create --name app $APP_NAME:latest
 
 if [ -d node_modules ]
