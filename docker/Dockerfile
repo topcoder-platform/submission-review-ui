@@ -1,6 +1,8 @@
 # Use the base image with Node.js
 FROM node:10.16.0
 
+ARG NODE_ENV=develop
+ENV NODE_ENV=$NODE_ENV
 # Copy the current directory into the Docker image
 COPY . /submission-review-ui
 
