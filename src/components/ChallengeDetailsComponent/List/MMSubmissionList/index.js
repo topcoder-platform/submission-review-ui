@@ -44,6 +44,9 @@ const options = [
 
 const expandableOptions = [
   {
+    name: '#'
+  },
+  {
     name: 'Submission'
   },
   // API Not Implemented Yet
@@ -96,9 +99,11 @@ class MMSubmissionList extends React.Component {
     )
     const getFormattedTime = (time) => moment(time).format('DD MMM YYYY, HH:mm:ss')
     const rows = submissions.map(
-      s => (
+      (s, i) => (
         <tr className={styles.expandableContentRow} key={`expanded-row-${s.id}`}>
-          <td />
+          <td>
+            {submissions.length - i}
+          </td>
           <td>
             <Link className={styles.submissionLink} to={`/challenges/${challengeId}/submissions/${s.id}`}>
               {s.id}
