@@ -124,7 +124,6 @@ class MMSubmissionList extends React.Component {
     )
     return <>
       <tr className={styles.expandableContentRow}>
-        <th />
         {headers}
       </tr>
       {rows}
