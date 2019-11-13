@@ -133,7 +133,7 @@ const SubmissionDetails = ({
             <span className={id.className || styles.type}>{id}</span>
           </Table.Col>
           <Table.Col width={artifactOptions[1].width}>
-            <a href='#' onClick={withToken(token => downloadSubmissionArtifactURL(submissionId, id, token))} className={styles.action}>
+            <a href='#' onClick={() => withToken(token => downloadSubmissionArtifactURL(submissionId, id, token))} className={styles.action}>
               <FontAwesomeIcon icon={faDownload} />
             </a>
           </Table.Col>
@@ -185,7 +185,7 @@ const SubmissionDetails = ({
           <h2 className={styles.heading}>
             Submission details
             (
-            <a href='#' onClick={withToken(token => downloadSubmissionURL(submissionId, token))}>
+            <a href='#' onClick={() => withToken(token => downloadSubmissionURL(submissionId, token))}>
               {submissionId}
               <FontAwesomeIcon icon={faDownload} />
             </a>
