@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faDownload } from '@fortawesome/free-solid-svg-icons'
 import cn from 'classnames'
+import { getToken } from '../../../services/axiosWithAuth'
 import Table from '../../Table'
 import Handle from '../../Handle'
 import Loader from '../../Loader'
@@ -59,12 +60,21 @@ function formattedScore (score) {
   }
 }
 
+// TODO: This is a quick fix. Make it better
+function withToken (func) {
+  getToken()
+    .then((token) => {
+      const win = window.open(func(token), '_blank')
+      win.focus()
+    })
+    .catch(err => console.log('Failed to get a fresh token!'))
+}
+
 const SubmissionDetails = ({
   submissionId,
   submissionDetails,
   challengeId,
   isSubmissionLoading,
-  downloadToken,
   currentTab,
   isArtifactsLoading,
   submissionArtifacts,
@@ -123,7 +133,7 @@ const SubmissionDetails = ({
             <span className={id.className || styles.type}>{id}</span>
           </Table.Col>
           <Table.Col width={artifactOptions[1].width}>
-            <a href={downloadSubmissionArtifactURL(submissionId, id, downloadToken)} className={styles.action}>
+            <a href="#" onClick={withToken(token => downloadSubmissionArtifactURL(submissionId, id, token))} className={styles.action}>
               <FontAwesomeIcon icon={faDownload} />
             </a>
           </Table.Col>
@@ -175,7 +185,7 @@ const SubmissionDetails = ({
           <h2 className={styles.heading}>
             Submission details
             (
-            <a href={downloadSubmissionURL(submissionId, downloadToken)}>
+            <a href="#" onClick={withToken(token => downloadSubmissionURL(submissionId, token))}>
               {submissionId}
               <FontAwesomeIcon icon={faDownload} />
             </a>
@@ -198,7 +208,6 @@ SubmissionDetails.propTypes = {
   submissionDetails: PropTypes.object,
   challengeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isSubmissionLoading: PropTypes.bool,
-  downloadToken: PropTypes.string,
   currentTab: PropTypes.string,
   isArtifactsLoading: PropTypes.bool,
   submissionArtifacts: PropTypes.object,

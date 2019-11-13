@@ -27,8 +27,7 @@ const ChallengeDetailsComponent = ({
   isArtifactsLoading,
   submissionArtifacts,
   currentTab,
-  switchTab,
-  userToken }) => {
+  switchTab }) => {
   const { challengeId, challengeTitle } = challenge
   const challengeTags = <ChallengeTags challenge={challenge} challengeTypes={challengeTypes} />
   const isOnSubmissionDetailsPage = !!submissionId
@@ -56,7 +55,6 @@ const ChallengeDetailsComponent = ({
             isSubmissionLoading={isSubmissionLoading}
             submissionDetails={submissionDetails}
             challengeId={challengeId}
-            downloadToken={userToken}
             isArtifactsLoading={isArtifactsLoading}
             submissionArtifacts={submissionArtifacts}
             currentTab={currentTab}
@@ -75,7 +73,6 @@ ChallengeDetailsComponent.propTypes = {
   isSubmissionLoading: PropTypes.bool,
   challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
   isChallengeSubmissionsLoading: PropTypes.bool,
-  userToken: PropTypes.string,
   isArtifactsLoading: PropTypes.bool,
   submissionArtifacts: PropTypes.object,
   currentTab: PropTypes.string,

@@ -75,7 +75,6 @@ class ChallengeDetails extends Component {
       isLoading,
       isSubmissionLoading,
       isChallengeSubmissionsLoading,
-      userToken,
       isArtifactsLoading,
       submissionArtifacts,
       currentTab,
@@ -95,7 +94,6 @@ class ChallengeDetails extends Component {
         isSubmissionLoading={isSubmissionLoading}
         challengeSubmissions={challengeSubmissions}
         isChallengeSubmissionsLoading={isChallengeSubmissionsLoading}
-        userToken={userToken}
         isArtifactsLoading={isArtifactsLoading}
         submissionArtifacts={submissionArtifacts}
         currentTab={currentTab}
@@ -125,7 +123,6 @@ ChallengeDetails.propTypes = {
   isArtifactsLoading: PropTypes.bool,
   submissionArtifacts: PropTypes.object,
   currentTab: PropTypes.string,
-  userToken: PropTypes.string,
   invalidChallenge: PropTypes.bool
 }
 
@@ -139,7 +136,6 @@ const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submiss
   submissionArtifacts: submissionDetails.submissionArtifacts,
   isArtifactsLoading: submissionDetails.isLoading,
   currentTab: submissionDetails.currentTab,
-  userToken: auth.token
 })
 
 const mapDispatchToProps = {

@@ -11,13 +11,10 @@ export const getToken = () => {
   return new Promise((resolve, reject) => {
     const token = store.getState().auth.token
     if (token && !isTokenExpired(token)) {
-      console.log('Using existing token')
       return resolve(token)
     } else {
-      console.log('Will get a new token')
       return getFreshToken()
         .then((token) => {
-          console.log('Got a new token')
           resolve(token)
         })
         .catch((err) => {
@@ -37,7 +34,6 @@ export const axiosInstance = axios.create({
 
 // request interceptor to pass auth token
 axiosInstance.interceptors.request.use(config => {
-  console.log('This is within the interceptor')
   return getToken()
     .then(token => {
       config.headers['Authorization'] = `Bearer ${token}`
