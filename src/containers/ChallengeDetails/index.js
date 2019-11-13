@@ -135,7 +135,7 @@ const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submiss
   isSubmissionLoading: submissionDetails.isLoading,
   submissionArtifacts: submissionDetails.submissionArtifacts,
   isArtifactsLoading: submissionDetails.isLoading,
-  currentTab: submissionDetails.currentTab,
+  currentTab: submissionDetails.currentTab
 })
 
 const mapDispatchToProps = {
