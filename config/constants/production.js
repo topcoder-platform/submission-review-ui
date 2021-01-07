@@ -1,6 +1,6 @@
 module.exports = {
-  ACCOUNTS_APP_CONNECTOR_URL: process.env.ACCOUNTS_APP_CONNECTOR_URL || 'https://accounts.topcoder.com/connector.html',
-  ACCOUNTS_APP_LOGIN_URL: process.env.ACCOUNTS_APP_LOGIN_URL || 'https://accounts.topcoder.com/member',
+  ACCOUNTS_APP_CONNECTOR_URL: process.env.ACCOUNTS_APP_CONNECTOR_URL || 'https://accounts-auth0.topcoder.com',
+  ACCOUNTS_APP_LOGIN_URL: process.env.ACCOUNTS_APP_LOGIN_URL || 'https://accounts-auth0.topcoder.com',
   COMMUNITY_APP_URL: process.env.COMMUNITY_APP_URL || 'https://www.topcoder.com',
   MEMBER_API_URL: process.env.MEMBER_API_URL || 'https://api.topcoder.com/v4/members',
   MEMBER_API_V3_URL: process.env.MEMBER_API_V3_URL || 'https://api.topcoder.com/v3/members',
