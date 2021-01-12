@@ -66,7 +66,7 @@
     "resolve": "1.8.1",
     "sass-loader": "7.1.0",
     "style-loader": "0.23.0",
-    "tc-accounts": "git+https://github.com/appirio-tech/accounts-app.git#dev",
+    "tc-auth-lib": "topcoder-platform/tc-auth-lib#1.0.4",
     "terser": "^3.16.1",
     "terser-webpack-plugin": "1.1.0",
     "topcoder-healthcheck-dropin": "^1.0.3",
