@@ -1,0 +1,114 @@
+[
+  {
+    "type": "section",
+    "title": "Copyright/Licensing Issues",
+    "weight": 25,
+    "children": [
+      {
+        "type": "question",
+        "title": "If Stock Art is allowed in this contest, are all stock art elements photographs only? No illustrations are allowed.",
+        "description": "YES - All elements are photographs. (If stock art is NOT allowed in this contest, please answer \"yes\" and comment \"n/a\" below.)\nNO - Some of the elements are illustrations or other design elements and not photographs. (Please list the offending elements here).",
+        "scoreType": "boolean",
+        "weight": 25
+      },
+      {
+        "type": "question",
+        "title": "If Stock Art is allowed, has the member listed all stock photos they have used in their declarations file? And are all of those declarations complete?",
+        "description": "YES - all photos are declared correctly. (If stock art is NOT allowed in this contest, please answer \"yes\" and comment \"n/a\" below.)\n\nNO - Declarations are missing or incomplete. (If they have forgotten to list anything or something is incomplete, they fail Round 1 but may submit in Round 2 if they include the correct declarations when they upload.)",
+        "scoreType": "boolean",
+        "weight": 25
+      },
+      {
+        "type": "question",
+        "title": "If Stock Art is allowed and there are stock photos with the watermark completely obscured, has the submitter included the watermarked reference file in the submission?",
+        "description": "YES - the submitter included the watermarked version of the photo to reference. (If stock art is NOT allowed in this contest, please answer \"yes\" and comment \"n/a\" below.)\n\nNO - The watermarked photo has not been included. (If they have forgotten to include the reference watermarked file, they fail Round 1 but may submit in Round 2 if they include the correct file when they upload.)",
+        "scoreType": "boolean",
+        "weight": 25
+      },
+      {
+        "type": "question",
+        "title": "If Stock art is allowed, the submission is free of any other stock art problems and has followed the stock art policies.",
+        "description": "YES - the submission appears to have followed all stock art policies as shown in the contest details. (If stock art is NOT allowed in this contest, please answer \"yes\" and comment \"n/a\" below.)\n\nNO - the submission still has problems not listed above. (please give specific details of the problems.)",
+        "scoreType": "boolean",
+        "weight": 25
+      }
+    ]
+  },
+  {
+    "type": "section",
+    "title": "Fonts",
+    "weight": 25,
+    "children": [
+      {
+        "type": "question",
+        "title": "If this is a logo contest, have all fonts found within the submission been properly declared?",
+        "description": "YES - all fonts have been declared correctly. (If this is not a logo contest, please answer \"yes\" and comment \"n/a\" below.)\n\nNO - there are fonts within the source file that were not correctly declared or there are missing fonts. (Please list exactly which fonts were not declared/are missing).",
+        "scoreType": "boolean",
+        "weight": 25
+      },
+      {
+        "type": "question",
+        "title": "If this submission is for a non-logo design contest and the submission obviously contains font use, has the submitter declared fonts? (Does not include fonts already contained within the input files from the contest holder).",
+        "description": "YES - fonts have been declared (any missing fonts will be evaluated by the Copilot and must be provided in Final Fixes). (If this is not a design contest, please answer \"yes\" and comment \"n/a\" below.)\n\nNO - the submitter introduced fonts to the design but the submitter has not declared any fonts. (Please provide details about where the font use is seen within the submission).",
+        "scoreType": "boolean",
+        "weight": 25
+      },
+      {
+        "type": "question",
+        "title": "Has the submitter used the correct sources (Standard Studio List or one of the approved font sites) for the font declarations?",
+        "description": "YES - the font declarations contain approved sources. (If this is not a design contest, please answer \"yes\" and comment \"n/a\" below.)\n\nNO - the font declarations lead to a different source that is not approved. (Please give details about the incorrect source listed).",
+        "scoreType": "boolean",
+        "weight": 25
+      },
+      {
+        "type": "question",
+        "title": "All font URLs listed within the declaration file lead to the font PAGE and not to the font FILE.",
+        "description": "YES - the URLs are correct. (If this is not a design contest, please answer \"yes\" and comment \"n/a\" below.)\n\nNO - the URL prompts a download option. (List the offending font URL)",
+        "scoreType": "boolean",
+        "weight": 25
+      }
+    ]
+  },
+  {
+    "type": "section",
+    "title": "Fonts",
+    "weight": 25,
+    "children": [
+      {
+        "type": "question",
+        "title": "There are no elements that clearly violate another person's copyright or license (includes clipart, stock art, etc.).",
+        "description": "No - Provide exact details of the offending elements and the proof of the violation per screening policies.",
+        "scoreType": "boolean",
+        "weight": 50
+      },
+      {
+        "type": "question",
+        "title": "There are no suspicious elements that appear to violate another person's copyright or license.",
+        "description": "No - Before choosing this option, you AND another Studio reviewer or Admin must agree and you should be prepared to detail the determination here.",
+        "scoreType": "boolean",
+        "weight": 50
+      }
+    ]
+  },
+  {
+    "type": "section",
+    "title": "Fonts",
+    "weight": 25,
+    "children": [
+      {
+        "type": "question",
+        "title": "There are no elements that clearly violate another person's copyright or license (includes clipart, stock art, etc.).",
+        "description": "No - Provide exact details of the offending elements and the proof of the violation per screening policies.",
+        "scoreType": "boolean",
+        "weight": 50
+      },
+      {
+        "type": "question",
+        "title": "There are no suspicious elements that appear to violate another person's copyright or license.",
+        "description": "No - Before choosing this option, you AND another Studio reviewer or Admin must agree and you should be prepared to detail the determination here.",
+        "scoreType": "boolean",
+        "weight": 50
+      }
+    ]
+  }
+]
