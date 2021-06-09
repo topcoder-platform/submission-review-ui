@@ -13,7 +13,6 @@ import {
 export function loadChallengeSubmissions (challengeId) {
   return async (dispatch, getState) => {
     const getLoadingId = () => _.get(getState(), 'challengeSubmissions.loadingId')
-
     // if it's not loading already
     if (challengeId !== getLoadingId()) {
       dispatch({

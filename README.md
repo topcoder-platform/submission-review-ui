@@ -23,8 +23,8 @@ Development configuration is in `config/constants/development.js`
 - `MEMBER_API_V3_URL`: v3 members api endpoint
 - `ARENA_URL`: The url of Topcoder Arena
 - `DEV_APP_URL`: (Development) The URL to start the app from (eg http://local.topcoder-dev.com)
-- `CHALLENGE_API_URL`: The challenge API URL
 - `SUBMISSION_REVIEW_API_URL`: The submission review API URL
+- `V5_API_URL`: The V5 API URL
 
 ### Development
 

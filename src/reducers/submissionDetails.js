@@ -15,7 +15,7 @@ import {
 const initialState = {
   isLoading: true,
   loadingId: null,
-  submissionDetails: {},
+  submissionDetails: [],
   submissionArtifacts: {},
   loadingSubmissionIdOfArtifacts: null,
   currentTab: SUBMISSION_DETAILS_TABS['REVIEW_SUMMARY']

@@ -1,7 +1,11 @@
 /**
  * Reducer to process actions related to challenge list
  */
-import { LOAD_CHALLENGES_FAILURE, LOAD_CHALLENGES_PENDING, LOAD_CHALLENGES_SUCCESS } from '../config/constants'
+import {
+  LOAD_CHALLENGES_FAILURE,
+  LOAD_CHALLENGES_PENDING,
+  LOAD_CHALLENGES_SUCCESS
+} from '../config/constants'
 
 const initialState = {
   isLoading: true,

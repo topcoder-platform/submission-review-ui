@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './ChallengeInfo.module.scss'
@@ -7,22 +8,24 @@ import { getTCChallengeURL } from '../../../config/constants'
 
 const ChallengeInfo = ({ challenge }) => {
   const {
-    challengeId,
+    id,
     phases,
-    prizes,
-    numberOfRegistrants,
-    numberOfSubmissions
+    prizeSets,
+    numOfRegistrants,
+    numOfSubmissions
   } = challenge
 
-  const challengeURL = getTCChallengeURL(challengeId)
+  const challengeURL = getTCChallengeURL(id)
+  const placementPrizes = _.find(prizeSets, { type: 'placement' })
+  let { prizes } = placementPrizes || []
 
   return (
     <div className={styles.container}>
       <div className={styles.prizeAndStats}>
-        <Prizes prizes={prizes || [0]} />
+        <Prizes prizes={prizes} />
         <div className={styles.stats}>
-          <div><span className='bold'>{numberOfRegistrants}</span> Registrants</div>
-          <div><span className='bold'>{numberOfSubmissions}</span> Submissions</div>
+          <div><span className='bold'>{numOfRegistrants}</span> Registrants</div>
+          <div><span className='bold'>{numOfSubmissions}</span> Submissions</div>
         </div>
       </div>
       <div className={styles.phases}><Phases phases={phases} /></div>

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { fetchSubmissionReviews, fetchSubmissionArtifacts } from '../services/submissionReview'
+import { fetchSubmissionReviews, fetchSubmissionArtifacts, fetchReviewTypes } from '../services/submissionReview'
 import {
   LOAD_SUBMISSION_DETAILS_FAILURE,
   LOAD_SUBMISSION_DETAILS_PENDING,
@@ -7,6 +7,9 @@ import {
   LOAD_SUBMISSION_ARTIFACTS_FAILURE,
   LOAD_SUBMISSION_ARTIFACTS_PENDING,
   LOAD_SUBMISSION_ARTIFACTS_SUCCESS,
+  LOAD_REVIEW_TYPES_PENDING,
+  LOAD_REVIEW_TYPES_SUCCESS,
+  LOAD_REVIEW_TYPES_FAILURE,
   SWITCH_TAB,
   SUBMISSION_DETAILS_TABS
 } from '../config/constants'
@@ -74,6 +77,19 @@ export function loadSubmissionArtifacts (submissionId) {
         })
       }
     }
+  }
+}
+
+export function loadReviewTypes () {
+  return async (dispatch, getState) => {
+    dispatch({ type: LOAD_REVIEW_TYPES_PENDING })
+
+    fetchReviewTypes().then(reviewTypes => dispatch({
+      type: LOAD_REVIEW_TYPES_SUCCESS,
+      reviewTypes
+    })).catch(() => dispatch({
+      type: LOAD_REVIEW_TYPES_FAILURE
+    }))
   }
 }
 

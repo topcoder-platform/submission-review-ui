@@ -10,7 +10,7 @@ import SubmissionList from './SubmissionList'
 import Loader from '../../Loader'
 import styles from './List.module.scss'
 
-const List = ({ challenge, isChallengeSubmissionsLoading, challengeSubmissions, isMarathonMatch, challengeId }) => {
+const List = ({ challenge, isChallengeSubmissionsLoading, challengeSubmissions, isMarathonMatch, challengeId, isDesignChallenge }) => {
   if (isChallengeSubmissionsLoading) {
     return <Loader />
   }
@@ -31,7 +31,7 @@ const List = ({ challenge, isChallengeSubmissionsLoading, challengeSubmissions, 
       {isMarathonMatch &&
         <MMSubmissionList submissions={submissionsWithMemberHandleColors} challengeId={challengeId} />}
       {!isMarathonMatch &&
-        <SubmissionList submissions={submissionsWithMemberHandleColors} challengeId={challengeId} />}
+        <SubmissionList submissions={submissionsWithMemberHandleColors} challengeId={challengeId} isDesignChallenge={isDesignChallenge} />}
     </div>
   )
 }
@@ -41,7 +41,8 @@ List.propTypes = {
   isChallengeSubmissionsLoading: PropTypes.bool,
   challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
   isMarathonMatch: PropTypes.bool,
-  challengeId: PropTypes.number
+  challengeId: PropTypes.string,
+  isDesignChallenge: PropTypes.bool
 }
 
 export default List

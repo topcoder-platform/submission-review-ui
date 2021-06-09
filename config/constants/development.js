@@ -6,6 +6,6 @@ module.exports = {
   MEMBER_API_V3_URL: process.env.MEMBER_API_V3_URL || 'https://api.topcoder-dev.com/v3/members',
   ARENA_URL: process.env.ARENA_URL || 'https://arena.topcoder-dev.com',
   DEV_APP_URL: process.env.DEV_APP_URL || 'https://submission-review.topcoder-dev.com',
-  CHALLENGE_API_URL: process.env.CHALLENGE_API_URL || 'https://api.topcoder-dev.com/v4',
-  SUBMISSION_REVIEW_API_URL: process.env.SUBMISSION_REVIEW_API_URL || 'https://submission-review-api.topcoder-dev.com'
+  SUBMISSION_REVIEW_API_URL: process.env.SUBMISSION_REVIEW_API_URL || 'https://submission-review-api.topcoder-dev.com',
+  V5_API_URL: process.env.V5_API_URL || 'https://api.topcoder-dev.com/v5'
 }

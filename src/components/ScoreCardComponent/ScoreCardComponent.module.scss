@@ -1,0 +1,38 @@
+@import "../../styles/includes";
+
+.scorecard {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30px;
+}
+
+.list {
+  width: 100%;
+}
+
+.item {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-top: 1px solid $gray;
+  box-sizing: border-box;
+  td {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}
+
+.cell {
+  color: $light-text;
+  text-align: left;
+  width: 100%;
+  padding-right: 70px;
+}
+
+.title {
+  padding-left: 30px;
+
+  span {
+    color: $link-color;
+  }
+}
