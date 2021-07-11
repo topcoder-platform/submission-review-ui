@@ -7,10 +7,9 @@ import PropTypes from 'prop-types'
 import { Helmet } from 'react-helmet'
 import PageHeader from '../PageHeader'
 import styles from './ChallengeDetailsComponent.module.scss'
-import ChallengeTags from './ChallengeTags'
 import ChallengeInfo from './ChallengeInfo'
 import { MARATHON_MATCH_SUBTRACKS } from '../../config/constants'
-import { getRolesFromResource } from '../../util/challenge'
+import { getChallengeTags } from '../../util/challenge'
 import List from './List'
 import SubmissionDetails from './SubmissionDetails'
 import { Redirect } from 'react-router-dom'
@@ -33,7 +32,6 @@ const ChallengeDetailsComponent = ({
   reviewTypes,
   reviewSummations }) => {
   const { id, name, legacy } = challenge
-  const challengeTags = <ChallengeTags challenge={challenge} challengeTypes={challengeTypes} roles={getRolesFromResource(resources, challenge.id)} />
   const isOnSubmissionDetailsPage = !!submissionId
   const isDesignChallenge = legacy.track === 'DESIGN'
   if (challengeSubmissions.length === 0 && submissionId) {
@@ -43,7 +41,7 @@ const ChallengeDetailsComponent = ({
   return (
     <div>
       <Helmet title={name || 'Challenge Details'} />
-      <PageHeader title={name} tags={challengeTags} />
+      <PageHeader title={name} tags={getChallengeTags(challenge, challengeTypes, resources)} />
       <div className={styles.challenges}>
         <ChallengeInfo challenge={challenge} />
         {!isOnSubmissionDetailsPage &&
@@ -54,6 +52,7 @@ const ChallengeDetailsComponent = ({
             challengeSubmissions={challengeSubmissions}
             challengeId={id}
             isDesignChallenge={isDesignChallenge}
+            resources={resources}
           />}
         {isOnSubmissionDetailsPage &&
           <SubmissionDetails

@@ -1,3 +1,7 @@
+$screen-sm: 768px !default;
+$screen-md: 1024px !default;
+$screen-lg: 1280px !default;
+
 @mixin roboto-light {
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
   font-weight: 300;
@@ -16,4 +20,54 @@
 @mixin roboto-bold {
   font-family: 'Roboto', Helvetica, Arial, sans-serif;
   font-weight: 700;
+}
+
+@mixin upto-sm {
+  @media (max-width: #{$screen-sm - 1px}) {
+    @content;
+  }
+}
+
+@mixin from-sm-to-lg {
+  @media (min-width: #{$screen-sm}) and (max-width: #{$screen-md}) {
+    @content;
+  }
+}
+
+@mixin md-to-lg {
+  @media (min-width: #{$screen-sm + 1px}) and (max-width: #{$screen-md}) {
+    @content;
+  }
+}
+
+@mixin xs-to-sm {
+  @media (max-width: #{$screen-sm}) {
+    @content;
+  }
+}
+
+@mixin primary-button {
+  background-color: $button-blue;
+  color: $white;
+  text-align: center;
+  text-decoration: none;
+  line-height: 21px;
+  font-size: 16px;
+  border-radius: 6px;
+  padding:  6px 6px;
+  width: 100%;
+  cursor: pointer;
+}
+
+@mixin secondary-button {
+  background-color: $white;
+  color: $button-blue;
+  text-align: center;
+  text-decoration: none;
+  line-height: 21px;
+  font-size: 16px;
+  border-radius: 6px;
+  padding:  6px 6px;
+  width: 100%;
+  cursor: pointer;
 }

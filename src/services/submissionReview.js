@@ -22,6 +22,16 @@ export async function fetchSubmissionReviews (submissionId) {
 }
 
 /**
+ * Api request for post submission reviews
+ * @param {Object} body - request body
+ * @returns {Promise<*>}
+ */
+export async function sendSubmissionReview (body) {
+  const response = await axiosInstance.post(`${V5_API_URL}/reviews`, body)
+  return response.data
+}
+
+/**
  * Api request for fetching submission artifacts
  * @param {String} submissionId - UUID of the submission
  * @returns {Promise<*>}

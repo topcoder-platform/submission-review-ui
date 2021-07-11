@@ -72,6 +72,7 @@
     "terser-webpack-plugin": "1.1.0",
     "topcoder-healthcheck-dropin": "^1.0.3",
     "url-loader": "1.1.1",
+    "uuid": "^8.3.2",
     "webpack": "4.19.1",
     "webpack-dev-server": "3.1.14",
     "webpack-manifest-plugin": "2.0.4"

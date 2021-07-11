@@ -1,0 +1,11 @@
+.selectorContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.scoringSelector {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}

@@ -12,6 +12,7 @@ import styles from './SubmissionList.module.scss'
 import Handle from '../../../Handle'
 import NoSubmissions from '../NoSubmissions'
 import { SUBMISSION_TABS } from '../../../../config/constants'
+import { isCopilotUser } from '../../../../util/challenge'
 
 // Table options for non MM matches
 const options = [
@@ -43,7 +44,7 @@ class SubmissionList extends Component {
   }
 
   render () {
-    const { submissions, challengeId, isDesignChallenge } = this.props
+    const { submissions, challengeId, isDesignChallenge, resources } = this.props
     const { currentTab } = this.state
 
     if (submissions.length === 0) {
@@ -55,11 +56,11 @@ class SubmissionList extends Component {
     const rows = _.orderBy(filteredSubmissions, 'type').map((s, i) => {
       const { id, review } = s
       const aggregateScore = review ? review[0].score.toFixed(2) : 'N/A'
-      const reviewDate = review[0]
+      const reviewDate = (review && review[0])
         ? moment(review[0].updated || review[0].created).format('MMM DD, HH:mma')
         : 'N/A'
       const isFailed = review ? review[0].isPassing : false
-      const scoreCardId = review[0].scoreCardId
+      const scoreCardId = review ? review[0].scoreCardId : 0
 
       return (
         <Table.Row key={`submission-${s.memberId}-${i}`} className={styles.item}>
@@ -87,7 +88,11 @@ class SubmissionList extends Component {
             </span>
           </Table.Col>
           <Table.Col width={options[3].width}>
-            <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${scoreCardId}`} className={styles.btn}>Edit</a>
+            {
+              isCopilotUser(challengeId, resources)
+                ? <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${scoreCardId}`} className={styles.btn}>Edit</a>
+                : <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${scoreCardId}`} className={styles.viewScoreBtn}>View score</a>
+            }
           </Table.Col>
         </Table.Row>
       )
@@ -132,7 +137,8 @@ class SubmissionList extends Component {
 SubmissionList.propTypes = {
   submissions: PropTypes.arrayOf(PropTypes.object),
   challengeId: PropTypes.string,
-  isDesignChallenge: PropTypes.bool
+  isDesignChallenge: PropTypes.bool,
+  resources: PropTypes.object
 }
 
 export default SubmissionList

@@ -1,82 +1,112 @@
 /**
  * Component to render challenge details and submission details pages
  */
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
-import moment from 'moment'
 import PageHeader from '../PageHeader'
-import Table from '../Table'
+import { getChallengeTags } from '../../util/challenge'
+import ScoreCardDetails from './ScoreCardDetails'
+import LeftChevronIcon from '../../assets/icons/chevron-left.svg'
+import FileIcon from '../../assets/icons/file.svg'
+import Loader from '../Loader'
 import styles from './ScoreCardComponent.module.scss'
 
-// Table options for scorecard
-const options = [
-  {
-    name: 'Score Card Id',
-    width: 16
-  },
-  {
-    name: 'Created By',
-    width: 35
-  },
-  {
-    name: 'Reviewed Date',
-    width: 13
-  },
-  {
-    name: 'isPassing',
-    width: 11
-  },
-  {
-    name: 'Aggregate Score',
-    width: 17
+class ScoreCardComponent extends Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      formData: {}
+    }
+
+    this.onFormChange = this.onFormChange.bind(this)
   }
-]
 
-const ScoreCardComponent = ({ reviewSummations, scoreCardId, challengeId }) => {
-  const rows = reviewSummations.map((s, i) => {
+  onFormChange (form) {
+    this.setState({ formData: form })
+  }
+
+  render () {
+    const {
+      challenge,
+      challengeTypes,
+      resources,
+      scorecards,
+      isLoading,
+      saveAndSubmit,
+      editMode,
+      scorecardTitle,
+      scorecardDescription } = this.props
+
+    const { formData } = this.state
+
+    const { name } = challenge
+
     return (
-      <Table.Row key={`item-${i}`} className={styles.item}>
-        <Table.Col width={options[0].width}>
-          <span className={styles.cell}>{s.id}</span>
-        </Table.Col>
-        <Table.Col width={options[0].width}>
-          <span className={styles.cell}>{s.createdBy}</span>
-        </Table.Col>
-        <Table.Col width={options[0].width}>
-          <span className={styles.cell}>{moment(s.reviewedDate).format('MMM DD, HH:mma')}</span>
-        </Table.Col>
-        <Table.Col width={options[0].width}>
-          <span className={styles.cell}>{s.isPassing ? 'True' : 'False'}</span>
-        </Table.Col>
-        <Table.Col width={options[0].width}>
-          <span className={styles.cell}>{s.aggregateScore}</span>
-        </Table.Col>
-      </Table.Row>
-    )
-  })
+      <div className={styles.scorecardPage}>
+        <Helmet title={name || 'ScoreCard Details'} />
+        <PageHeader title={name} tags={getChallengeTags(challenge, challengeTypes, resources)} />
 
-  return (
-    <div>
-      <Helmet title={'ScoreCard Details'} />
-      <PageHeader title={'ScoreCard Details'} />
-      <h3 className={styles.title}>Challenge Id: <span>{challengeId}</span></h3>
-      <h3 className={styles.title}>ScoreCard Id: <span>{scoreCardId}</span></h3>
-      <div className={styles.scorecard}>
-        <Table rows={rows} options={options} className={styles.list} />
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <div className={styles.leftContent}>
+              <Link to={`/challenges/${challenge.id}`} >
+                <img src={LeftChevronIcon} className={styles.leftChevron} />
+              </Link>
+              <div>
+                <h3 className={styles.title}>{scorecardTitle}</h3>
+                <p className={styles.subTitle}>{scorecardDescription}</p>
+              </div>
+            </div>
+
+            <div className={styles.rightContent}>
+              <img src={FileIcon} className={styles.fileIcon} />
+              <h5 className={styles.rightText}>Fill Scorecard</h5>
+            </div>
+
+          </div>
+          {
+            isLoading ? <Loader /> : <ScoreCardDetails scorecards={scorecards} onFormChange={this.onFormChange} editMode={editMode} />
+          }
+          {
+            editMode &&
+            <div className={styles.footer}>
+              <div className={styles.left}>
+                <a href={'#'} className={styles.secondaryButton}>Save for Later</a>
+              </div>
+              <div className={styles.right}>
+                <a href={'#'} className={styles.secondaryButton}>Preview</a>
+                {
+                  <a onClick={() => saveAndSubmit(100, formData)} className={styles.primaryButton}>Save and Submit</a>
+                }
+              </div>
+            </div>
+          }
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 ScoreCardComponent.propTypes = {
-  reviewSummations: PropTypes.arrayOf(PropTypes.object),
-  scoreCardId: PropTypes.string,
-  challengeId: PropTypes.string
+  challenge: PropTypes.object,
+  challengeTypes: PropTypes.arrayOf(PropTypes.object),
+  resources: PropTypes.object,
+  scorecards: PropTypes.arrayOf(PropTypes.object),
+  isLoading: PropTypes.bool,
+  saveAndSubmit: PropTypes.func,
+  editMode: PropTypes.bool,
+  scorecardTitle: PropTypes.string,
+  scorecardDescription: PropTypes.string
 }
 
 ScoreCardComponent.defaultProps = {
-  reviewSummations: []
+  challenge: null,
+  reviewSummations: [],
+  challengeTypes: [],
+  resources: {}
 }
 
 export default ScoreCardComponent

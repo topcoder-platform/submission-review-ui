@@ -1,0 +1,129 @@
+@import "../../styles/includes";
+
+$switch-height: 20px;
+$switch-width: 34px;
+$switch-handle-offset: 3px;
+$switch-handle-size: $switch-height - (2 * $switch-handle-offset);
+$switch-active-color: $button-blue;
+$switch-inactive-color: $dark-gray-20;
+
+@mixin switch-transition {
+  transition: all 0.15s ease-in-out;
+}
+
+.SwitchButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 0 10px 0;
+  margin: 0;
+
+  p.primary {
+    @include roboto();
+
+    color: $light-text;
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 10px;
+  }
+}
+
+.onoffswitch {
+  @include switch-transition;
+
+  align-self: center;
+  background-color: $switch-inactive-color;
+  border-radius: $switch-height;
+  box-sizing: border-box;
+  height: $switch-height;
+  width: $switch-width;
+  position: relative;
+  margin-right: 0;
+
+  @include upto-sm {
+    display: none;
+  }
+}
+
+.checkbox {
+  display: none;
+}
+
+.label {
+  border-radius: $switch-height;
+  cursor: pointer;
+  display: block;
+  width: $switch-width;
+  overflow: hidden;
+}
+
+.inner {
+  @include switch-transition;
+
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+}
+
+.inner::before,
+.inner::after {
+  box-sizing: border-box;
+  color: $white;
+  display: block;
+  float: left;
+  height: $switch-height;
+  width: 50%;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: $switch-height;
+  padding: 0;
+}
+
+// SWITCH HANDLE
+.switch {
+  @include switch-transition;
+
+  background: $white;
+  background-color: $white;
+  border: none;
+  border-radius: $switch-height;
+  bottom: 0;
+  color: $white;
+  display: block;
+  height: $switch-handle-size;
+  width: $switch-handle-size;
+  margin: $switch-handle-offset;
+  position: absolute;
+  top: 0;
+}
+
+.checkbox + .label {
+  @include switch-transition;
+
+  background-color: $switch-inactive-color;
+}
+
+.checkbox:checked + .label {
+  background-color: $switch-active-color;
+
+  & .switch {
+    right: 0;
+  }
+}
+
+// Switch is on
+.inner::before {
+  background-color: transparent; //$switch-active-color;
+  color: transparent;// $switch-active-color;
+  content: '';
+  padding-left: 10px;
+}
+
+// switch is off
+.inner::after {
+  background-color: transparent; // $switch-inactive-color;
+  color: transparent; // $switch-inactive-color;
+  content: '';
+  padding-right: 10px;
+  text-align: right;
+}

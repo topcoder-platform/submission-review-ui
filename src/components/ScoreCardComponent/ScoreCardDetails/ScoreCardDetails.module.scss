@@ -1,0 +1,42 @@
+@import "../../../styles/includes";
+
+.scoreCardDetail {
+  background-color: #fff;
+}
+
+.scoreCardTable {
+  width: 100%;
+}
+
+.title {
+  display: flex;
+  padding: 13px 0;
+}
+
+.weight {
+  color: $light-text;
+}
+
+.icon {
+  width: 12px;
+  height: 15px;
+  margin-left: 18px;
+  margin-right: 9px;
+  margin-top: 4px;
+}
+
+.text {
+  width: 80%;
+}
+
+.extraCol {
+  flex: 12 1 100%;
+}
+
+.viewMode {
+  background-color: #F5F5F5;
+  width: 95%;
+  height: 81px;
+  border-radius: 4px;
+  padding: 20px;
+}
