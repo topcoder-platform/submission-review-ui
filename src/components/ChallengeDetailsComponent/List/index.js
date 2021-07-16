@@ -51,13 +51,6 @@ const List = ({
         />
       }
       {!isMarathonMatch &&
-        <SubmissionList
-          challenge={challenge}
-          submissions={submissionsWithMemberHandleColors}
-          challengeId={challengeId}
-        />
-      )}
-      {!isMarathonMatch &&
         (isPureV5Review && isDesignChallenge ? (
           <DesignSubmissionList
             challengeId={challengeId}
@@ -69,6 +62,7 @@ const List = ({
             submissions={submissionsWithMemberHandleColors}
             challengeId={challengeId}
             isDesignChallenge={isDesignChallenge}
+            challenge={challenge}
             resources={resources}
           />
         ))}
