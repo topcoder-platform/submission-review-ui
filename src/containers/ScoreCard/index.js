@@ -14,7 +14,7 @@ import { loadChallengeDetails, loadChallengeTypes, loadReviewSummation } from '.
 import { loadChallengeResources, loadResourceRoles } from '../../actions/resources'
 import { loadScorecards } from '../../actions/scorecards'
 import { loadSubmissionDetails, postSubmissionReview } from '../../actions/submissionDetails'
-import { isCopilotUser } from '../../util/challenge'
+import { isReviewer } from '../../util/challenge'
 class ScoreCard extends Component {
   constructor (props) {
     super(props)
@@ -35,13 +35,13 @@ class ScoreCard extends Component {
       loadScorecards,
       loadSubmissionDetails } = this.props
 
-    loadScorecards()
+    loadScorecards(scoreCardId)
     loadChallengeDetails(challengeId)
     loadReviewSummation(scoreCardId, submissionId)
     loadSubmissionDetails(submissionId)
   }
 
-  saveAndSubmit (score, body) {
+  saveAndSubmit (score, metadata) {
     const {
       postSubmissionReview,
       challengeDetails,
@@ -55,7 +55,7 @@ class ScoreCard extends Component {
       challengeDetails.legacy.reviewScorecardId,
       submissionId,
       score,
-      body
+      metadata
     )
   }
 
@@ -71,7 +71,9 @@ class ScoreCard extends Component {
       loadChallengeResources,
       loadResourceRoles,
       scorecards,
-      isScorecardLoading } = this.props
+      isScorecardLoading,
+      submissionDetails
+    } = this.props
 
     if (!isLoading && !resources.roles.length && !this.state.resourceLoaded && challengeDetails.id) {
       loadChallengeResources([challengeDetails])
@@ -83,6 +85,8 @@ class ScoreCard extends Component {
     if (!isLoading && isScorecardLoading === false) {
       return <Redirect to={`/challenges/${challengeId}`} />
     }
+
+    const shouldOpenEditMode = isReviewer(challengeId, resources) && submissionDetails.length === 0
 
     return (
       isScorecardLoading || isLoading || shouldWait ? <Loader />
@@ -98,7 +102,7 @@ class ScoreCard extends Component {
           scorecardDescription={scorecards.scorecardDescription}
           isLoading={scorecards.isScorecardLoading}
           saveAndSubmit={this.saveAndSubmit}
-          editMode={isCopilotUser(resources, challengeId) || true}
+          editMode={shouldOpenEditMode}
         />
     )
   }
@@ -106,7 +110,8 @@ class ScoreCard extends Component {
 
 ScoreCard.defaultProps = {
   reviewSummations: [],
-  challengeTypes: []
+  challengeTypes: [],
+  submissionDetails: []
 }
 
 ScoreCard.propTypes = {
@@ -114,6 +119,7 @@ ScoreCard.propTypes = {
   challengeTypes: PropTypes.arrayOf(PropTypes.object),
   resources: PropTypes.object,
   reviewSummations: PropTypes.arrayOf(PropTypes.object),
+  submissionDetails: PropTypes.arrayOf(PropTypes.object),
   scorecards: PropTypes.object,
   isLoading: PropTypes.bool,
   scoreCardId: PropTypes.string,

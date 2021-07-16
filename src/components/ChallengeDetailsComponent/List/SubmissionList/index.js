@@ -12,7 +12,7 @@ import styles from './SubmissionList.module.scss'
 import Handle from '../../../Handle'
 import NoSubmissions from '../NoSubmissions'
 import { SUBMISSION_TABS } from '../../../../config/constants'
-import { isCopilotUser } from '../../../../util/challenge'
+import { isReviewer, getScoreCardId } from '../../../../util/challenge'
 
 // Table options for non MM matches
 const options = [
@@ -44,7 +44,7 @@ class SubmissionList extends Component {
   }
 
   render () {
-    const { submissions, challengeId, isDesignChallenge, resources } = this.props
+    const { submissions, challengeId, isDesignChallenge, resources, challenge } = this.props
     const { currentTab } = this.state
 
     if (submissions.length === 0) {
@@ -55,15 +55,14 @@ class SubmissionList extends Component {
 
     const rows = _.orderBy(filteredSubmissions, 'type').map((s, i) => {
       const { id, review } = s
-      const hasReview = review && review[0]
-      const aggregateScore = hasReview && typeof review[0].score === 'number'
-        ? review[0].score.toFixed(2)
-        : 'N/A'
+      const hasReview = review && review.length > 0
+      const aggregateScore = _.get(review, '[0].score') ? review[0].score.toFixed(2) : 'N/A'
       const reviewDate = hasReview
         ? moment(review[0].updated || review[0].created).format('MMM DD, HH:mma')
         : 'N/A'
       const isFailed = hasReview ? review[0].isPassing : false
-      const scoreCardId = hasReview ? review[0].scoreCardId : 0
+      const scoreCardId = hasReview ? review[0].scoreCardId : getScoreCardId(challenge)
+      const isSubmissionEnabled = !hasReview && isReviewer(challengeId, resources) && scoreCardId !== -1
 
       return (
         <Table.Row key={`submission-${s.memberId}-${i}`} className={styles.item}>
@@ -92,8 +91,8 @@ class SubmissionList extends Component {
           </Table.Col>
           <Table.Col width={options[3].width}>
             {
-              isCopilotUser(challengeId, resources)
-                ? <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${scoreCardId}`} className={styles.btn}>Edit</a>
+              !hasReview
+                ? isSubmissionEnabled && <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${getScoreCardId(challenge)}`} className={styles.btn}>Submit review</a>
                 : <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${scoreCardId}`} className={styles.viewScoreBtn}>View score</a>
             }
           </Table.Col>
@@ -141,7 +140,8 @@ SubmissionList.propTypes = {
   submissions: PropTypes.arrayOf(PropTypes.object),
   challengeId: PropTypes.string,
   isDesignChallenge: PropTypes.bool,
-  resources: PropTypes.object
+  resources: PropTypes.object,
+  challenge: PropTypes.object
 }
 
 export default SubmissionList

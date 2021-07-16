@@ -44,8 +44,15 @@ const List = ({
   return (
     <div>
       <h2 className={styles.heading}>Submissions</h2>
-      {isMarathonMatch && (
+      {isMarathonMatch &&
         <MMSubmissionList
+          submissions={submissionsWithMemberHandleColors}
+          challengeId={challengeId}
+        />
+      }
+      {!isMarathonMatch &&
+        <SubmissionList
+          challenge={challenge}
           submissions={submissionsWithMemberHandleColors}
           challengeId={challengeId}
         />

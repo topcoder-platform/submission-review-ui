@@ -1,10 +1,10 @@
 {
-  "title": "Approval",
-  "description": "Approval questions",
+  "title": "Checkpoint Review",
+  "description": "Checkpoint review questions",
   "data": [
     {
       "type": "section",
-      "title": "Approval",
+      "title": "Final Fix",
       "weight": 100,
       "children": [
         {

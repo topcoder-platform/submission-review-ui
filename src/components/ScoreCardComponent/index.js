@@ -38,7 +38,9 @@ class ScoreCardComponent extends Component {
       saveAndSubmit,
       editMode,
       scorecardTitle,
-      scorecardDescription } = this.props
+      scorecardDescription,
+      scoreCardId
+    } = this.props
 
     const { formData } = this.state
 
@@ -52,7 +54,7 @@ class ScoreCardComponent extends Component {
         <div className={styles.container}>
           <div className={styles.header}>
             <div className={styles.leftContent}>
-              <Link to={`/challenges/${challenge.id}`} >
+              <Link to={`/challenges/${challenge.id}`}>
                 <img src={LeftChevronIcon} className={styles.leftChevron} />
               </Link>
               <div>
@@ -68,7 +70,13 @@ class ScoreCardComponent extends Component {
 
           </div>
           {
-            isLoading ? <Loader /> : <ScoreCardDetails scorecards={scorecards} onFormChange={this.onFormChange} editMode={editMode} />
+            isLoading ? <Loader /> : (
+              <ScoreCardDetails
+                scorecards={scorecards}
+                onFormChange={this.onFormChange}
+                editMode={editMode}
+                scoreCardId={scoreCardId} />
+            )
           }
           {
             editMode &&
@@ -95,6 +103,7 @@ ScoreCardComponent.propTypes = {
   challengeTypes: PropTypes.arrayOf(PropTypes.object),
   resources: PropTypes.object,
   scorecards: PropTypes.arrayOf(PropTypes.object),
+  scoreCardId: PropTypes.string,
   isLoading: PropTypes.bool,
   saveAndSubmit: PropTypes.func,
   editMode: PropTypes.bool,

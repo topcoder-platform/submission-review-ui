@@ -1,10 +1,10 @@
 {
-  "title": "Approval",
-  "description": "Approval questions",
+  "title": "ScoreCard with Legacy Id",
+  "description": "This score card has legacy id so this on is displayed as fallback",
   "data": [
     {
       "type": "section",
-      "title": "Approval",
+      "title": "This score card has legacy Id",
       "weight": 100,
       "children": [
         {

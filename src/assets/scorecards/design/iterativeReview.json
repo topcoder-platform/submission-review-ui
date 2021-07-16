@@ -1,10 +1,10 @@
 {
-  "title": "Approval",
-  "description": "Approval questions",
+  "title": "Iterative Review",
+  "description": "Itereative review questions",
   "data": [
     {
       "type": "section",
-      "title": "Approval",
+      "title": "Major",
       "weight": 100,
       "children": [
         {

@@ -137,3 +137,35 @@ export const SUBMISSION_TABS = {
   CONTEST_SUBMISSION: 'Contest Submission',
   CHECKPOINT_SUBMISSION: 'Checkpoint Submission'
 }
+
+export const PROJECT_ROLES = {
+  Manager: 'Manager',
+  Copilot: 'Copilot',
+  Observer: 'Observer',
+  Reviewer: 'Reviewer',
+  Submitter: 'Submitter',
+  Client_Manager: 'Client Manager',
+  Iterative_Reviewer: 'Iterative Reviewer'
+}
+
+export const REVIEW_TYPES = {
+  Screening: 'c56a4180-65aa-42ec-a945-5fd21dec0501',
+  CheckpointReview: 'c56a4180-65aa-42ec-a945-5fd21dec0502',
+  Review: 'c56a4180-65aa-42ec-a945-5fd21dec0503',
+  AppealsResponse: 'c56a4180-65aa-42ec-a945-5fd21dec0504',
+  IterativeReview: 'c56a4180-65aa-42ec-a945-5fd21dec0505',
+  FinalFix: '9ecc88e5-a4ee-44a4-8ec1-70bd98022510',
+  Approval: 'd6d31f34-8ee5-4589-ae65-45652fcc01a6'
+}
+
+export const PHASE_IDS = {
+  RegistrationPhase: 'a93544bc-c165-4af4-b55e-18f3593b457a',
+  SubmissionPhase: '6950164f-3c5e-4bdc-abc8-22aaf5a1bd49',
+  CheckpointSubmissionPhase: 'd8a2cdbe-84d1-4687-ab75-78a6a7efdcc8',
+  CheckpointScreeningPhase: 'ce1afb4c-74f9-496b-9e4b-087ae73ab032',
+  CheckpointReviewPhase: '84b43897-2aab-44d6-a95a-42c433657eed',
+  ScreeningPhase: '2d7d3d85-0b29-4989-b3b4-be7f2b1d0aa6',
+  ReviewPhase: 'aa5a3f78-79e0-4bf7-93ff-b11e8f5b398b',
+  FinalFixPhase: '3e2afca6-9542-4763-a135-96b33f12c082',
+  ApprovalPhase: 'ad985cff-ad3e-44de-b54e-3992505ba0ae'
+}

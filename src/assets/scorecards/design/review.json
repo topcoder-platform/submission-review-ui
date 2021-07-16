@@ -1,16 +1,21 @@
-[
-  {
-    "type": "section",
-    "title": "Review",
-    "weight": 100,
-    "children": [
-      {
-        "type": "question",
-        "title": "Submission Place",
-        "description": "10 - first place\n9 - second place\n...\n1 - no winning prize",
-        "scoreType": "1-10",
-        "weight": 100
-      }
-    ]
-  }
-]
+{
+  "title": "Review",
+  "description": "Review questions",
+  "data": [
+    {
+      "type": "section",
+      "title": "Review",
+      "weight": 100,
+      "children": [
+        {
+          "type": "question",
+          "title": "Submission Place",
+          "description": "10 - first place\n9 - second place\n...\n1 - no winning prize",
+          "scoreType": "number",
+          "maxRating": 10,
+          "weight": 100
+        }
+      ]
+    }
+  ]
+}
