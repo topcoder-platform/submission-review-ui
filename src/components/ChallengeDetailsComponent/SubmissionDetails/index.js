@@ -68,7 +68,7 @@ function withToken (func) {
       const win = window.open(func(token), '_blank')
       win.focus()
     })
-    .catch(() => console.log('Failed to get a fresh token!'))
+    .catch(() => console.error('Failed to get a fresh token!'))
 }
 
 const SubmissionDetails = ({

@@ -8,21 +8,15 @@ import styles from './ScoringSelector.module.scss'
 class ScoringSelector extends Component {
   constructor (props) {
     super(props)
-
-    this.state = {
-      current: props.currentValue || 1
-    }
-
     this.onClickScore = this.onClickScore.bind(this)
   }
 
   onClickScore (value) {
-    this.setState({ current: value })
+    this.props.onChange(value)
   }
 
   render () {
-    const { maxRating } = this.props
-    const { current } = this.state
+    const { maxRating, currentValue } = this.props
 
     return (
       <div className={styles.selectorContainer} key={uuidv4()}>
@@ -33,8 +27,8 @@ class ScoringSelector extends Component {
                 id={uuidv4()}
                 key={uuidv4()}
                 value={rating}
-                selected={rating === current}
-                onClick={this.onClickScore}
+                selected={rating === currentValue}
+                onClick={() => this.onClickScore(rating)}
               />
             ))
           }
@@ -46,12 +40,13 @@ class ScoringSelector extends Component {
 
 ScoringSelector.defaultProps = {
   maxRating: 5,
-  currentValue: 1
+  currentValue: 0
 }
 
 ScoringSelector.propTypes = {
   maxRating: PropTypes.number,
-  currentValue: PropTypes.number
+  currentValue: PropTypes.number,
+  onChange: PropTypes.func.isRequired
 }
 
 export default ScoringSelector

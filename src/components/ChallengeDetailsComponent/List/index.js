@@ -32,6 +32,7 @@ const List = ({ challenge, isChallengeSubmissionsLoading, challengeSubmissions, 
         <MMSubmissionList submissions={submissionsWithMemberHandleColors} challengeId={challengeId} />}
       {!isMarathonMatch &&
         <SubmissionList
+          challenge={challenge}
           submissions={submissionsWithMemberHandleColors}
           challengeId={challengeId}
           isDesignChallenge={isDesignChallenge}

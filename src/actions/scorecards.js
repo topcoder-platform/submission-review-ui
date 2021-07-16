@@ -8,13 +8,13 @@ import {
 /**
  * Loads Score card details
  */
-export function loadScorecards () {
+export function loadScorecards (scoreCardId) {
   return (dispatch, getState) => {
     dispatch({
       type: LOAD_SCORECARDS_PENDING
     })
 
-    fetchScorecard().then(scorecards => dispatch({
+    fetchScorecard(scoreCardId).then(scorecards => dispatch({
       type: LOAD_SCORECARDS_SUCCESS,
       scorecards
     })).catch(() => dispatch({

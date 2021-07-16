@@ -1,10 +1,10 @@
 {
-  "title": "Approval",
-  "description": "Approval questions",
+  "title": "Appeals Response",
+  "description": "Appeals Response Questions",
   "data": [
     {
       "type": "section",
-      "title": "Approval",
+      "title": "Appeals Response",
       "weight": 100,
       "children": [
         {

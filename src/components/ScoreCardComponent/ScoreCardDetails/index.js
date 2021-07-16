@@ -54,6 +54,8 @@ class ScoreCardDetails extends Component {
     }
 
     this.onToggleSwitch = this.onToggleSwitch.bind(this)
+    this.onScoreChange = this.onScoreChange.bind(this)
+    this.onCommentChange = this.onCommentChange.bind(this)
   }
 
   onToggleSwitch (index, scorecardIndex) {
@@ -66,6 +68,27 @@ class ScoreCardDetails extends Component {
           return {
             ...item,
             value: !item.value
+          }
+        } else {
+          return item
+        }
+      })
+    })
+
+    this.setState({ formData: newFormData })
+    onFormChange(newFormData)
+  }
+
+  onScoreChange (index, scorecardIndex, value) {
+    const { formData } = this.state
+    const { onFormChange } = this.props
+
+    const newFormData = formData.map((scorecard, i) => {
+      return scorecard.map((item, scorecardId) => {
+        if (index === i && scorecardIndex === scorecardId) {
+          return {
+            ...item,
+            value
           }
         } else {
           return item
@@ -128,14 +151,16 @@ class ScoreCardDetails extends Component {
         checked={currentValue.value}
         onToggle={() => this.onToggleSwitch(index, scorecardIndex)}
       />
-      : <ScoringSelector maxRating={5} />
+      : <ScoringSelector
+        maxRating={item.maxRating}
+        currentValue={currentValue.value}
+        onChange={(value) => this.onScoreChange(index, scorecardIndex, value)}
+      />
   }
 
   render () {
     const { scorecards, editMode } = this.props
     const { formData, headerOptions, headerToggle, bodyToggle } = this.state
-
-    console.log(editMode)
 
     const rows = scorecards.map((scorecard, index) => {
       return scorecard.children.map((item, scorecardIndex) => {
@@ -151,11 +176,11 @@ class ScoreCardDetails extends Component {
                     src={isDetailOpened ? chevronUp : chevronDown}
                     className={styles.icon}
                   />
-                  <div className={styles.text}>{ item.title }</div>
+                  <div className={styles.text}>{item.title}</div>
                 </div>
               </ExpandableTable.Col>
               <ExpandableTable.Col width={headerOptions[index][1].width} viewMode={editMode ? null : 'true'}>
-                <span className={styles.weight}>{ item.weight.toFixed(1) }</span>
+                <span className={styles.weight}>{item.weight.toFixed(1)}</span>
               </ExpandableTable.Col>
               <ExpandableTable.Col width={headerOptions[index][2].width} viewMode={editMode ? null : 'true'}>
                 {
@@ -164,8 +189,8 @@ class ScoreCardDetails extends Component {
                     : formData[index][scorecardIndex].weight
                 }
               </ExpandableTable.Col>
-              {
-                (isDetailOpened && editMode)
+              {isDetailOpened && (
+                editMode
                   ? <ExpandableTable.Col extra='true'>
                     <Textarea
                       onChange={(comment) => this.onCommentChange(index, scorecardIndex, comment)}
@@ -174,9 +199,10 @@ class ScoreCardDetails extends Component {
                   </ExpandableTable.Col>
                   : <ExpandableTable.Col extra='true'>
                     <div className={styles.viewMode}>
-                      { formData[index][scorecardIndex].comment || 'No comment'}
+                      {formData[index][scorecardIndex].comment || 'No comment'}
                     </div>
                   </ExpandableTable.Col>
+              )
               }
             </ExpandableTable.Row>
           </>

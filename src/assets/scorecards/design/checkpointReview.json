@@ -1,16 +1,20 @@
-[
-  {
-    "type": "section",
-    "title": "Checkpoint Review",
-    "weight": 100,
-    "children": [
-      {
-        "type": "question",
-        "title": "Is this a checkpoint winning submission?",
-        "description": "Should this submission receive a checkpoint prize?",
-        "scoreType": "boolean",
-        "weight": 100
-      }
-    ]
-  }
-]
+{
+  "title": "Checkpoint Review",
+  "description": "Checkpoint review questions",
+  "data": [
+    {
+      "type": "section",
+      "title": "Checkpoint Review",
+      "weight": 100,
+      "children": [
+        {
+          "type": "question",
+          "title": "Is this a checkpoint winning submission?",
+          "description": "Should this submission receive a checkpoint prize?",
+          "scoreType": "boolean",
+          "weight": 100
+        }
+      ]
+    }
+  ]
+}

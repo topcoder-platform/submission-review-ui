@@ -11,7 +11,8 @@
           "type": "question",
           "title": "If Stock Art is allowed in this contest, are all stock art elements photographs only? No illustrations are allowed.",
           "description": "YES - All elements are photographs. (If stock art is NOT allowed in this contest, please answer \"yes\" and comment \"n/a\" below.)\nNO - Some of the elements are illustrations or other design elements and not photographs. (Please list the offending elements here).",
-          "scoreType": "1-4",
+          "scoreType": "number",
+          "maxRating": 4,
           "weight": 25
         },
         {
@@ -39,7 +40,8 @@
           "type": "question",
           "title": "Submission Place",
           "description": "10 - first place\n9 - second place\n...\n1 - no winning prize",
-          "scoreType": "1-10",
+          "scoreType": "number",
+          "maxRating": 10,
           "weight": 100
         }
       ]
