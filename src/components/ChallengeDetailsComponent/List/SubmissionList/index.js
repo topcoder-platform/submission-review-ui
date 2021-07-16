@@ -55,12 +55,15 @@ class SubmissionList extends Component {
 
     const rows = _.orderBy(filteredSubmissions, 'type').map((s, i) => {
       const { id, review } = s
-      const aggregateScore = review ? review[0].score.toFixed(2) : 'N/A'
-      const reviewDate = (review && review[0])
+      const hasReview = review && review[0]
+      const aggregateScore = hasReview && typeof review[0].score === 'number'
+        ? review[0].score.toFixed(2)
+        : 'N/A'
+      const reviewDate = hasReview
         ? moment(review[0].updated || review[0].created).format('MMM DD, HH:mma')
         : 'N/A'
-      const isFailed = review ? review[0].isPassing : false
-      const scoreCardId = review ? review[0].scoreCardId : 0
+      const isFailed = hasReview ? review[0].isPassing : false
+      const scoreCardId = hasReview ? review[0].scoreCardId : 0
 
       return (
         <Table.Row key={`submission-${s.memberId}-${i}`} className={styles.item}>
