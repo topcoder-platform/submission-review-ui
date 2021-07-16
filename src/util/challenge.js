@@ -25,6 +25,18 @@ export const getRolesFromResource = (resources, challengeId) => {
 }
 
 /**
+ * Extracts challenge prizes array from challenge data object.
+ *
+ * @param {Object} challenge challenge data object
+ * @param {Array} challenge.prizeSets challenge prize sets
+ * @returns {Array}
+ */
+export const getChallengePrizes = ({ prizeSets }) => {
+  const placementPrizes = _.find(prizeSets, { type: 'placement' })
+  return placementPrizes.prizes || []
+}
+
+/**
  * Get challenge tags
  * @param challenge
  * @param challengeTypes

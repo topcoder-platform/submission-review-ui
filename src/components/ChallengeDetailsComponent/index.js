@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet'
 import PageHeader from '../PageHeader'
 import styles from './ChallengeDetailsComponent.module.scss'
 import ChallengeInfo from './ChallengeInfo'
-import { MARATHON_MATCH_SUBTRACKS } from '../../config/constants'
+import { MARATHON_MATCH_SUBTRACKS, PHASE_NAME } from '../../config/constants'
 import { getChallengeTags } from '../../util/challenge'
 import List from './List'
 import SubmissionDetails from './SubmissionDetails'
@@ -31,9 +31,13 @@ const ChallengeDetailsComponent = ({
   resources,
   reviewTypes,
   reviewSummations }) => {
-  const { id, name, legacy } = challenge
+  const { id, name, legacy, phases } = challenge
   const isOnSubmissionDetailsPage = !!submissionId
   const isDesignChallenge = legacy.track === 'DESIGN'
+  const isPureV5Challenge = legacy.pureV5 === true
+  const isPureV5Review = isPureV5Challenge && phases.some(
+    ({ isOpen, name }) => isOpen && name === PHASE_NAME.REVIEW
+  )
   if (challengeSubmissions.length === 0 && submissionId) {
     const submissionIds = _.map(challengeSubmissions, s => (s.submissions[0].id))
     if (!_.includes(submissionIds, submissionId)) return <Redirect to={`/challenges/${id}`} />
@@ -52,6 +56,7 @@ const ChallengeDetailsComponent = ({
             challengeSubmissions={challengeSubmissions}
             challengeId={id}
             isDesignChallenge={isDesignChallenge}
+            isPureV5Review={isPureV5Review}
             resources={resources}
           />}
         {isOnSubmissionDetailsPage &&
