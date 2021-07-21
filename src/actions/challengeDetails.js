@@ -32,7 +32,6 @@ export function loadChallengeDetails (challengeId) {
       try {
         const memberChallenge = await fetchMemberChallenge(userId, challengeId)
         const roles = _.get(memberChallenge, 'userDetails.roles')
-        const track = _.get(memberChallenge, 'track')
         const challengeDetails = await fetchChallengeDetails(challengeId)
 
         // prevent possible race condition
@@ -41,7 +40,6 @@ export function loadChallengeDetails (challengeId) {
             type: LOAD_CHALLENGE_DETAILS_SUCCESS,
             challengeDetails: {
               ...challengeDetails,
-              track,
               roles
             }
           })

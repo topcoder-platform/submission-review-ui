@@ -13,6 +13,7 @@ import Handle from '../../../Handle'
 import NoSubmissions from '../NoSubmissions'
 import { SUBMISSION_TABS } from '../../../../config/constants'
 import { isReviewer, getScoreCardId } from '../../../../util/challenge'
+import { getReviewForCurrentPhase } from '../../../../util/submission'
 
 // Table options for non MM matches
 const options = [
@@ -54,15 +55,16 @@ class SubmissionList extends Component {
     const filteredSubmissions = _.filter(submissions, { type: currentTab })
 
     const rows = _.orderBy(filteredSubmissions, 'type').map((s, i) => {
-      const { id, review } = s
-      const hasReview = review && review.length > 0
-      const aggregateScore = _.get(review, '[0].score') ? review[0].score.toFixed(2) : 'N/A'
+      const { id } = s
+      const currentPhaseReviews = getReviewForCurrentPhase(s, challenge)
+      const hasReview = currentPhaseReviews.length > 0
+      const aggregateScore = _.get(currentPhaseReviews, '[0].score') ? currentPhaseReviews[0].score.toFixed(2) : 'N/A'
       const reviewDate = hasReview
-        ? moment(review[0].updated || review[0].created).format('MMM DD, HH:mma')
+        ? moment(currentPhaseReviews[0].updated || currentPhaseReviews[0].created).format('MMM DD, HH:mma')
         : 'N/A'
-      const isFailed = hasReview ? review[0].isPassing : false
-      const scoreCardId = hasReview ? review[0].scoreCardId : getScoreCardId(challenge)
-      const isSubmissionEnabled = !hasReview && isReviewer(challengeId, resources) && scoreCardId !== -1
+      const isFailed = hasReview ? currentPhaseReviews[0].isPassing : false
+      const scoreCardId = hasReview ? currentPhaseReviews[0].scoreCardId : getScoreCardId(challenge)
+      const canSubmitReview = !hasReview && ((isReviewer(challengeId, resources) && scoreCardId !== -1) || true) // TODO: FIX THIS
 
       return (
         <Table.Row key={`submission-${s.memberId}-${i}`} className={styles.item}>
@@ -92,7 +94,7 @@ class SubmissionList extends Component {
           <Table.Col width={options[3].width}>
             {
               !hasReview
-                ? isSubmissionEnabled && <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${getScoreCardId(challenge)}`} className={styles.btn}>Submit review</a>
+                ? canSubmitReview && <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${getScoreCardId(challenge)}`} className={styles.btn}>Submit review</a>
                 : <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${scoreCardId}`} className={styles.viewScoreBtn}>View score</a>
             }
           </Table.Col>

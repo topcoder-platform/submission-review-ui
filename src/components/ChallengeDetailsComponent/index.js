@@ -33,7 +33,8 @@ const ChallengeDetailsComponent = ({
   reviewSummations }) => {
   const { id, name, legacy, phases } = challenge
   const isOnSubmissionDetailsPage = !!submissionId
-  const isDesignChallenge = legacy.track === 'DESIGN'
+  console.log(challenge)
+  const isDesignChallenge = legacy.track === 'DESIGN' || challenge.track === 'Design'
   const isPureV5Challenge = legacy.pureV5 === true
   const isPureV5Review = isPureV5Challenge && phases.some(
     ({ isOpen, name }) => isOpen && name === PHASE_NAME.REVIEW
