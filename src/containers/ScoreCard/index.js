@@ -60,7 +60,7 @@ class ScoreCard extends Component {
     postSubmissionReview(
       challengeDetails.typeId,
       auth.user.userId,
-      challengeDetails.legacy.reviewScorecardId || 1, // TODO: Fix this
+      challengeDetails.legacy.reviewScorecardId || 123456789, // TODO: Fix this
       submissionId,
       score,
       _.map(metadata, m => _.map(m, (entry) => {
