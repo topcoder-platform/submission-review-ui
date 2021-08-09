@@ -1,13 +1,14 @@
 /**
  * Component to render submission details
  */
+import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronLeft, faDownload } from '@fortawesome/free-solid-svg-icons'
 import cn from 'classnames'
-import { getToken } from '../../../services/axiosWithAuth'
+import { getToken } from '../../../util/api'
 import Table from '../../Table'
 import Handle from '../../Handle'
 import Loader from '../../Loader'
@@ -67,7 +68,7 @@ function withToken (func) {
       const win = window.open(func(token), '_blank')
       win.focus()
     })
-    .catch(() => console.log('Failed to get a fresh token!'))
+    .catch(() => console.error('Failed to get a fresh token!'))
 }
 
 const SubmissionDetails = ({
@@ -78,9 +79,19 @@ const SubmissionDetails = ({
   currentTab,
   isArtifactsLoading,
   submissionArtifacts,
-  switchTab
+  switchTab,
+  reviewTypes,
+  reviewSummations
 }) => {
-  const { review, reviewSummation } = submissionDetails
+  const review = submissionDetails.map((detail) => {
+    return {
+      ...detail,
+      isPassing: detail.status === 'completed',
+      reviewer: detail.createdBy,
+      reviewType: _.find(reviewTypes, { id: detail.typeId })
+    }
+  })
+  const reviewSummation = reviewSummations[0]
   const { artifacts } = submissionArtifacts
   const challengeDetailsLink = `/challenges/${challengeId}`
 
@@ -203,15 +214,22 @@ const SubmissionDetails = ({
   )
 }
 
+SubmissionDetails.defaultProps = {
+  reviewTypes: [],
+  reviewSummations: []
+}
+
 SubmissionDetails.propTypes = {
   submissionId: PropTypes.string,
-  submissionDetails: PropTypes.object,
+  submissionDetails: PropTypes.arrayOf(PropTypes.object),
   challengeId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isSubmissionLoading: PropTypes.bool,
   currentTab: PropTypes.string,
   isArtifactsLoading: PropTypes.bool,
   submissionArtifacts: PropTypes.object,
-  switchTab: PropTypes.func
+  switchTab: PropTypes.func,
+  reviewTypes: PropTypes.arrayOf(PropTypes.object),
+  reviewSummations: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default SubmissionDetails

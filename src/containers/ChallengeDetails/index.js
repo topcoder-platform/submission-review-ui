@@ -9,22 +9,33 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { get } from 'lodash'
 import ChallengeDetailsComponent from '../../components/ChallengeDetailsComponent'
-import { loadChallengeDetails, loadChallengeTypes } from '../../actions/challengeDetails'
-import { loadSubmissionDetails, loadSubmissionArtifacts, switchTab } from '../../actions/submissionDetails'
+import { loadChallengeDetails, loadChallengeTypes, loadReviewSummation } from '../../actions/challengeDetails'
+import { loadSubmissionDetails, loadSubmissionArtifacts, switchTab, loadReviewTypes } from '../../actions/submissionDetails'
 import { loadChallengeSubmissions } from '../../actions/challengeSubmissions'
+import { loadChallengeResources, loadResourceRoles } from '../../actions/resources'
 
 import Loader from '../../components/Loader'
 
 class ChallengeDetails extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      resourceLoaded: false
+    }
+  }
+
   componentDidMount () {
     const {
       loadChallengeDetails,
       loadChallengeTypes,
-      loadChallengeSubmissions,
       loadSubmissionDetails,
       challengeId,
       submissionId,
-      loadSubmissionArtifacts
+      loadSubmissionArtifacts,
+      loadChallengeSubmissions,
+      loadReviewTypes,
+      loadReviewSummation,
+      submissionDetails
     } = this.props
 
     loadChallengeDetails(challengeId)
@@ -32,6 +43,11 @@ class ChallengeDetails extends Component {
     if (submissionId) {
       loadSubmissionDetails(submissionId)
       loadSubmissionArtifacts(submissionId)
+      loadReviewTypes()
+
+      if (submissionDetails) {
+        loadReviewSummation(submissionDetails.scoreCardId, submissionId)
+      }
     } else {
       loadChallengeSubmissions(challengeId)
     }
@@ -42,10 +58,13 @@ class ChallengeDetails extends Component {
     const {
       loadSubmissionDetails,
       challengeSubmissionsChallengeId,
-      loadChallengeSubmissions,
       loadSubmissionArtifacts,
+      loadReviewTypes,
       challengeId,
-      submissionId
+      submissionId,
+      reviewTypes,
+      loadReviewSummation,
+      submissionDetails
     } = this.props
 
     // If navigated to or from the submission details page
@@ -54,12 +73,19 @@ class ChallengeDetails extends Component {
         loadSubmissionDetails(submissionId)
         loadChallengeSubmissions(challengeId)
         loadSubmissionArtifacts(submissionId)
+        if (!reviewTypes.length) {
+          loadReviewTypes()
+        }
       } else {
         // if challenge submissions not loaded already
         if (challengeId !== challengeSubmissionsChallengeId) {
           loadChallengeSubmissions(challengeId)
         }
       }
+    }
+
+    if (prevProps.submissionDetails !== submissionDetails && submissionDetails.length && submissionDetails[0].scoreCardId) {
+      loadReviewSummation(submissionDetails[0].scoreCardId, submissionId)
     }
   }
 
@@ -78,12 +104,23 @@ class ChallengeDetails extends Component {
       isArtifactsLoading,
       submissionArtifacts,
       currentTab,
-      switchTab
+      switchTab,
+      resources,
+      loadChallengeResources,
+      loadResourceRoles,
+      reviewTypes,
+      reviewSummations
     } = this.props
+
+    if (!isLoading && !resources.roles.length && !this.state.resourceLoaded) {
+      loadChallengeResources([challengeDetails])
+      loadResourceRoles()
+      this.setState({ resourceLoaded: true })
+    }
 
     if (!isLoading && invalidChallenge) return <Redirect to='/' />
 
-    const shouldWait = challengeId.toString() !== get(challengeDetails, 'challengeId', '').toString()
+    const shouldWait = challengeId.toString() !== get(challengeDetails, 'id', '').toString()
 
     return isLoading || shouldWait ? <Loader /> : (
       <ChallengeDetailsComponent
@@ -98,9 +135,17 @@ class ChallengeDetails extends Component {
         submissionArtifacts={submissionArtifacts}
         currentTab={currentTab}
         switchTab={switchTab}
+        resources={resources}
+        reviewTypes={reviewTypes}
+        reviewSummations={reviewSummations}
       />
     )
   }
+}
+
+ChallengeDetails.defaultProps = {
+  reviewTypes: [],
+  reviewSummations: []
 }
 
 ChallengeDetails.propTypes = {
@@ -109,7 +154,6 @@ ChallengeDetails.propTypes = {
   isLoading: PropTypes.bool,
   loadChallengeDetails: PropTypes.func,
   loadChallengeTypes: PropTypes.func,
-  loadChallengeSubmissions: PropTypes.func,
   loadSubmissionDetails: PropTypes.func,
   loadSubmissionArtifacts: PropTypes.func,
   switchTab: PropTypes.func,
@@ -119,14 +163,22 @@ ChallengeDetails.propTypes = {
   isChallengeSubmissionsLoading: PropTypes.bool,
   challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
   isSubmissionLoading: PropTypes.bool,
-  submissionDetails: PropTypes.object,
+  submissionDetails: PropTypes.arrayOf(PropTypes.object),
   isArtifactsLoading: PropTypes.bool,
   submissionArtifacts: PropTypes.object,
   currentTab: PropTypes.string,
-  invalidChallenge: PropTypes.bool
+  invalidChallenge: PropTypes.bool,
+  resources: PropTypes.object,
+  loadChallengeResources: PropTypes.func,
+  loadResourceRoles: PropTypes.func,
+  loadChallengeSubmissions: PropTypes.func,
+  loadReviewTypes: PropTypes.func,
+  reviewTypes: PropTypes.arrayOf(PropTypes.object),
+  reviewSummations: PropTypes.arrayOf(PropTypes.object),
+  loadReviewSummation: PropTypes.func
 }
 
-const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submissionDetails }) => ({
+const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submissionDetails, resources }) => ({
   ...challengeDetails,
   challengeSubmissionsChallengeId: challengeSubmissions.challengeId,
   challengeSubmissions: challengeSubmissions.challengeSubmissions,
@@ -135,7 +187,10 @@ const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submiss
   isSubmissionLoading: submissionDetails.isLoading,
   submissionArtifacts: submissionDetails.submissionArtifacts,
   isArtifactsLoading: submissionDetails.isLoading,
-  currentTab: submissionDetails.currentTab
+  currentTab: submissionDetails.currentTab,
+  reviewTypes: challengeDetails.reviewTypes,
+  reviewSummations: challengeDetails.reviewSummations,
+  resources
 })
 
 const mapDispatchToProps = {
@@ -144,7 +199,11 @@ const mapDispatchToProps = {
   loadChallengeSubmissions,
   loadSubmissionDetails,
   loadSubmissionArtifacts,
-  switchTab
+  switchTab,
+  loadChallengeResources,
+  loadResourceRoles,
+  loadReviewTypes,
+  loadReviewSummation
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChallengeDetails)

@@ -1,7 +1,6 @@
 /**
  * Component to render a row for ChallengeList component
  */
-import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter, Link } from 'react-router-dom'
@@ -20,11 +19,11 @@ const STALLED_TIME_LEFT_MSG = 'Challenge is currently on hold'
 const FF_TIME_LEFT_MSG = 'Winner is working on fixes'
 
 const getEndDate = (c) => {
-  let phases = c.allPhases
-  if (c.subTrack === 'FIRST_2_FINISH' && c.status === 'COMPLETED') {
-    phases = c.allPhases.filter(p => p.phaseType === 'Iterative Review' && p.phaseStatus === 'Closed')
+  let { phases } = c
+  if (c.type === 'First2Finish' && c.status === 'Completed') {
+    phases = phases.filter(p => p.name === 'Iterative Review' && !p.isOpen)
   }
-  const endPhaseDate = getLastDate(phases.map(d => new Date(d.scheduledEndTime)))
+  const endPhaseDate = getLastDate(phases.map(d => new Date(d.scheduledEndDate)))
   return moment(endPhaseDate).format('MMM DD')
 }
 
@@ -35,11 +34,11 @@ const getEndDate = (c) => {
  */
 const getTimeLeft = (phase) => {
   if (!phase) return STALLED_TIME_LEFT_MSG
-  if (phase.phaseType === 'Final Fix') {
+  if (phase.name === 'Final Fix') {
     return FF_TIME_LEFT_MSG
   }
 
-  let time = moment(phase.scheduledEndTime).diff()
+  let time = moment(phase.scheduledEndDate).diff()
   const late = time < 0
   if (late) time = -time
   const duration = getFormattedDuration(time)
@@ -52,64 +51,39 @@ const getTimeLeft = (phase) => {
  * @returns {{phaseMessage: string, endTime: {late, text}}}
  */
 const getPhaseInfo = (c) => {
-  const { allPhases, currentPhases, subTrack, status } = c
-  const checkPhases = (currentPhases && currentPhases.length > 0 ? currentPhases : allPhases)
-  let statusPhase = checkPhases
-    .filter(p => p.phaseType !== 'Registration')
-    .sort((a, b) => moment(a.scheduledEndTime).diff(b.scheduledEndTime))[0]
+  const { phases, legacy, status } = c
+  const { subTrack } = legacy
+  let statusPhase = phases
+    .filter(p => p.name !== 'Registration')
+    .sort((a, b) => moment(a.scheduledEndDate).diff(b.scheduledEndDate))[0]
 
-  if (!statusPhase && subTrack === 'FIRST_2_FINISH' && checkPhases.length) {
+  if (!statusPhase && subTrack === 'FIRST_2_FINISH' && phases.length) {
     try {
-      statusPhase = Object.clone(checkPhases[0])
-      statusPhase.phaseType = 'Submission'
+      statusPhase = Object.clone(phases[0])
+      statusPhase.name = 'Submission'
     } catch (e) {}
   }
   let phaseMessage = STALLED_MSG
-  if (statusPhase) phaseMessage = statusPhase.phaseType
-  else if (status === 'DRAFT') phaseMessage = DRAFT_MSG
+  if (statusPhase) phaseMessage = statusPhase.name
+  else if (status === 'Draft') phaseMessage = DRAFT_MSG
 
   const endTime = getTimeLeft(statusPhase)
   return { phaseMessage, endTime }
 }
 
 const ChallengeCard = ({ challenge }) => {
-  let roles
-  if (challenge.userDetails && challenge.userDetails.roles.length > 0) {
-    // remove duplicate roles
-    const uniqRoles = _.uniq(challenge.userDetails.roles)
-    if (uniqRoles.length <= 3) {
-      roles = uniqRoles.map((r, i) => (
-        <span className={styles.block} key={`challenge-role-${r}-${i}`}>{r}</span>
-      ))
-    } else {
-      roles = uniqRoles.slice(0, 3).map((r, i) => {
-        if (i < 2) {
-          return (
-            <span className={styles.block} key={`challenge-role-${r}-${i}`}>{r}</span>
-          )
-        }
-
-        return (
-          <span className={styles.block} key={`challenge-role-${r}-${i}`}>2 more</span>
-        )
-      })
-    }
-  }
   const { phaseMessage, endTime } = getPhaseInfo(challenge)
   return (
     <Link to={`challenges/${challenge.id}`}>
       <div className={styles.item}>
         <div className={styles.col1}>
           <div>
-            <TrackIcon className={styles.icon} track={challenge.track} subTrack={challenge.subTrack} />
+            <TrackIcon className={styles.icon} track={challenge.track} type={challenge.type} />
           </div>
           <div className={styles.name}>
             <span className={styles.block}>{challenge.name}</span>
             <span className='block light-text'>Ends {getEndDate(challenge)}</span>
           </div>
-        </div>
-        <div className={styles.col2}>
-          {roles}
         </div>
         <div className={styles.col3}>
           <span className={styles.block}>{phaseMessage}</span>
@@ -118,11 +92,11 @@ const ChallengeCard = ({ challenge }) => {
         <div className={styles.col4}>
           <div className={styles.faIconContainer}>
             <FontAwesomeIcon icon={faUser} className={styles.faIcon} />
-            <span>{challenge.numRegistrants}</span>
+            <span>{challenge.numOfRegistrants}</span>
           </div>
           <div className={styles.faIconContainer}>
             <FontAwesomeIcon icon={faFile} className={styles.faIcon} />
-            <span>{challenge.numSubmissions}</span>
+            <span>{challenge.numOfSubmissions}</span>
           </div>
         </div>
       </div>

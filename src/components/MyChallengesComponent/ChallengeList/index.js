@@ -15,14 +15,16 @@ const ChallengeList = ({ challenges }) => {
     <div className={styles.list}>
       <div className={styles.header}>
         <div className={styles.col1}>Challenge</div>
-        <div className={styles.col2}>My roles</div>
         <div className={styles.col3}>Current phase</div>
         <div className={styles.col4}>&nbsp;</div>
       </div>
       <ul>
         {
           _.map(challenges, (c) => {
-            return <li key={`challenge-card-${c.id}`}><ChallengeCard challenge={c} /></li>
+            return <li key={`challenge-card-${c.id}`}>
+              <ChallengeCard
+                challenge={c}
+              /></li>
           })
         }
       </ul>

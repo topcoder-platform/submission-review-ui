@@ -7,17 +7,33 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import MMSubmissionList from './MMSubmissionList'
 import SubmissionList from './SubmissionList'
+import DesignSubmissionList from './DesignSubmissionList'
 import Loader from '../../Loader'
+import { getChallengePrizes } from '../../../util/challenge'
 import styles from './List.module.scss'
 
-const List = ({ challenge, isChallengeSubmissionsLoading, challengeSubmissions, isMarathonMatch, challengeId }) => {
+const List = ({
+  challenge,
+  isChallengeSubmissionsLoading,
+  challengeSubmissions,
+  isMarathonMatch,
+  challengeId,
+  isDesignChallenge,
+  isPureV5Review,
+  resources
+}) => {
   if (isChallengeSubmissionsLoading) {
     return <Loader />
   }
 
   const submissionsWithMemberHandleColors = challengeSubmissions.map(s => {
-    const registrant = _.find(challenge.registrants, { handle: s.memberHandle })
-    const memberHandleColor = _.get(registrant, 'colorStyle', '').replace(/color:\s*/, '')
+    const registrant = _.find(challenge.registrants, {
+      handle: s.memberHandle
+    })
+    const memberHandleColor = _.get(registrant, 'colorStyle', '').replace(
+      /color:\s*/,
+      ''
+    )
 
     return {
       ...s,
@@ -29,9 +45,27 @@ const List = ({ challenge, isChallengeSubmissionsLoading, challengeSubmissions, 
     <div>
       <h2 className={styles.heading}>Submissions</h2>
       {isMarathonMatch &&
-        <MMSubmissionList submissions={submissionsWithMemberHandleColors} challengeId={challengeId} />}
+        <MMSubmissionList
+          submissions={submissionsWithMemberHandleColors}
+          challengeId={challengeId}
+        />
+      }
       {!isMarathonMatch &&
-        <SubmissionList submissions={submissionsWithMemberHandleColors} challengeId={challengeId} />}
+        (isPureV5Review && isDesignChallenge ? (
+          <DesignSubmissionList
+            challengeId={challengeId}
+            placeCount={getChallengePrizes(challenge).length}
+            submissions={submissionsWithMemberHandleColors}
+          />
+        ) : (
+          <SubmissionList
+            submissions={submissionsWithMemberHandleColors}
+            challengeId={challengeId}
+            isDesignChallenge={isDesignChallenge}
+            challenge={challenge}
+            resources={resources}
+          />
+        ))}
     </div>
   )
 }
@@ -41,7 +75,10 @@ List.propTypes = {
   isChallengeSubmissionsLoading: PropTypes.bool,
   challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
   isMarathonMatch: PropTypes.bool,
-  challengeId: PropTypes.number
+  challengeId: PropTypes.string,
+  isDesignChallenge: PropTypes.bool,
+  isPureV5Review: PropTypes.bool.isRequired,
+  resources: PropTypes.object
 }
 
 export default List

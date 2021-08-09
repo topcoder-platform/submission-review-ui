@@ -1,12 +1,15 @@
 import _ from 'lodash'
-import { fetchChallengeTypes, fetchChallengeDetails, fetchMemberChallenge } from '../services/challenges'
+import { fetchChallengeTypes, fetchChallengeDetails, fetchMemberChallenge, fetchReviewSummations } from '../services/challenges'
 import {
   LOAD_CHALLENGE_DETAILS_FAILURE,
   LOAD_CHALLENGE_DETAILS_PENDING,
   LOAD_CHALLENGE_DETAILS_SUCCESS,
   LOAD_CHALLENGE_TYPES_FAILURE,
   LOAD_CHALLENGE_TYPES_PENDING,
-  LOAD_CHALLENGE_TYPES_SUCCESS
+  LOAD_CHALLENGE_TYPES_SUCCESS,
+  LOAD_REVIEW_SUMMATION_PENDING,
+  LOAD_REVIEW_SUMMATION_SUCCESS,
+  LOAD_REVIEW_SUMMATION_FAILURE
 } from '../config/constants'
 
 /**
@@ -24,12 +27,11 @@ export function loadChallengeDetails (challengeId) {
         challengeId
       })
 
-      const { handle } = getState().auth.user
+      const { userId } = getState().auth.user
 
       try {
-        const memberChallenge = await fetchMemberChallenge(handle, challengeId)
+        const memberChallenge = await fetchMemberChallenge(userId, challengeId)
         const roles = _.get(memberChallenge, 'userDetails.roles')
-        const track = _.get(memberChallenge, 'track')
         const challengeDetails = await fetchChallengeDetails(challengeId)
 
         // prevent possible race condition
@@ -38,7 +40,6 @@ export function loadChallengeDetails (challengeId) {
             type: LOAD_CHALLENGE_DETAILS_SUCCESS,
             challengeDetails: {
               ...challengeDetails,
-              track,
               roles
             }
           })
@@ -75,5 +76,20 @@ export function loadChallengeTypes () {
         })
       }
     }
+  }
+}
+
+export function loadReviewSummation (scoreCardId, submissionId) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: LOAD_REVIEW_SUMMATION_PENDING
+    })
+
+    fetchReviewSummations(scoreCardId, submissionId).then(reviewSummations => dispatch({
+      type: LOAD_REVIEW_SUMMATION_SUCCESS,
+      reviewSummations
+    })).catch(() => dispatch({
+      type: LOAD_REVIEW_SUMMATION_FAILURE
+    }))
   }
 }

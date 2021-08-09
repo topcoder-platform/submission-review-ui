@@ -8,13 +8,20 @@ import {
   LOAD_CHALLENGE_TYPES_FAILURE,
   LOAD_CHALLENGE_TYPES_PENDING,
   LOAD_CHALLENGE_TYPES_SUCCESS,
-  LOAD_CHALLENGES_PENDING
+  LOAD_CHALLENGES_PENDING,
+  LOAD_REVIEW_TYPES_PENDING,
+  LOAD_REVIEW_TYPES_SUCCESS,
+  LOAD_REVIEW_TYPES_FAILURE,
+  LOAD_REVIEW_SUMMATION_PENDING,
+  LOAD_REVIEW_SUMMATION_SUCCESS,
+  LOAD_REVIEW_SUMMATION_FAILURE
 } from '../config/constants'
 
 const initialState = {
   isLoading: true,
   challengeDetails: {},
   challengeTypes: [],
+  reviewTypes: [],
   loadingId: null
 }
 
@@ -33,6 +40,18 @@ export default function (state = initialState, action) {
     case LOAD_CHALLENGE_TYPES_PENDING:
       return { ...state, isLoading: true }
     case LOAD_CHALLENGE_TYPES_FAILURE:
+      return { ...state, isLoading: false }
+    case LOAD_REVIEW_TYPES_PENDING:
+      return { ...state, isLoading: true }
+    case LOAD_REVIEW_TYPES_SUCCESS:
+      return { ...state, reviewTypes: action.reviewTypes, isLoading: false }
+    case LOAD_REVIEW_TYPES_FAILURE:
+      return { ...state, isLoading: false }
+    case LOAD_REVIEW_SUMMATION_PENDING:
+      return { ...state, isLoading: true }
+    case LOAD_REVIEW_SUMMATION_SUCCESS:
+      return { ...state, reviewSummations: action.reviewSummations, isLoading: false }
+    case LOAD_REVIEW_SUMMATION_FAILURE:
       return { ...state, isLoading: false }
     default:
       return state

@@ -29,6 +29,7 @@ MyChallengesComponent.propTypes = {
 
 MyChallengesComponent.defaultProps = {
   challenges: [],
+  resources: {},
   isLoading: true
 }
 

@@ -1,0 +1,32 @@
+@import "../../../styles/includes";
+
+.score {
+  background-color: #FAFAFA;
+  border: 1px solid #E3E3E3;
+  border-radius: 100%;
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  cursor: pointer;
+
+  &:last-of-type {
+    margin: 0;
+  }
+}
+
+.selected {
+  background-color: $button-blue;
+}
+
+.text {
+  display: flex;
+  justify-content: center;
+  @include roboto();
+  font-size: 13px;
+  color: $light-text;
+  text-align: center;
+}
+
+.textSelected {
+  color: $white;
+}

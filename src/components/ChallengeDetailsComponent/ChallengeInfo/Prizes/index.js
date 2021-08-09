@@ -17,7 +17,7 @@ const Prizes = ({ prizes }) => {
   const prizeComponents = prizes.map((p, index) => (
     <div className={styles.prize} key={`prize-${p}-${index}`}>
       <span className={styles.rank}>{getOrdinal(index + 1)}</span>
-      <span className={styles.amount}>${numberWithCommas(p)}</span>
+      <span className={styles.amount}>${numberWithCommas(p.value)}</span>
     </div>
   ))
 
@@ -29,7 +29,7 @@ const Prizes = ({ prizes }) => {
 }
 
 Prizes.propTypes = {
-  prizes: PropTypes.arrayOf(PropTypes.number)
+  prizes: PropTypes.arrayOf(PropTypes.object)
 }
 
 Prizes.defaultProps = {

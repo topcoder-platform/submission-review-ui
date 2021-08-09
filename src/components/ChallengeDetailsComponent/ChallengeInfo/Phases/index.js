@@ -3,26 +3,23 @@ import PropTypes from 'prop-types'
 import styles from './Phases.module.scss'
 import moment from 'moment'
 import cn from 'classnames'
-import { PHASE_STATUS } from '../../../../config/constants'
 import { getRoundFormattedDuration } from '../../../../util/date'
 
 const Phases = ({ phases }) => {
-  const isStatusGreen = (status) => [PHASE_STATUS.OPEN, PHASE_STATUS.CLOSED].includes(status)
-  const circle = (status) => <div className={cn(styles.circle, { [styles.green]: isStatusGreen(status) })} />
-  const isOpen = (status) => status === PHASE_STATUS.OPEN
+  const circle = (isOpen) => <div className={cn(styles.circle, { [styles.green]: isOpen })} />
 
   const phaseComponents = phases
     .map(
       p => {
-        const startTime = moment(p.actualStartTime || p.scheduledStartTime)
+        const startTime = moment(p.actualStartDate || p.scheduledStartDate)
         const day = startTime.format('MMM DD')
         const time = startTime.format('HH:mma')
         const duration = getRoundFormattedDuration(p.duration)
         return (
-          <div className={cn(styles.phase, { [styles.open]: isOpen(p.status) })} key={p.phaseId}>
-            <div className={cn(styles.type, { [styles.open]: isOpen(p.status) })}>
-              {circle(p.status)}
-              <span>{p.type}</span>
+          <div className={cn(styles.phase, { [styles.open]: p.isOpen })} key={p.phaseId}>
+            <div className={cn(styles.type, { [styles.open]: p.isOpen })}>
+              {circle(p.isOpen)}
+              <span>{p.name}</span>
             </div>
             <div className={styles.date}><span className='bold' >{day}</span>, {time}</div>
             <div className={styles.duration} >{duration}</div>

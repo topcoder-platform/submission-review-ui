@@ -1,0 +1,167 @@
+table.container {
+  display: table;
+  table-layout: auto;
+  border-collapse: collapse;
+  width: 100%;
+
+  tr {
+    display: table-row;
+
+    th,
+    td {
+      display: table-cell;
+      vertical-align: baseline;
+      padding: 11px 20px 11px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    th {
+      color: #151516;
+    }
+
+    td {
+      border-top: 1px solid #a5b0c3;
+      color: #6b6b6b;
+    }
+  }
+}
+
+.submissionId {
+  width: 30%;
+}
+
+.reviewDate {
+  width: 50%;
+}
+
+td.reviewDate {
+  color: #6b6b6b;
+}
+
+.reviewDatePlaceholder {
+  display: inline-block;
+  width: 135px;
+}
+
+.score {
+  width: 60px;
+}
+
+.menu {
+  width: 0%;
+}
+
+.dragHandle {
+  display: inline-block;
+  vertical-align: -3px;
+  margin-right: 17px;
+  width: 11px;
+  height: auto;
+}
+
+.submissionLinkPlaceholder {
+  display: inline-flex;
+  align-items: baseline;
+  width: 63px;
+}
+
+.submissionLink {
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #006dea;
+}
+
+.handlePlaceholder {
+  display: inline-flex;
+  align-items: baseline;
+  width: 243px;
+}
+
+.handle {
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  > a {
+    display: inline;
+  }
+}
+
+.submissionBadge {
+  display: inline-block;
+  align-self: center;
+  vertical-align: -4px;
+  margin-left: 10px;
+  width: auto;
+  height: 19px;
+}
+
+.menuContainer {
+  position: relative;
+  display: inline-block;
+  vertical-align: 2px;
+}
+
+.menuBtn {
+  display: block;
+  width: 16px;
+  height: auto;
+  cursor: pointer;
+}
+
+.menuPopover {
+  position: absolute;
+  top: -4px;
+  right: 100%;
+  margin-right: 8px;
+  border-radius: 3px;
+  padding: 4px 0;
+  background: #fff;
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15);
+}
+
+.menuLabel {
+  padding: 0 12px;
+  min-width: 136px;
+  line-height: 32px;
+  font-size: 12px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgba(21, 21, 22, 0.5);
+  user-select: none;
+}
+
+.menuItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 12px;
+  min-width: 136px;
+  line-height: 32px;
+  white-space: nowrap;
+  color: #151516;
+  cursor: pointer;
+
+  &:hover {
+    background: #0881ff;
+    color: #fff;
+  }
+}
+
+.menuItemAttention {
+  color: #d0021b;
+}
+
+.menuItemIcon {
+  align-self: center;
+  border-radius: 7px;
+  width: auto;
+  height: 14px;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none;
+}

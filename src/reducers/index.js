@@ -7,11 +7,15 @@ import challengeDetails from './challengeDetails'
 import challenges from './challenges'
 import submissionDetails from './submissionDetails'
 import challengeSubmissions from './challengeSubmissions'
+import resources from './resources'
+import scorecards from './scorecards'
 
 export default combineReducers({
   auth,
   challenges,
   challengeDetails,
   submissionDetails,
-  challengeSubmissions
+  challengeSubmissions,
+  resources,
+  scorecards
 })

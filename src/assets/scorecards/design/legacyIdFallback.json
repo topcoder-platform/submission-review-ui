@@ -1,0 +1,20 @@
+{
+  "title": "ScoreCard with Legacy Id",
+  "description": "This score card has legacy id so this on is displayed as fallback",
+  "data": [
+    {
+      "type": "section",
+      "title": "This score card has legacy Id",
+      "weight": 100,
+      "children": [
+        {
+          "type": "question",
+          "title": "Is the solution provided by the final fix complete with no issues? If any issues exist in the solution answer NO and list each issue individually below.",
+          "description": "For issues that are within the scope of the contests requirements (i.e. defects/bugs) select the Required modifier, for issues that are outside the scope of the contests requirements select the Recommended modifier. Any feedback identified as a comment will be taken as general purpose feedback and not apply to this contest.",
+          "scoreType": "boolean",
+          "weight": 100
+        }
+      ]
+    }
+  ]
+}

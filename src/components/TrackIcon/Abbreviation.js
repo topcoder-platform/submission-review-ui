@@ -2,6 +2,9 @@
  * Provides abbreviation for all track and subTrack pairs used in TopCoder
  */
 const Abbreviation = {
+  Task: 'TSK',
+  Challenge: 'CH',
+  First2Finish: 'F2F',
   DEVELOP: {
     REVIEW_OPPORTUNITY: 'Rv',
     DESIGN: 'Ds',

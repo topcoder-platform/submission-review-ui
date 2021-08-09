@@ -1,4 +1,4 @@
-@import "../../../styles/includes";
+@import '../../../styles/includes';
 .container {
   width: 100%;
   background-color: $white;
@@ -46,7 +46,14 @@
   line-height: 21px;
   font-size: 16px;
   border-radius: 6px;
-  padding:  6px 6px;
+  padding: 6px 6px;
   width: 100%;
   margin: 0 31px 0 31px;
+  cursor: pointer;
+
+  &.btnDisabled {
+    background-color: #ddd;
+    color: #aaa;
+    cursor: not-allowed;
+  }
 }

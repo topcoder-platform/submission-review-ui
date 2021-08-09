@@ -1,5 +1,9 @@
 import _ from 'lodash'
-import { fetchSubmissionReviews, fetchSubmissionArtifacts } from '../services/submissionReview'
+import {
+  fetchSubmissionReviews,
+  fetchSubmissionArtifacts,
+  fetchReviewTypes,
+  sendSubmissionReview } from '../services/submissionReview'
 import {
   LOAD_SUBMISSION_DETAILS_FAILURE,
   LOAD_SUBMISSION_DETAILS_PENDING,
@@ -7,6 +11,12 @@ import {
   LOAD_SUBMISSION_ARTIFACTS_FAILURE,
   LOAD_SUBMISSION_ARTIFACTS_PENDING,
   LOAD_SUBMISSION_ARTIFACTS_SUCCESS,
+  LOAD_REVIEW_TYPES_PENDING,
+  LOAD_REVIEW_TYPES_SUCCESS,
+  LOAD_REVIEW_TYPES_FAILURE,
+  POST_SUBMISSION_REVIEW_PENDING,
+  POST_SUBMISSION_REVIEW_SUCCESS,
+  POST_SUBMISSION_REVIEW_FAILURE,
   SWITCH_TAB,
   SUBMISSION_DETAILS_TABS
 } from '../config/constants'
@@ -46,6 +56,46 @@ export function loadSubmissionDetails (submissionId) {
   }
 }
 
+export function postSubmissionReview (
+  typeId,
+  reviewerId,
+  scoreCardId,
+  submissionId,
+  score,
+  reviewDetails
+) {
+  return async (dispatch, getState) => {
+    dispatch({
+      type: POST_SUBMISSION_REVIEW_PENDING
+    })
+
+    try {
+      const data = await sendSubmissionReview({
+        typeId: 'd6d31f34-8ee5-4589-ae65-45652fcc01a6',
+        reviewerId: _.toString(reviewerId),
+        scoreCardId,
+        submissionId,
+        score,
+        status: 'completed',
+        metadata: {
+          reviewDetails
+        }
+      })
+
+      dispatch({
+        type: POST_SUBMISSION_REVIEW_SUCCESS
+      })
+
+      return data
+    } catch (error) {
+      console.error(error)
+      dispatch({
+        type: POST_SUBMISSION_REVIEW_FAILURE
+      })
+    }
+  }
+}
+
 export function loadSubmissionArtifacts (submissionId) {
   return async (dispatch, getState) => {
     const getLoadingId = () => _.get(getState(), 'submissionDetails.loadingSubmissionIdOfArtifacts')
@@ -74,6 +124,19 @@ export function loadSubmissionArtifacts (submissionId) {
         })
       }
     }
+  }
+}
+
+export function loadReviewTypes () {
+  return async (dispatch, getState) => {
+    dispatch({ type: LOAD_REVIEW_TYPES_PENDING })
+
+    fetchReviewTypes().then(reviewTypes => dispatch({
+      type: LOAD_REVIEW_TYPES_SUCCESS,
+      reviewTypes
+    })).catch(() => dispatch({
+      type: LOAD_REVIEW_TYPES_FAILURE
+    }))
   }
 }
 

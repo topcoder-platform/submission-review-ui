@@ -9,12 +9,12 @@ import cn from 'classnames'
 import styles from './TrackIcon.module.scss'
 import { MARATHON_MATCH_SUBTRACKS } from '../../config/constants'
 
-const TrackIcon = ({ track, subTrack, className }) => {
-  const styleTrack = MARATHON_MATCH_SUBTRACKS.includes(subTrack) ? 'data_science' : track.toLowerCase()
+const TrackIcon = ({ track, type, className }) => {
+  const styleTrack = MARATHON_MATCH_SUBTRACKS.includes(type) ? 'data_science' : track.toLowerCase()
   return (
     <span className={cn(styles.icon, className)}>
       <div className={`${styleTrack}`}>
-        {Abbreviation[track][subTrack] || 'NA'}
+        {Abbreviation[type] || 'NA'}
       </div>
     </span>
   )
@@ -22,7 +22,7 @@ const TrackIcon = ({ track, subTrack, className }) => {
 
 TrackIcon.propTypes = {
   track: PropTypes.string,
-  subTrack: PropTypes.string,
+  type: PropTypes.string,
   className: PropTypes.string
 }
 
