@@ -62,7 +62,7 @@ export function postSubmissionReview (
   scoreCardId,
   submissionId,
   score,
-  metadata
+  reviewDetails
 ) {
   return async (dispatch, getState) => {
     dispatch({
@@ -72,11 +72,14 @@ export function postSubmissionReview (
     try {
       const data = await sendSubmissionReview({
         typeId: 'd6d31f34-8ee5-4589-ae65-45652fcc01a6',
-        reviewerId,
+        reviewerId: _.toString(reviewerId),
         scoreCardId,
         submissionId,
         score,
-        metadata: { metadata }
+        status: 'completed',
+        metadata: {
+          reviewDetails
+        }
       })
 
       dispatch({

@@ -24,6 +24,10 @@ class ScoreCardComponent extends Component {
     this.onFormChange = this.onFormChange.bind(this)
   }
 
+  componentDidMount () {
+    this.setState({ formData: this.props.savedResponses })
+  }
+
   onFormChange (form) {
     this.setState({ formData: form })
   }
@@ -108,14 +112,16 @@ ScoreCardComponent.propTypes = {
   saveAndSubmit: PropTypes.func,
   editMode: PropTypes.bool,
   scorecardTitle: PropTypes.string,
-  scorecardDescription: PropTypes.string
+  scorecardDescription: PropTypes.string,
+  savedResponses: PropTypes.arrayOf(PropTypes.object)
 }
 
 ScoreCardComponent.defaultProps = {
   challenge: null,
   reviewSummations: [],
   challengeTypes: [],
-  resources: {}
+  resources: {},
+  savedResponses: []
 }
 
 export default ScoreCardComponent

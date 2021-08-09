@@ -88,14 +88,14 @@
       "children": [
         {
           "type": "question",
-          "title": "There are no elements that clearly violate another person's copyright or license (includes clipart, stock art, etc.).",
+          "title": "There are no elements that clearly violate another persons copyright or license (includes clipart, stock art, etc.).",
           "description": "No - Provide exact details of the offending elements and the proof of the violation per screening policies.",
           "scoreType": "boolean",
           "weight": 50
         },
         {
           "type": "question",
-          "title": "There are no suspicious elements that appear to violate another person's copyright or license.",
+          "title": "There are no suspicious elements that appear to violate another persons copyright or license.",
           "description": "No - Before choosing this option, you AND another Studio reviewer or Admin must agree and you should be prepared to detail the determination here.",
           "scoreType": "boolean",
           "weight": 50
@@ -109,14 +109,14 @@
       "children": [
         {
           "type": "question",
-          "title": "There are no elements that clearly violate another person's copyright or license (includes clipart, stock art, etc.).",
+          "title": "There are no elements that clearly violate another persons copyright or license (includes clipart, stock art, etc.).",
           "description": "No - Provide exact details of the offending elements and the proof of the violation per screening policies.",
           "scoreType": "boolean",
           "weight": 50
         },
         {
           "type": "question",
-          "title": "There are no suspicious elements that appear to violate another person's copyright or license.",
+          "title": "There are no suspicious elements that appear to violate another persons copyright or license.",
           "description": "No - Before choosing this option, you AND another Studio reviewer or Admin must agree and you should be prepared to detail the determination here.",
           "scoreType": "boolean",
           "weight": 50

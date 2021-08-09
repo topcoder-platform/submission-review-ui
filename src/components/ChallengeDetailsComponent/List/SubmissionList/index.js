@@ -93,9 +93,11 @@ class SubmissionList extends Component {
           </Table.Col>
           <Table.Col width={options[3].width}>
             {
-              !hasReview
-                ? canSubmitReview && <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${getScoreCardId(challenge)}`} className={styles.btn}>Submit review</a>
-                : <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${scoreCardId}`} className={styles.viewScoreBtn}>View score</a>
+              getScoreCardId(challenge) !== -1 && (
+                !hasReview
+                  ? canSubmitReview && <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${getScoreCardId(challenge)}`} className={styles.btn}>Submit review</a>
+                  : <a href={`/challenges/${challengeId}/submissions/${id}/scorecards/${scoreCardId}`} className={styles.viewScoreBtn}>View score</a>
+              )
             }
           </Table.Col>
         </Table.Row>

@@ -15,6 +15,14 @@ import { loadChallengeResources, loadResourceRoles } from '../../actions/resourc
 import { loadScorecards } from '../../actions/scorecards'
 import { loadSubmissionDetails, postSubmissionReview } from '../../actions/submissionDetails'
 import { isReviewer } from '../../util/challenge'
+
+const parseReviewDetails = (string) => {
+  try {
+    return JSON.parse(string)
+  } catch (e) {
+    return _.isArray(string) ? string : []
+  }
+}
 class ScoreCard extends Component {
   constructor (props) {
     super(props)
@@ -55,7 +63,13 @@ class ScoreCard extends Component {
       challengeDetails.legacy.reviewScorecardId || 1, // TODO: Fix this
       submissionId,
       score,
-      metadata
+      _.map(metadata, m => _.map(m, (entry) => {
+        const formattedEntry = {}
+        _.each(_.keys(entry), (key) => {
+          formattedEntry[key] = _.toString(entry[key])
+        })
+        return formattedEntry
+      }))
     )
   }
 
@@ -91,6 +105,7 @@ class ScoreCard extends Component {
     return (
       isScorecardLoading || isLoading || shouldWait ? <Loader />
         : <ScoreCardComponent
+          savedResponses={parseReviewDetails(_.get(submissionDetails, '[0].metadata.reviewDetails'))}
           challenge={challengeDetails}
           challengeTypes={challengeTypes}
           resources={resources}

@@ -56,7 +56,7 @@ export const createReviewRecords = () =>
     }
     dispatch({ type: CREATE_REVIEW_RECORDS_PENDING })
     const promises = []
-    const reviewerId = state.auth.user.userId // is this the correct reviewerId?
+    const reviewerId = _.toString(state.auth.user.userId) // is this the correct reviewerId?
     const challengeTrack = state.challengeDetails.challengeDetails.track
     const submissions = state.challengeSubmissions.challengeSubmissions
     for (let i = 0, len = submissions.length; i < len; i++) {
