@@ -109,7 +109,7 @@ const SubmissionDetails = ({
 
   const reviewRows = review && [...review, finalReview].map(
     (r, i) => {
-      const { reviewType, reviewer, color, score, isPassing } = r
+      const { reviewType, reviewer, color, score, isPassing, scoreCardId } = r
       const isFailed = isPassing === false
       const isPassed = isPassing === true
       const statusIsDefined = isPassed || isFailed
@@ -123,7 +123,12 @@ const SubmissionDetails = ({
             <Handle handle={reviewer} color={color} />
           </Table.Col>
           <Table.Col width={reviewOptions[2].width}>
-            <span className={cn(styles.score, { [styles.fail]: isFailed })}>{formattedScore(score)}</span>
+            {
+              scoreCardId &&
+              <Link to={`/challenges/${challengeId}/submissions/${submissionId}/scorecards/${scoreCardId}`}>
+                {formattedScore(score)}
+              </Link>
+            }
           </Table.Col>
           <Table.Col width={reviewOptions[3].width}>
             <span className={cn(styles.status, {

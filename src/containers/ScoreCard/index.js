@@ -16,7 +16,7 @@ import { loadScorecards } from '../../actions/scorecards'
 import { loadSubmissionDetails, postSubmissionReview } from '../../actions/submissionDetails'
 import { isReviewer } from '../../util/challenge'
 
-const parseReviewDetails = (string) => {
+const parsescorecardDetails = (string) => {
   try {
     return JSON.parse(string)
   } catch (e) {
@@ -105,7 +105,7 @@ class ScoreCard extends Component {
     return (
       isScorecardLoading || isLoading || shouldWait ? <Loader />
         : <ScoreCardComponent
-          savedResponses={parseReviewDetails(_.get(submissionDetails, '[0].metadata.reviewDetails'))}
+          savedResponses={parsescorecardDetails(_.get(submissionDetails, '[0].metadata.scorecardDetails'))}
           challenge={challengeDetails}
           challengeTypes={challengeTypes}
           resources={resources}

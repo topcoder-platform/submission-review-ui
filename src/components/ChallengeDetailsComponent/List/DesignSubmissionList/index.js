@@ -12,7 +12,7 @@ import menuDots from '../../../../assets/icons/menu-dots.svg'
 import badgeFirstPlace from '../../../../assets/images/badge-first-place.png'
 import badgeSecondPlace from '../../../../assets/images/badge-second-place.png'
 import badgeThirdPlace from '../../../../assets/images/badge-third-place.png'
-import { SET_CHALLENGE_SUBMISSION_PLACE } from '../../../../config/constants'
+import { SET_CHALLENGE_SUBMISSION_PLACE, SUBMISSION_TYPES } from '../../../../config/constants'
 import { computeDesignSubmissionScore } from '../../../../util/submission'
 import styles from './DesignSubmissionList.module.scss'
 
@@ -26,6 +26,11 @@ class DesignSubmissionList extends React.Component {
   constructor (props) {
     super(props)
     this.onDragEnd = this.onDragEnd.bind(this)
+
+    // Only consider Contest Submissions
+    this.state = {
+      contestSubmissions: this.props.submissions.filter(s => s.type === SUBMISSION_TYPES.CONTEST_SUBMISSION)
+    }
   }
 
   onDragEnd (result) {
@@ -44,10 +49,10 @@ class DesignSubmissionList extends React.Component {
       canSortItems,
       challengeId,
       dispatch,
-      placeCount,
-      submissions
+      placeCount
     } = this.props
-    if (!submissions.length) {
+    const { contestSubmissions } = this.state
+    if (!contestSubmissions.length) {
       return <NoSubmissions />
     }
     return (
@@ -64,7 +69,7 @@ class DesignSubmissionList extends React.Component {
                 </tr>
               </thead>
               <tbody>
-                {submissions.map((item, index) => (
+                {contestSubmissions.map((item, index) => (
                   <SubmissionItem
                     key={item.id}
                     canSortItems={canSortItems}

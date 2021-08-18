@@ -138,6 +138,9 @@ export const SUBMISSION_TABS = {
   CHECKPOINT_SUBMISSION: 'Checkpoint Submission'
 }
 
+// Lexical meaning different, though they contain the same attributes
+export const SUBMISSION_TYPES = SUBMISSION_TABS
+
 export const PROJECT_ROLES = {
   Manager: 'Manager',
   Copilot: 'Copilot',

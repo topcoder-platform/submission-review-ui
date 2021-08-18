@@ -16,7 +16,9 @@ import Textarea from '../../Textarea'
 class ScoreCardDetails extends Component {
   constructor (props) {
     super(props)
-    const { scorecards } = this.props
+    // scorecards - the scorecard template
+    // formDetails - the "filled" scorecard, created out of the scorecard template
+    const { scorecards, formDetails } = this.props
 
     const headerOptions = scorecards.map(scorecard => {
       return [
@@ -36,21 +38,10 @@ class ScoreCardDetails extends Component {
     })
 
     this.state = {
-      formData: this.props.scorecards.map((scorecard) => {
-        const options = scorecard.children.map((item) => {
-          const { title, type, description } = item
-          return {
-            title,
-            type,
-            value: description.includes('YES'),
-            comment: ''
-          }
-        })
-        return options
-      }),
+      formData: formDetails,
       headerToggle: _.fill(new Array(headerOptions.length), false),
       headerOptions,
-      bodyToggle: this.props.scorecards.map(scorecard => scorecard.children.map((item) => false))
+      bodyToggle: scorecards.map(scorecard => scorecard.children.map((item) => false))
     }
 
     this.onToggleSwitch = this.onToggleSwitch.bind(this)
@@ -143,19 +134,31 @@ class ScoreCardDetails extends Component {
     this.setState({ bodyToggle: newBodyToggle })
   }
 
-  renderResponse (item, index, scorecardIndex, currentValue) {
-    return item.scoreType === 'boolean'
-      ? <SwitchButton
-        id={uuidv4()}
-        text={currentValue.value ? 'Yes' : 'No'}
-        checked={currentValue.value}
-        onToggle={() => this.onToggleSwitch(index, scorecardIndex)}
-      />
-      : <ScoringSelector
-        maxRating={item.maxRating}
-        currentValue={currentValue.value}
-        onChange={(value) => this.onScoreChange(index, scorecardIndex, value)}
-      />
+  renderResponse (item, index, scorecardIndex, currentValue, editMode) {
+    if (editMode) {
+      return item.scoreType === 'boolean'
+        ? <SwitchButton
+          id={uuidv4()}
+          text={currentValue.value ? 'Yes' : 'No'}
+          checked={currentValue.value}
+          onToggle={() => this.onToggleSwitch(index, scorecardIndex)}
+        />
+        : <ScoringSelector
+          maxRating={item.maxRating}
+          currentValue={currentValue.value}
+          onChange={(value) => this.onScoreChange(index, scorecardIndex, value)}
+        />
+    }
+
+    return item.scoreType === 'boolean' ? (
+      <p className={styles.selectedResponse}>
+        {currentValue.value ? 'Yes' : 'No'}
+      </p>
+    ) : (
+      <p className={styles.selectedResponse}>
+        {currentValue.value}
+      </p>
+    )
   }
 
   render () {
@@ -184,9 +187,7 @@ class ScoreCardDetails extends Component {
               </ExpandableTable.Col>
               <ExpandableTable.Col width={headerOptions[index][2].width} viewMode={editMode ? null : 'true'}>
                 {
-                  editMode
-                    ? this.renderResponse(item, index, scorecardIndex, currentValue)
-                    : formData[index][scorecardIndex].weight
+                  this.renderResponse(item, index, scorecardIndex, currentValue, editMode)
                 }
               </ExpandableTable.Col>
               {isDetailOpened && (
@@ -225,11 +226,13 @@ class ScoreCardDetails extends Component {
 }
 
 ScoreCardDetails.defaultProps = {
-  scorecards: {}
+  scorecards: {},
+  formDetails: []
 }
 
 ScoreCardDetails.propTypes = {
   scorecards: PropTypes.arrayOf(PropTypes.object),
+  formDetails: PropTypes.arrayOf(PropTypes.object),
   onFormChange: PropTypes.func,
   editMode: PropTypes.bool
 }

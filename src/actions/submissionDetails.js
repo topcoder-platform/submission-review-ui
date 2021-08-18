@@ -62,7 +62,7 @@ export function postSubmissionReview (
   scoreCardId,
   submissionId,
   score,
-  reviewDetails
+  scorecardDetails
 ) {
   return async (dispatch, getState) => {
     dispatch({
@@ -78,7 +78,7 @@ export function postSubmissionReview (
         score,
         status: 'completed',
         metadata: {
-          reviewDetails
+          scorecardDetails: JSON.stringify(scorecardDetails)
         }
       })
 
