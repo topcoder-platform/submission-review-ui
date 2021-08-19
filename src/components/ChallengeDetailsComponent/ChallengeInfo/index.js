@@ -24,6 +24,7 @@ const ChallengeInfo = ({
 
   const challengeURL = getTCChallengeURL(id)
   const prizes = getChallengePrizes(challenge)
+  const isReviewPhaseOpen = challenge.currentPhase.name === 'Review'
 
   return (
     <div className={styles.container}>
@@ -40,7 +41,7 @@ const ChallengeInfo = ({
           <span
             className={cn(
               styles.challengeButton,
-              { [styles.btnDisabled]: isSubmittingReviews || !numOfSubmissions }
+              { [styles.btnDisabled]: isSubmittingReviews || !isReviewPhaseOpen }
             )}
             onClick={isSubmittingReviews ? null : createReviewRecords}
           >

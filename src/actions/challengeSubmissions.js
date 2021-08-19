@@ -11,6 +11,7 @@ import {
   LOAD_CHALLENGE_SUBMISSIONS_FAILURE,
   LOAD_CHALLENGE_SUBMISSIONS_PENDING,
   LOAD_CHALLENGE_SUBMISSIONS_SUCCESS,
+  REVIEW_TYPES,
   REVIEW_TYPE_ID
 } from '../config/constants'
 import { computeDesignSubmissionScore } from '../util/submission'
@@ -89,7 +90,7 @@ export const createReviewRecords = () =>
         reviewerId,
         score,
         // Where to get the scoreCardId if there're no previous reviews?
-        scoreCardId: (hasReview && review[0].scoreCardId) || 0,
+        scoreCardId: REVIEW_TYPES.Review,
         submissionId: id,
         typeId: REVIEW_TYPE_ID.REVIEW
       }).then((result) => {
