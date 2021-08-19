@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
@@ -24,7 +25,7 @@ const ChallengeInfo = ({
 
   const challengeURL = getTCChallengeURL(id)
   const prizes = getChallengePrizes(challenge)
-  const isReviewPhaseOpen = challenge.currentPhase.name === 'Review'
+  const isReviewPhaseOpen = _.get(challenge, 'currentPhase.name') === 'Review'
 
   return (
     <div className={styles.container}>
