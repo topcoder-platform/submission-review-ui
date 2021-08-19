@@ -133,6 +133,21 @@ class SubmissionList extends Component {
               Checkpoint Submission
             </div>
           }
+          {
+            isDesignChallenge &&
+            <div
+              className={
+                currentTab === SUBMISSION_TABS.FINAL_FIX_SUBMISSION
+                  ? cn(styles.tab, styles.active)
+                  : styles.tab
+              }
+              onClick={() =>
+                this.setState({ currentTab: SUBMISSION_TABS.FINAL_FIX_SUBMISSION })
+              }
+            >
+              Final Fix
+            </div>
+          }
         </div>
         <Table rows={rows} options={options} className={styles.list} />
       </>

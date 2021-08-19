@@ -135,7 +135,8 @@ export const SYSTEM_USERS = ['TC System', 'Applications']
 
 export const SUBMISSION_TABS = {
   CONTEST_SUBMISSION: 'Contest Submission',
-  CHECKPOINT_SUBMISSION: 'Checkpoint Submission'
+  CHECKPOINT_SUBMISSION: 'Checkpoint Submission',
+  FINAL_FIX_SUBMISSION: 'Final Fix Submission'
 }
 
 // Lexical meaning different, though they contain the same attributes
