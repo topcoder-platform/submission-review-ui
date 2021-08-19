@@ -52,6 +52,5 @@ export function getReviewForCurrentPhase (submission, challenge) {
       }
     }
   })
-  console.log(reviews)
   return reviews
 }

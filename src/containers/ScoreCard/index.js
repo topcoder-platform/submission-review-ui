@@ -54,13 +54,14 @@ class ScoreCard extends Component {
       postSubmissionReview,
       challengeDetails,
       auth,
-      submissionId
+      submissionId,
+      scoreCardId
     } = this.props
 
     postSubmissionReview(
       challengeDetails.typeId,
       auth.user.userId,
-      challengeDetails.legacy.reviewScorecardId || 123456789, // TODO: Fix this
+      challengeDetails.legacy.reviewScorecardId || scoreCardId || 123456789, // TODO: Fix this
       submissionId,
       score,
       _.map(metadata, m => _.map(m, (entry) => {
@@ -100,6 +101,7 @@ class ScoreCard extends Component {
       return <Redirect to={`/challenges/${challengeId}`} />
     }
 
+    console.log(submissionDetails)
     const shouldOpenEditMode = isReviewer(challengeId, resources) && submissionDetails.length === 0
 
     return (
