@@ -101,13 +101,13 @@ class ScoreCard extends Component {
       return <Redirect to={`/challenges/${challengeId}`} />
     }
 
-    console.log(submissionDetails)
-    const shouldOpenEditMode = isReviewer(challengeId, resources) && submissionDetails.length === 0
+    const existingReview = _.find(submissionDetails, r => r.scoreCardId === scoreCardId)
+    const shouldOpenEditMode = isReviewer(challengeId, resources) && !existingReview
 
     return (
       isScorecardLoading || isLoading || shouldWait ? <Loader />
         : <ScoreCardComponent
-          savedResponses={parsescorecardDetails(_.get(submissionDetails, '[0].metadata.scorecardDetails'))}
+          savedResponses={parsescorecardDetails(_.get(existingReview, 'metadata.scorecardDetails'))}
           challenge={challengeDetails}
           challengeTypes={challengeTypes}
           resources={resources}
