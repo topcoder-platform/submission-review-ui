@@ -13,12 +13,6 @@ const Textarea = ({ value, onChange }) => {
       className={styles.textarea}
       onChange={onTextChange}
       value={value}
-      autoFocus
-      onFocus={(e) => {
-        const val = e.target.value
-        e.target.value = ''
-        e.target.value = val
-      }}
     />
   )
 }
