@@ -11,8 +11,8 @@ import Table from '../../../Table'
 import styles from './SubmissionList.module.scss'
 import Handle from '../../../Handle'
 import NoSubmissions from '../NoSubmissions'
-import { SUBMISSION_TABS } from '../../../../config/constants'
-import { isReviewer, getScoreCardId } from '../../../../util/challenge'
+import { SUBMISSION_TABS, PHASE_IDS } from '../../../../config/constants'
+import { isReviewer, getScoreCardId, isSubmitter } from '../../../../util/challenge'
 import { getReviewForCurrentPhase } from '../../../../util/submission'
 
 // Table options for non MM matches
@@ -35,6 +35,17 @@ const options = [
   }
 ]
 
+/**
+ * Returns true if the provided phase is active for the challenge
+ * @param {Object} challenge The challenge details
+ * @param {String} phaseId The phase id to check if its active or not
+ */
+function isPhaseActiveOnChallenge (challenge, phaseId) {
+  const currentPhases = _.filter(challenge.phases, p => p.isOpen)
+
+  return currentPhases.some(p => p.phaseId === phaseId)
+}
+
 class SubmissionList extends Component {
   constructor (props) {
     super(props)
@@ -45,7 +56,15 @@ class SubmissionList extends Component {
   }
 
   render () {
-    const { submissions, challengeId, isDesignChallenge, resources, challenge } = this.props
+    let submitFinalFixesButton
+    const {
+      submissions,
+      challengeId,
+      isDesignChallenge,
+      resources,
+      challenge,
+      memberId
+    } = this.props
     const { currentTab } = this.state
 
     if (submissions.length === 0) {
@@ -64,7 +83,7 @@ class SubmissionList extends Component {
         : 'N/A'
       const isFailed = hasReview ? currentPhaseReviews[0].isPassing : false
       const scoreCardId = hasReview ? currentPhaseReviews[0].scoreCardId : getScoreCardId(challenge)
-      const canSubmitReview = !hasReview && ((isReviewer(challengeId, resources) && scoreCardId !== -1) || true) // TODO: FIX THIS
+      const canSubmitReview = !hasReview && ((isReviewer(challengeId, resources, memberId) && scoreCardId !== -1) || true) // TODO: FIX THIS
 
       return (
         <Table.Row key={`submission-${s.memberId}-${i}`} className={styles.item}>
@@ -103,6 +122,30 @@ class SubmissionList extends Component {
         </Table.Row>
       )
     })
+
+    if (
+      isSubmitter(challengeId, resources, memberId) &&
+      currentTab === SUBMISSION_TABS.FINAL_FIX_SUBMISSION &&
+      isDesignChallenge &&
+      isPhaseActiveOnChallenge(challenge, PHASE_IDS.ApprovalPhase) &&
+      filteredSubmissions.length === 0
+    ) {
+      // Rain Check:
+      // - Current user is Submitter for the contest
+      // - We are on the Final Fix tab
+      // - We are showing details of a design track challenge
+      // - Approval phase is active
+      // - There are no Final Fix submissions
+      // => Allow submitter to upload a submission, which will be of type Final Fix
+      submitFinalFixesButton = (
+        <p className={styles.secondaryBtnContainer}>
+          <a href={`/challenges/${challengeId}/submit`} className={styles.btn}>
+            Upload Final Fix
+          </a>
+        </p>
+      )
+    }
+
     return (
       <>
         <div className={styles.tabs}>
@@ -150,6 +193,7 @@ class SubmissionList extends Component {
           }
         </div>
         <Table rows={rows} options={options} className={styles.list} />
+        {submitFinalFixesButton}
       </>
     )
   }
@@ -160,7 +204,8 @@ SubmissionList.propTypes = {
   challengeId: PropTypes.string,
   isDesignChallenge: PropTypes.bool,
   resources: PropTypes.object,
-  challenge: PropTypes.object
+  challenge: PropTypes.object,
+  memberId: PropTypes.string.isRequired
 }
 
 export default SubmissionList

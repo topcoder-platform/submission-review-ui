@@ -1,0 +1,265 @@
+@import '../../../styles/includes';
+
+.designContent {
+  @include roboto;
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background-color: white;
+  width: 100%;
+  padding: 0 30px;
+  box-sizing: border-box;
+
+  .submissionHints {
+    margin-bottom: 2em;
+    font-size: 15px;
+    color: #37373c;
+
+    ol {
+      list-style: decimal;
+      margin: 0;
+      padding: 0;
+      margin-left: 15px;
+      margin-bottom: 1em;
+
+      li {
+        line-height: 20px;
+      }
+    }
+  }
+
+  .row {
+    display: flex;
+    padding: 30px 0;
+    margin-bottom: 70px;
+  }
+
+  a {
+    color: $dark-blue-110;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .left {
+    padding-right: 33px;
+    border-right: 6px solid #f6f6f6;
+    max-width: 310px;
+
+    p,
+    a {
+      font-size: 13px;
+      color: $light-text;
+      font-style: italic;
+      max-width: 270px;
+      width: 270px;
+      line-height: 20px;
+      margin-bottom: 12px;
+
+      @media (min-width: 800px) and (max-width: 1000px) {
+        max-width: 220px;
+        width: 220px;
+      }
+
+      @media (min-width: 768px) and (max-width: 800px) {
+        max-width: 200px;
+        width: 200px;
+      }
+    }
+
+    h2 {
+      @include roboto;
+      font-size: 15px;
+      line-height: 25px;
+      margin-bottom: 4px;
+      color: $text-color;
+    }
+  }
+
+  .right {
+    width: 100%;
+    margin-left: 60px;
+
+    & > p {
+      font-size: 15px;
+      color: #37373c;
+      margin-bottom: 10px;
+    }
+
+    button {
+      height: 30px;
+      font-size: 13px;
+      line-height: 0;
+    }
+  }
+
+  .filePickerContainer {
+    display: flex;
+    margin-bottom: 40px;
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    & > div {
+      margin-right: 16px;
+    }
+  }
+
+  .agree {
+    background-color: #fcfcfc;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 30px;
+    padding: 30px 60px;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+      font-size: 13px;
+      color: #37373c;
+      line-height: 24px;
+      margin-bottom: 50px;
+    }
+
+    a {
+      color: $dark-blue-110;
+    }
+
+    .tcCheckboxLabel {
+      line-height: 15px;
+      margin-left: 21px;
+      user-select: none;
+      cursor: pointer;
+      width: 195px;
+      font-size: 15px;
+      color: #3d3d3d;
+    }
+
+    .tcCheckbox {
+      height: 15px;
+      width: 210px;
+      margin: 0;
+      padding: 0;
+      vertical-align: bottom;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 30px;
+
+      input[type=checkbox] {
+        visibility: visible;
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+
+      label {
+        cursor: pointer;
+        position: absolute;
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        top: 0;
+        left: 0;
+        border-radius: 1px;
+        box-shadow: none;
+        border: 1px solid $gray;
+        background: $light-bg;
+        transition: all 0.15s ease-in-out;
+
+        &::after {
+          opacity: 0;
+          content: '';
+          position: absolute;
+          width: 9px;
+          height: 5px;
+          background: transparent;
+          top: 3px;
+          left: 2px;
+          border: 3px solid $dark-blue-110;
+          border-top: none;
+          border-right: none;
+          transform: rotate(-45deg);
+          transition: all 0.15s ease-in-out;
+        }
+
+        &:hover::after {
+          opacity: 0.3;
+        }
+      }
+
+      input[type=checkbox]:checked ~ label {
+        background: $dark-blue-110;
+        border-color: $dark-blue-110;
+      }
+
+      input[type=checkbox]:focus ~ label {
+        outline: 2px auto $dark-blue-110;
+      }
+
+      input[type=checkbox]:checked + label::after {
+        opacity: 1;
+        border-color: $white;
+      }
+
+      input:not([type=checkbox]) {
+        height: 40px;
+        width: 100%;
+        font-size: 15px;
+      
+        @include roboto;
+      
+        line-height: 20px;
+        color: $lighter-gray;
+        padding-left: 10px;
+        margin-bottom: 10px;
+        outline: none;
+        background: $white;
+        border: 1px solid $light-gray;
+        box-shadow: inset 0 0 2px 0 rgba(183, 183, 183, 0.2);
+        border-radius: 2px;
+        cursor: auto;
+        transition: 0.15s all;
+      }
+    }
+  }
+
+  button[type="submit"] {
+    align-items: center;
+    border: 1px solid;
+    border-radius: 4px;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    min-height: 40px;
+    margin: 5px;
+    padding: 5px 23px;
+    text-align: center;
+    vertical-align: middle;
+    @include roboto-medium;
+    font-size: 15px;
+    line-height: 0;
+    background: $dark-blue-110;
+    border-color: transparent;
+    color: $white-text;
+    cursor: pointer;
+
+    &:hover {
+      background-image: linear-gradient(180deg, #3996ff, #127bf3);
+    }
+
+    &[disabled] {
+      background-color: silver;
+      border: none;
+      cursor: default;
+      color: $white-text;
+
+      &:hover {
+        background-image: none;
+      }
+    }
+  }
+}

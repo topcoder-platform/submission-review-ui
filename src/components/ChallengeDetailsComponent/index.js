@@ -30,7 +30,8 @@ const ChallengeDetailsComponent = ({
   switchTab,
   resources,
   reviewTypes,
-  reviewSummations }) => {
+  reviewSummations,
+  memberId }) => {
   const { id, name, legacy, phases } = challenge
   const isOnSubmissionDetailsPage = !!submissionId
   const isDesignChallenge = legacy.track === 'DESIGN' || challenge.track === 'Design'
@@ -45,7 +46,7 @@ const ChallengeDetailsComponent = ({
   return (
     <div>
       <Helmet title={name || 'Challenge Details'} />
-      <PageHeader title={name} tags={getChallengeTags(challenge, challengeTypes, resources)} />
+      <PageHeader title={name} tags={getChallengeTags(challenge, challengeTypes, resources, memberId)} />
       <div className={styles.challenges}>
         <ChallengeInfo challenge={challenge} />
         {!isOnSubmissionDetailsPage &&
@@ -58,6 +59,7 @@ const ChallengeDetailsComponent = ({
             isDesignChallenge={isDesignChallenge}
             isPureV5Review={isPureV5Review}
             resources={resources}
+            memberId={memberId}
           />}
         {isOnSubmissionDetailsPage &&
           <SubmissionDetails
@@ -91,7 +93,8 @@ ChallengeDetailsComponent.propTypes = {
   switchTab: PropTypes.func,
   resources: PropTypes.object,
   reviewTypes: PropTypes.arrayOf(PropTypes.object),
-  reviewSummations: PropTypes.arrayOf(PropTypes.object)
+  reviewSummations: PropTypes.arrayOf(PropTypes.object),
+  memberId: PropTypes.string.isRequired
 }
 
 ChallengeDetailsComponent.defaultProps = {

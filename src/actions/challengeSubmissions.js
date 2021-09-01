@@ -1,8 +1,6 @@
 import _ from 'lodash'
-import {
-  fetchChallengeSubmissions,
-  sendSubmissionReview
-} from '../services/submissionReview'
+import { sendSubmissionReview } from '../services/submissionReview'
+import { fetchChallengeSubmissions } from '../services/submissions'
 import {
   CHALLENGE_TRACKS,
   CREATE_REVIEW_RECORDS_ERROR,

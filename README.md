@@ -24,7 +24,10 @@ Development configuration is in `config/constants/development.js`
 - `ARENA_URL`: The url of Topcoder Arena
 - `DEV_APP_URL`: (Development) The URL to start the app from (eg http://local.topcoder-dev.com)
 - `SUBMISSION_REVIEW_API_URL`: The submission review API URL
-- `V5_API_URL`: The V5 API URL
+- `V5_API_URL`: The V5 API URL,
+- `FILESTACK_API_KEY`: The filestack api key
+- `FILESTACK_SUBMISSION_CONTAINER`: the S3 container to which filestack needs to upload the file to
+- `FILESTACK_REGION`: The aws region. Defaults to `us-east-1`
 
 ### Development
 

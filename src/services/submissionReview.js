@@ -2,16 +2,6 @@ import { axiosInstance } from './axiosWithAuth'
 import { SUBMISSION_REVIEW_API_URL, V5_API_URL } from '../config/constants'
 
 /**
- * Api request for fetching challenge submissions
- * @param challengeId
- * @returns {Promise<*>}
- */
-export async function fetchChallengeSubmissions (challengeId) {
-  const response = await axiosInstance.get(`${V5_API_URL}/submissions?challengeId=${challengeId}`)
-  return response.data
-}
-
-/**
  * Api request for fetching submission reviews
  * @param {String} submissionId - UUID of the submission
  * @returns {Promise<*>}

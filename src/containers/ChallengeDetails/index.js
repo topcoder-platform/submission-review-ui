@@ -109,7 +109,8 @@ class ChallengeDetails extends Component {
       loadChallengeResources,
       loadResourceRoles,
       reviewTypes,
-      reviewSummations
+      reviewSummations,
+      auth
     } = this.props
 
     if (!isLoading && !resources.roles.length && !this.state.resourceLoaded) {
@@ -138,6 +139,7 @@ class ChallengeDetails extends Component {
         resources={resources}
         reviewTypes={reviewTypes}
         reviewSummations={reviewSummations}
+        memberId={auth.user.userId.toString()}
       />
     )
   }
@@ -175,7 +177,8 @@ ChallengeDetails.propTypes = {
   loadReviewTypes: PropTypes.func,
   reviewTypes: PropTypes.arrayOf(PropTypes.object),
   reviewSummations: PropTypes.arrayOf(PropTypes.object),
-  loadReviewSummation: PropTypes.func
+  loadReviewSummation: PropTypes.func,
+  auth: PropTypes.object
 }
 
 const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submissionDetails, resources }) => ({
@@ -190,7 +193,8 @@ const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submiss
   currentTab: submissionDetails.currentTab,
   reviewTypes: challengeDetails.reviewTypes,
   reviewSummations: challengeDetails.reviewSummations,
-  resources
+  resources,
+  auth
 })
 
 const mapDispatchToProps = {

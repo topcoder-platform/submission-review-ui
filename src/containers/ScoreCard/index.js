@@ -87,7 +87,8 @@ class ScoreCard extends Component {
       loadResourceRoles,
       scorecards,
       isScorecardLoading,
-      submissionDetails
+      submissionDetails,
+      auth
     } = this.props
 
     if (!isLoading && !resources.roles.length && !this.state.resourceLoaded && challengeDetails.id) {
@@ -102,7 +103,7 @@ class ScoreCard extends Component {
     }
 
     const existingReview = _.find(submissionDetails, r => r.scoreCardId === scoreCardId)
-    const shouldOpenEditMode = isReviewer(challengeId, resources) && !existingReview
+    const shouldOpenEditMode = isReviewer(challengeId, resources, auth.user.userId.toString()) && !existingReview
 
     return (
       isScorecardLoading || isLoading || shouldWait ? <Loader />
@@ -120,6 +121,7 @@ class ScoreCard extends Component {
           isLoading={scorecards.isScorecardLoading}
           saveAndSubmit={this.saveAndSubmit}
           editMode={shouldOpenEditMode}
+          memberId={auth.user.userId.toString()}
         />
     )
   }

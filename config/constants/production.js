@@ -6,5 +6,8 @@ module.exports = {
   MEMBER_API_V3_URL: process.env.MEMBER_API_V3_URL || 'https://api.topcoder.com/v3/members',
   ARENA_URL: process.env.ARENA_URL || 'https://arena.topcoder.com',
   DEV_APP_URL: process.env.DEV_APP_URL || 'https://submission-review.topcoder.com',
-  SUBMISSION_REVIEW_API_URL: process.env.SUBMISSION_REVIEW_API_URL || 'https://submission-review-api.topcoder.com'
+  SUBMISSION_REVIEW_API_URL: process.env.SUBMISSION_REVIEW_API_URL || 'https://submission-review-api.topcoder.com',
+  FILESTACK_API_KEY: process.env.FILESTACK_API_KEY,
+  FILESTACK_SUBMISSION_CONTAINER: process.env.FILESTACK_SUBMISSION_CONTAINER,
+  FILESTACK_REGION: process.env.FILESTACK_REGION || 'us-east-1'
 }

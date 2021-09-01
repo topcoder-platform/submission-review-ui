@@ -10,6 +10,7 @@ import Sidebar from './components/Sidebar'
 import MyChallenges from './containers/MyChallenges'
 import ChallengeDetails from './containers/ChallengeDetails'
 import ScoreCard from './containers/ScoreCard'
+import UploadSubmission from './containers/UploadSubmission'
 import { getFreshToken } from 'tc-auth-lib'
 import { ACCOUNTS_APP_LOGIN_URL } from './config/constants'
 import { saveToken } from './actions/auth'
@@ -54,6 +55,12 @@ class Routes extends React.Component {
         <Route exact path='/challenges/:challengeId([\w]{8}-[\w]{4}-[\w]{4}-[\w]{4}-[\w]{12}|\d{5,8})/submissions/:submissionId/scorecards/:scoreCardId'
           render={({ match }) => renderApp(
             <ScoreCard challengeId={match.params.challengeId} submissionId={match.params.submissionId} scoreCardId={match.params.scoreCardId} />,
+            <TopBarContainer />,
+            <Sidebar />
+          )()} />
+        <Route exact path='/challenges/:challengeId([\w]{8}-[\w]{4}-[\w]{4}-[\w]{4}-[\w]{12}|\d{5,8})/submit'
+          render={({ match }) => renderApp(
+            <UploadSubmission challengeId={match.params.challengeId} />,
             <TopBarContainer />,
             <Sidebar />
           )()} />

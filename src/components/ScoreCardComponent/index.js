@@ -160,7 +160,8 @@ class ScoreCardComponent extends Component {
       editMode,
       scorecardTitle,
       scorecardDescription,
-      scoreCardId
+      scoreCardId,
+      memberId
     } = this.props
 
     const { formData, isFormValid } = this.state
@@ -170,7 +171,7 @@ class ScoreCardComponent extends Component {
     return (
       <div className={styles.scorecardPage}>
         <Helmet title={name || 'ScoreCard Details'} />
-        <PageHeader title={name} tags={getChallengeTags(challenge, challengeTypes, resources)} />
+        <PageHeader title={name} tags={getChallengeTags(challenge, challengeTypes, resources, memberId)} />
 
         <div className={styles.container}>
           <div className={styles.header}>
@@ -235,7 +236,8 @@ ScoreCardComponent.propTypes = {
   editMode: PropTypes.bool,
   scorecardTitle: PropTypes.string,
   scorecardDescription: PropTypes.string,
-  savedResponses: PropTypes.arrayOf(PropTypes.object)
+  savedResponses: PropTypes.arrayOf(PropTypes.object),
+  memberId: PropTypes.string.isRequired
 }
 
 ScoreCardComponent.defaultProps = {

@@ -20,7 +20,8 @@ const List = ({
   challengeId,
   isDesignChallenge,
   isPureV5Review,
-  resources
+  resources,
+  memberId
 }) => {
   if (isChallengeSubmissionsLoading) {
     return <Loader />
@@ -64,6 +65,7 @@ const List = ({
             isDesignChallenge={isDesignChallenge}
             challenge={challenge}
             resources={resources}
+            memberId={memberId}
           />
         ))}
     </div>
@@ -78,7 +80,8 @@ List.propTypes = {
   challengeId: PropTypes.string,
   isDesignChallenge: PropTypes.bool,
   isPureV5Review: PropTypes.bool.isRequired,
-  resources: PropTypes.object
+  resources: PropTypes.object,
+  memberId: PropTypes.string.isRequired
 }
 
 export default List

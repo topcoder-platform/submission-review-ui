@@ -4,12 +4,13 @@ import React from 'react'
 import { PHASE_IDS, PROJECT_ROLES, REVIEW_TYPES } from '../config/constants'
 
 /**
- * Get roles from resource
+ * Get roles of the member for the challenge
  * @param resources
  * @param challengeId challenge id
+ * @param memberId the member's id
  */
-export const getRolesFromResource = (resources, challengeId) => {
-  const foundResources = _.filter(resources.roles, { challengeId })
+export const getMemberRoles = (resources, challengeId, memberId) => {
+  const foundResources = _.filter(resources.roles, { challengeId, memberId })
   let roles = []
 
   if (foundResources) {
@@ -41,39 +42,43 @@ export const getChallengePrizes = ({ prizeSets }) => {
  * @param challenge
  * @param challengeTypes
  * @param resources
+ * @param memberId
  */
-export const getChallengeTags = (challenge, challengeTypes, resources) => {
+export const getChallengeTags = (challenge, challengeTypes, resources, memberId) => {
   return (
     <ChallengeTags
       challenge={challenge}
       challengeTypes={challengeTypes}
-      roles={getRolesFromResource(resources, challenge.id)}
+      roles={getMemberRoles(resources, challenge.id, memberId)}
     />
   )
-}
-
-/**
- * Check if current user has copilot role on it
- * @param challengeId challenge id
- * @param resources
- */
-export const isCopilotUser = (challengeId, resources) => {
-  const roles = getRolesFromResource(resources, challengeId)
-
-  return roles.includes('Copilot')
 }
 
 /**
  * Check if current user has review role on it
  * @param challengeId challenge id
  * @param resources
+ * @param memberId
  */
-export const isReviewer = (challengeId, resources) => {
-  const roles = getRolesFromResource(resources, challengeId)
+export const isReviewer = (challengeId, resources, memberId) => {
+  const roles = getMemberRoles(resources, challengeId, memberId)
   return _.intersectionWith(roles, [
     PROJECT_ROLES.Reviewer,
     PROJECT_ROLES.Iterative_Reviewer
   ], (act, exp) => act.toLowerCase() === exp.toLowerCase()).length > 0
+}
+
+/**
+ * Checks if the member is a submitter on the contest
+ * @param {String} challengeId The challenge id
+ * @param {Object} resources Details about the resources on the challenge
+ * @param {Number} memberId The id of the member whose role we are checking
+ * @returns {Boolean} `true` if the member is a submitter on the challenge
+ */
+export const isSubmitter = (challengeId, resources, memberId) => {
+  const roles = getMemberRoles(resources, challengeId, memberId)
+
+  return roles.includes('Submitter')
 }
 
 /**

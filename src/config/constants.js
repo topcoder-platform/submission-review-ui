@@ -131,6 +131,12 @@ export const downloadSubmissionArtifactURL = (
 ) =>
   `${SUBMISSION_REVIEW_API_URL}/challengeSubmissions/${submissionId}/artifacts/${artifactId}/download?token=${token}`
 
+export const FILESTACK = {
+  API_KEY: process.env.FILESTACK_API_KEY,
+  SUBMISSION_CONTAINER: process.env.FILESTACK_SUBMISSION_CONTAINER,
+  REGION: process.env.FILESTACK_REGION
+}
+
 export const SYSTEM_USERS = ['TC System', 'Applications']
 
 export const SUBMISSION_TABS = {
@@ -173,3 +179,5 @@ export const PHASE_IDS = {
   FinalFixPhase: '3e2afca6-9542-4763-a135-96b33f12c082',
   ApprovalPhase: 'ad985cff-ad3e-44de-b54e-3992505ba0ae'
 }
+
+export const TOPCODER_TERMS = 'https://www.topcoder.com/community/how-it-works/terms/'
