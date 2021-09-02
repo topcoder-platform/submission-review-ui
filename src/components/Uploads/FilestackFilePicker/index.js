@@ -29,6 +29,7 @@ class FilestackFilePicker extends React.Component {
   }
 
   componentDidMount () {
+    console.log(FILESTACK)
     this.filestack = filestack.init(FILESTACK.API_KEY)
   }
 
