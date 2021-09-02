@@ -13,6 +13,7 @@ npm install
 
 ### Configuration
 You can see the configuration paramaters below.
+
 Production configuration is in `config/constants/production.js`
 Development configuration is in `config/constants/development.js`
 
