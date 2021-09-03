@@ -5,7 +5,7 @@ APP_NAME="submission-review-ui"
 UPDATE_CACHE=""
 echo $ENV
 echo "NODE_ENV=$ENV" >docker/api.env
-docker build -t $APP_NAME:latest \
+docker build -f docker/Dockerfile -t $APP_NAME:latest \
   --build-arg NODE_ENV=${ENV} \
   --build-arg AUTH0_CLIENT_ID=$AUTH0_CLIENT_ID \
   --build-arg FORCE_DEV=${FORCE_DEV} \
