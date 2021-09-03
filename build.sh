@@ -22,8 +22,9 @@ docker build -t $APP_NAME:latest \
   --build-arg FILESTACK_API_KEY=${FILESTACK_API_KEY} \
   --build-arg FILESTACK_SUBMISSION_CONTAINER=${FILESTACK_SUBMISSION_CONTAINER} \
   --build-arg SUBMISSION_REVIEW_API_URL=${SUBMISSION_REVIEW_API_URL} \
-  --build-arg REACT_APP_FILESTACK_API_KEY=${REACT_APP_FILESTACK_API_KEY} 
-  
+  --build-arg REACT_APP_FILESTACK_API_KEY=${REACT_APP_FILESTACK_API_KEY} \
+  .
+
 docker create --name app $APP_NAME:latest
 
 if [ -d node_modules ]
