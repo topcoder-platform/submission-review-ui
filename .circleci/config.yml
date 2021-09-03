@@ -32,7 +32,7 @@ builddeploy_steps: &builddeploy_steps
           name: "configuring environment"
           command: |
             ./awsconfiguration.sh $DEPLOY_ENV
-            ./buildenv.sh -e $DEPLOY_ENV -b ${LOGICAL_ENV}-${APPNAME}-buildvar
+            ./buildenv.sh -e $DEPLOY_ENV -b ${DEPLOY_ENV}-${APPNAME}-buildvar
             echo awsenvconf >.dockerignore
             echo buildenvvar >>.dockerignore      
       - restore_cache: *restore_cache_settings_for_build
@@ -45,7 +45,7 @@ builddeploy_steps: &builddeploy_steps
       - deploy:
           name: Running MasterScript.
           command: |
-            ./awsconfiguration.sh $DEPLOY_ENV
+            #./awsconfiguration.sh $DEPLOY_ENV
             source awsenvconf
             ./buildenv.sh -e $DEPLOY_ENV -b ${DEPLOY_ENV}-${APPNAME}-deployvar
             source buildenvvar
