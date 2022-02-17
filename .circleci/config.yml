@@ -46,7 +46,7 @@ jobs:
   "build-dev":
     <<: *defaults
     environment:
-      NODE_ENV: "development"
+      NODE_ENV: "dev"
       DEPLOY_ENV: "dev"
       APPNAME: "submission-review-ui"    
     steps: *builddeploy_steps
