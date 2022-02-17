@@ -46,7 +46,7 @@ jobs:
   "build-dev":
     <<: *defaults
     environment:
-      NODE_ENV: "dev"
+      NODE_ENV: "development"
       DEPLOY_ENV: "dev"
       APPNAME: "submission-review-ui"    
     steps: *builddeploy_steps
@@ -68,7 +68,7 @@ workflows:
           context : org-global
           filters:
             branches:
-              only: [develop, 'feature/new-auth']
+              only: [dev]
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
