@@ -11,9 +11,10 @@ import { getToken } from '../../../services/axiosWithAuth'
 import Table from '../../Table'
 import Handle from '../../Handle'
 import Loader from '../../Loader'
-import { downloadSubmissionURL, SUBMISSION_DETAILS_TABS, downloadSubmissionArtifactURL } from '../../../config/constants'
+import { SUBMISSION_DETAILS_TABS, downloadSubmissionArtifactURL, downloadSubmissionURL } from '../../../config/constants'
 import NoRecords from './NoRecords'
 import styles from './SubmissionDetails.module.scss'
+import { safeForDownload } from '../../../util/tc'
 
 // Table options for review list
 const reviewOptions = [
@@ -176,6 +177,8 @@ const SubmissionDetails = ({
     }
   }
 
+  const { url: submissionUrl } = submissionDetails
+
   return (
       <>
         <div className={styles.header}>
@@ -184,11 +187,10 @@ const SubmissionDetails = ({
           </div>
           <h2 className={styles.heading}>
             Submission details
-            (
-            <a href='#' onClick={() => withToken(token => downloadSubmissionURL(submissionId, token))}>
+            ({safeForDownload(submissionUrl) ? (<a href='#' onClick={() => withToken(token => downloadSubmissionURL(submissionId, token))}>
               {submissionId}
               <FontAwesomeIcon icon={faDownload} />
-            </a>
+            </a>) : `${submissionId} contains one or more infected file(s) and can not be downloaded.` }
             )
           </h2>
         </div>
