@@ -28,7 +28,7 @@ export default function (state = initialState, action) {
     case LOAD_SUBMISSION_DETAILS_PENDING:
       return { ...state, isLoading: true, loadingId: action.submissionId }
     case LOAD_SUBMISSION_DETAILS_FAILURE:
-      return { ...state, isLoading: false, loadingId: null }
+      return { ...state, isLoading: false, loadingId: null, submissionDetails: {} }
     case LOAD_SUBMISSION_ARTIFACTS_SUCCESS:
       return { ...state, submissionArtifacts: action.submissionArtifacts, isLoading: false, loadingSubmissionIdOfArtifacts: null }
     case LOAD_SUBMISSION_ARTIFACTS_PENDING:
