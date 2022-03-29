@@ -40,3 +40,7 @@ export function getRatingColor (rating) {
 export function fixedTrack (track, subTrack) {
   return MARATHON_MATCH_SUBTRACKS.includes(subTrack) ? CHALLENGE_TRACKS.DATA_SCIENCE : track
 }
+
+export function safeForDownload (url) {
+  return url != null && url.indexOf('submissions-quarantine/') === -1
+}
