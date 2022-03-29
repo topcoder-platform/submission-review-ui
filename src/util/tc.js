@@ -42,6 +42,5 @@ export function fixedTrack (track, subTrack) {
 }
 
 export function safeForDownload (url) {
-  console.log('Url', url)
   return url != null && url.indexOf('submissions-quarantine/') === -1
 }
