@@ -178,7 +178,7 @@ const SubmissionDetails = ({
   }
 
   const { url: submissionUrl } = submissionDetails
-
+  const safeForDownloadCheck = safeForDownload(submissionUrl)
   return (
       <>
         <div className={styles.header}>
@@ -187,10 +187,10 @@ const SubmissionDetails = ({
           </div>
           <h2 className={styles.heading}>
             Submission details
-            ({safeForDownload(submissionUrl) ? (<a href='#' onClick={() => withToken(token => downloadSubmissionURL(submissionId, token))}>
+            ({safeForDownloadCheck === true ? (<a href='#' onClick={() => withToken(token => downloadSubmissionURL(submissionId, token))}>
               {submissionId}
               <FontAwesomeIcon icon={faDownload} />
-            </a>) : `${submissionUrl != null ? submissionId + ' contains one or more infected file(s) and can not be downloaded' : 'Unable to fetch submission details. Please try again later'}.` }
+            </a>) : safeForDownloadCheck }
             )
           </h2>
         </div>

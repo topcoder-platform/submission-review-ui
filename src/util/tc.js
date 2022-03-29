@@ -42,5 +42,15 @@ export function fixedTrack (track, subTrack) {
 }
 
 export function safeForDownload (url) {
-  return url != null && url.indexOf('submissions-quarantine/') === -1
+  if (url == null) return 'Download link unavailable'
+
+  if (url.toLowerCase().indexOf('submissions-quarantine/') !== -1) {
+    return 'Malware found in submission'
+  }
+
+  if (url.toLowerCase().indexOf('submissions-dmz/') !== -1) {
+    return 'AV Scan in progress'
+  }
+
+  return true
 }
