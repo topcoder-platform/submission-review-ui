@@ -1,5 +1,5 @@
 # Use the base image with Node.js
-FROM node:10.16.0
+FROM node:10.23.3
 
 ARG NODE_ENV=develop
 ARG FORCE_DEV
