@@ -69,9 +69,9 @@ export const MEMBER_API_URL = process.env.MEMBER_API_URL
 export const MEMBER_API_V3_URL = process.env.MEMBER_API_V3_URL
 
 export const ARENA_URL = process.env.ARENA_URL
-export const DATA_SCIENCE_CHALLENGES_URL = `${COMMUNITY_APP_URL}/challenges?filter[tracks][datasci]=true`
-export const DESIGN_CHALLENGES_URL = `${COMMUNITY_APP_URL}/challenges?filter[tracks][design]=true`
-export const DEVELOPMENT_CHALLENGES_URL = `${COMMUNITY_APP_URL}/challenges?filter[tracks][develop]=true`
+export const DATA_SCIENCE_CHALLENGES_URL = `${COMMUNITY_APP_URL}/challenges?tracks[DS]=true`
+export const DESIGN_CHALLENGES_URL = `${COMMUNITY_APP_URL}/challenges?tracks[Des]=true`
+export const DEVELOPMENT_CHALLENGES_URL = `${COMMUNITY_APP_URL}/challenges?tracks[Dev]=true`
 
 export const getTCChallengeURL = (challengeId) => `${COMMUNITY_APP_URL}/challenges/${challengeId}`
 export const getTCMemberURL = (handle) => `${COMMUNITY_APP_URL}/members/${handle}`
