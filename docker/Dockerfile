@@ -1,7 +1,7 @@
 # Use the base image with Node.js
 FROM node:10.16.0
 
-ARG NODE_ENV=develop
+ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
 # Copy the current directory into the Docker image
 COPY . /submission-review-ui
@@ -10,7 +10,7 @@ COPY . /submission-review-ui
 WORKDIR /submission-review-ui
 
 # Install the dependencies from package.json
-RUN npm install
+RUN npm ci --production
 RUN npm run lint
 # RUN npm rebuild node-sass
 RUN npm run build
