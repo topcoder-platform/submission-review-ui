@@ -1,5 +1,5 @@
 # Use the base image with Node.js
-FROM node:10.16.0
+FROM node:10.24.1
 
 ARG NODE_ENV=production
 ENV NODE_ENV=$NODE_ENV
