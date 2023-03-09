@@ -67,6 +67,7 @@ jobs:
     environment:
       NODE_ENV: "qa"
       DEPLOY_ENV: "qa"
+      BABEL_ENV: "development"
       APPNAME: "submission-review-ui"    
     steps: *builddeploy_steps
 
