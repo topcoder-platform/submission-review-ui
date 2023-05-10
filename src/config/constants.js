@@ -112,7 +112,6 @@ export const V5_API_URL = process.env.V5_API_URL
 export const SUBMISSION_REVIEW_API_URL = process.env.SUBMISSION_REVIEW_API_URL
 
 export const MEMBER_API_URL = process.env.MEMBER_API_URL
-export const MEMBER_API_V3_URL = process.env.MEMBER_API_V3_URL
 
 export const ARENA_URL = process.env.ARENA_URL
 export const DATA_SCIENCE_CHALLENGES_URL = `${COMMUNITY_APP_URL}/challenges?filter[tracks][datasci]=true`
