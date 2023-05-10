@@ -42,6 +42,8 @@ COPY . /submission-review-ui
 WORKDIR /submission-review-ui
 
 # Install the dependencies from package.json
+RUN npm config set unsafe-perm true
+RUN git config --global url."https://git@".insteadOf git://
 RUN npm install
 RUN npm run lint
 # RUN npm rebuild node-sass
