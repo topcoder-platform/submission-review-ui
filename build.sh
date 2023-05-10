@@ -15,7 +15,6 @@ docker build -f docker/Dockerfile -t $APP_NAME:latest \
   --build-arg ACCOUNTS_APP_LOGIN_URL=${ACCOUNTS_APP_LOGIN_URL} \
   --build-arg COMMUNITY_APP_URL=${COMMUNITY_APP_URL} \
   --build-arg MEMBER_API_URL=${MEMBER_API_URL} \
-  --build-arg MEMBER_API_V3_URL=${MEMBER_API_V3_URL} \
   --build-arg ARENA_URL=${ARENA_URL} \
   --build-arg DEV_APP_URL=${DEV_APP_URL} \
   --build-arg CHALLENGE_API_URL=${CHALLENGE_API_URL} \
