@@ -9,7 +9,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { get } from 'lodash'
 import ChallengeDetailsComponent from '../../components/ChallengeDetailsComponent'
-import { loadChallengeDetails, loadChallengeTypes } from '../../actions/challengeDetails'
+import { loadChallengeDetails } from '../../actions/challengeDetails'
 import { loadSubmissionDetails, loadSubmissionArtifacts, switchTab } from '../../actions/submissionDetails'
 import { loadChallengeSubmissions } from '../../actions/challengeSubmissions'
 
@@ -19,7 +19,6 @@ class ChallengeDetails extends Component {
   componentDidMount () {
     const {
       loadChallengeDetails,
-      loadChallengeTypes,
       loadChallengeSubmissions,
       loadSubmissionDetails,
       challengeId,
@@ -35,7 +34,6 @@ class ChallengeDetails extends Component {
     } else {
       loadChallengeSubmissions(challengeId)
     }
-    loadChallengeTypes()
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -83,7 +81,7 @@ class ChallengeDetails extends Component {
 
     if (!isLoading && invalidChallenge) return <Redirect to='/' />
 
-    const shouldWait = challengeId.toString() !== get(challengeDetails, 'challengeId', '').toString()
+    const shouldWait = challengeId.toString() !== get(challengeDetails, 'id', '').toString()
 
     return isLoading || shouldWait ? <Loader /> : (
       <ChallengeDetailsComponent
@@ -108,7 +106,6 @@ ChallengeDetails.propTypes = {
   challengeTypes: PropTypes.arrayOf(PropTypes.object),
   isLoading: PropTypes.bool,
   loadChallengeDetails: PropTypes.func,
-  loadChallengeTypes: PropTypes.func,
   loadChallengeSubmissions: PropTypes.func,
   loadSubmissionDetails: PropTypes.func,
   loadSubmissionArtifacts: PropTypes.func,
@@ -140,7 +137,6 @@ const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submiss
 
 const mapDispatchToProps = {
   loadChallengeDetails,
-  loadChallengeTypes,
   loadChallengeSubmissions,
   loadSubmissionDetails,
   loadSubmissionArtifacts,

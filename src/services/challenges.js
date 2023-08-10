@@ -1,14 +1,14 @@
 import _ from 'lodash'
 import { axiosInstance } from './axiosWithAuth'
-import { MEMBER_API_URL, CHALLENGE_API_URL } from '../config/constants'
+import { V5_API_URL } from '../config/constants'
 
 /**
  * Api request for fetching member's active challenges
  * @returns {Promise<*>}
  */
-export async function fetchMemberChallenges (handle) {
-  const response = await axiosInstance.get(`${MEMBER_API_URL}/${handle}/challenges?filter=status=ACTIVE`)
-  return _.get(response, 'data.result.content')
+export async function fetchMemberChallenges (userId) {
+  const response = await axiosInstance.get(`${V5_API_URL}/challenges?memberId=${userId}&status=ACTIVE`)
+  return _.get(response, 'data')
 }
 
 /**
@@ -17,26 +17,26 @@ export async function fetchMemberChallenges (handle) {
  * @returns {Promise<*>}
  */
 export async function fetchChallengeDetails (challengeId) {
-  const response = await axiosInstance.get(`${CHALLENGE_API_URL}/challenges/${challengeId}`)
-  return _.get(response, 'data.result.content')
+  const response = await axiosInstance.get(`${V5_API_URL}/challenges/${challengeId}`)
+  return _.get(response, 'data')
 }
 
 /**
  * Api request for fetching member's challenge (it includes member roles)
- * @param {String} handle
+ * @param {String} userId
  * @param challengeId
  * @returns {Promise<*>}
  */
-export async function fetchMemberChallenge (handle, challengeId) {
-  const response = await axiosInstance.get(`${CHALLENGE_API_URL}/members/${handle}/challenges?filter=id=${challengeId}`)
-  return _.get(response, 'data.result.content[0]')
+export async function fetchMemberResourcesOnChallenge (userId, challengeId) {
+  const response = await axiosInstance.get(`${V5_API_URL}/resources?memberId=${userId}&challengeId=${challengeId}`)
+  return _.get(response, 'data')
 }
 
 /**
- * Api request for fetching challenge types
+ * Fetch member resource roles
  * @returns {Promise<*>}
  */
-export async function fetchChallengeTypes () {
-  const response = await axiosInstance.get(`${CHALLENGE_API_URL}/challenge-types`)
-  return _.get(response, 'data.result.content')
+export async function fetchMemberResourceRoles () {
+  const response = await axiosInstance.get(`${V5_API_URL}/resource-roles`)
+  return _.get(response, 'data')
 }

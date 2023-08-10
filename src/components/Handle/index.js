@@ -11,6 +11,8 @@ import styles from './Handle.module.scss'
 const Handle = ({ handle, rating, color, className }) => {
   if (!color && rating) {
     color = getRatingColor(rating)
+  } else {
+    color = '#000'
   }
   const link = getTCMemberURL(handle)
   if (SYSTEM_USERS.includes(handle)) return <span style={{ color: color }} className={cn(styles.handle, className)} >{handle}</span>

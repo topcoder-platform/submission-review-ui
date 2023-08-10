@@ -13,7 +13,22 @@ function numberWithCommas (x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
-const Prizes = ({ prizes }) => {
+function extractPlacementPrizeValues (data) {
+  const placementPrizeValues = []
+
+  data.forEach(item => {
+    if (item.type === 'placement') {
+      item.prizes.forEach(prize => {
+        placementPrizeValues.push(prize.value)
+      })
+    }
+  })
+
+  return placementPrizeValues
+}
+
+const Prizes = ({ prizeSets }) => {
+  const prizes = prizeSets ? extractPlacementPrizeValues(prizeSets) : [0]
   const prizeComponents = prizes.map((p, index) => (
     <div className={styles.prize} key={`prize-${p}-${index}`}>
       <span className={styles.rank}>{getOrdinal(index + 1)}</span>
@@ -29,11 +44,11 @@ const Prizes = ({ prizes }) => {
 }
 
 Prizes.propTypes = {
-  prizes: PropTypes.arrayOf(PropTypes.number)
+  prizeSets: PropTypes.arrayOf(PropTypes.object)
 }
 
 Prizes.defaultProps = {
-  challenge: {}
+  prizeSets: []
 }
 
 export default Prizes
