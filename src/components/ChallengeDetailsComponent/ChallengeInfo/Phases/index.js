@@ -18,7 +18,7 @@ const Phases = ({ phases }) => {
         return (
           <div className={cn(styles.phase, { [styles.open]: p.isOpen })} key={p.phaseId}>
             <div className={cn(styles.type, { [styles.open]: p.isOpen })}>
-              {circle(p.isOpen)}
+              {circle(p)}
               <span>{p.name}</span>
             </div>
             <div className={styles.date}><span className='bold' >{day}</span>, {time}</div>
