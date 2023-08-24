@@ -4,6 +4,9 @@ import {
   LOAD_CHALLENGE_DETAILS_FAILURE,
   LOAD_CHALLENGE_DETAILS_PENDING,
   LOAD_CHALLENGE_DETAILS_SUCCESS,
+  LOAD_RESOURCE_ROLES_SUCCESS,
+  LOAD_RESOURCE_ROLES_PENDING,
+  LOAD_RESOURCE_ROLES_FAILURE
 } from '../config/constants'
 
 /**
@@ -22,10 +25,30 @@ export function loadChallengeDetails (challengeId) {
       })
 
       const { userId } = getState().auth.user
+      const { resourceRoles } = getState().challengeDetails
+
+      if (!resourceRoles || resourceRoles.length === 0) {
+        try {
+          dispatch({
+            type: LOAD_RESOURCE_ROLES_PENDING
+          })
+          const _resourceRoles = await fetchMemberResourceRoles()
+          dispatch({
+            type: LOAD_RESOURCE_ROLES_SUCCESS,
+            resourceRoles: [
+              ..._resourceRoles,
+            ]
+          })
+        } catch (e) {
+          console.error(e)
+          dispatch({
+            type: LOAD_RESOURCE_ROLES_FAILURE
+          })
+        }
+      }
 
       try {
         const memberResourcesOnChallenge = await fetchMemberResourcesOnChallenge(userId, challengeId)
-        const resourceRoles = await fetchMemberResourceRoles()
         const roles = memberResourcesOnChallenge.map(r => {
           const role = resourceRoles.find(rr => rr.id === r.roleId)
           return role ? role.name : ''

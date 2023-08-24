@@ -38,13 +38,13 @@ class Routes extends React.Component {
     return (
       <Switch>
         <Route exact path='/' render={renderApp(<MyChallenges />, <TopBarContainer />, <Sidebar />)} />
-        <Route exact path='/challenges/:challengeId([\w]{8}-[\w]{4}-[\w]{4}-[\w]{4}-[\w]{12}|\d{5,8})'
+        <Route exact path='/challenges/:challengeId([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})'
           render={({ match }) => renderApp(
             <ChallengeDetails challengeId={match.params.challengeId} />,
             <TopBarContainer />,
             <Sidebar />
           )()} />
-        <Route exact path='/challenges/:challengeId([\w]{8}-[\w]{4}-[\w]{4}-[\w]{4}-[\w]{12}|\d{5,8})/submissions/:submissionId'
+        <Route exact path='/challenges/:challengeId([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})/submissions/:submissionId'
           render={({ match }) => renderApp(
             <ChallengeDetails challengeId={match.params.challengeId} submissionId={match.params.submissionId} />,
             <TopBarContainer />,

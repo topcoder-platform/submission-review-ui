@@ -7,6 +7,6 @@ import { MEMBER_API_URL } from '../config/constants'
  * @returns {Promise<*>}
  */
 export async function fetchProfile (handle) {
-  const response = await axiosInstance.get(`${MEMBER_API_URL}/${handle}`)
+  const response = await axiosInstance.get(`${MEMBER_API_URL}/${handle}?fields=userId,maxRating`)
   return _.get(response, 'data')
 }

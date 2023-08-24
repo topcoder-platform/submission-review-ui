@@ -7,7 +7,7 @@ import { V5_API_URL } from '../config/constants'
  * @returns {Promise<*>}
  */
 export async function fetchMemberChallenges (userId) {
-  const response = await axiosInstance.get(`${V5_API_URL}/challenges?memberId=${userId}&status=ACTIVE`)
+  const response = await axiosInstance.get(`${V5_API_URL}/challenges?memberId=${userId}&status=ACTIVE&isLightweight=true`)
   return _.get(response, 'data')
 }
 

@@ -6,7 +6,7 @@ import cn from 'classnames'
 import { getRoundFormattedDuration } from '../../../../util/date'
 
 const Phases = ({ phases }) => {
-  const circle = (isOpen) => <div className={cn(styles.circle, { [styles.green]: isOpen })} />
+  const circle = (p) => <div className={cn(styles.circle, { [styles.green]: p.isOpen || !!p.actualEndDate })} />
 
   const phaseComponents = phases
     .map(
