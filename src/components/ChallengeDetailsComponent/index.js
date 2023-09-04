@@ -26,7 +26,8 @@ const ChallengeDetailsComponent = ({
   isArtifactsLoading,
   submissionArtifacts,
   currentTab,
-  switchTab }) => {
+  switchTab,
+  submitters }) => {
   const { id, name } = challenge
   const challengeTags = <ChallengeTags challenge={challenge} />
   const isOnSubmissionDetailsPage = !!submissionId
@@ -46,6 +47,7 @@ const ChallengeDetailsComponent = ({
             isChallengeSubmissionsLoading={isChallengeSubmissionsLoading}
             challengeSubmissions={challengeSubmissions}
             challengeId={id}
+            submitters={submitters}
           />}
         {isOnSubmissionDetailsPage &&
           <SubmissionDetails
@@ -73,7 +75,8 @@ ChallengeDetailsComponent.propTypes = {
   isArtifactsLoading: PropTypes.bool,
   submissionArtifacts: PropTypes.object,
   currentTab: PropTypes.string,
-  switchTab: PropTypes.func
+  switchTab: PropTypes.func,
+  submitters: PropTypes.arrayOf(PropTypes.object)
 }
 
 ChallengeDetailsComponent.defaultProps = {

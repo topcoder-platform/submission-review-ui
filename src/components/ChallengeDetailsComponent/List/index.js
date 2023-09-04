@@ -9,18 +9,28 @@ import SubmissionList from './SubmissionList'
 import Loader from '../../Loader'
 import styles from './List.module.scss'
 
-const List = ({ isChallengeSubmissionsLoading, challengeSubmissions, isMarathonMatch, challengeId }) => {
+const List = ({ submitters, isChallengeSubmissionsLoading, challengeSubmissions, isMarathonMatch, challengeId }) => {
   if (isChallengeSubmissionsLoading) {
     return <Loader />
   }
+
+  const submissionsWithMemberHandleColors = challengeSubmissions.map(s => {
+    const registrant = _.find(submitters, { userId: s.memberId })
+    const memberHandleColor = _.get(registrant, 'ratingColor', '')
+
+    return {
+      ...s,
+      memberHandleColor
+    }
+  })
 
   return (
     <div>
       <h2 className={styles.heading}>Submissions</h2>
       {isMarathonMatch &&
-        <MMSubmissionList submissions={challengeSubmissions} challengeId={challengeId} />}
+        <MMSubmissionList submissions={submissionsWithMemberHandleColors} challengeId={challengeId} />}
       {!isMarathonMatch &&
-        <SubmissionList submissions={challengeSubmissions} challengeId={challengeId} />}
+        <SubmissionList submissions={submissionsWithMemberHandleColors} challengeId={challengeId} />}
     </div>
   )
 }
@@ -28,6 +38,7 @@ const List = ({ isChallengeSubmissionsLoading, challengeSubmissions, isMarathonM
 List.propTypes = {
   isChallengeSubmissionsLoading: PropTypes.bool,
   challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
+  submitters: PropTypes.arrayOf(PropTypes.object),
   isMarathonMatch: PropTypes.bool,
   challengeId: PropTypes.number
 }

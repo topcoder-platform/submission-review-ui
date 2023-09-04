@@ -11,9 +11,10 @@ import { get } from 'lodash'
 import ChallengeDetailsComponent from '../../components/ChallengeDetailsComponent'
 import { loadChallengeDetails } from '../../actions/challengeDetails'
 import { loadSubmissionDetails, loadSubmissionArtifacts, switchTab } from '../../actions/submissionDetails'
-import { loadChallengeSubmissions } from '../../actions/challengeSubmissions'
+import { loadChallengeSubmissions, loadSubmitters } from '../../actions/challengeSubmissions'
 
 import Loader from '../../components/Loader'
+import submissionDetails from '../../reducers/submissionDetails'
 
 class ChallengeDetails extends Component {
   componentDidMount () {
@@ -43,7 +44,8 @@ class ChallengeDetails extends Component {
       loadChallengeSubmissions,
       loadSubmissionArtifacts,
       challengeId,
-      submissionId
+      submissionId,
+      loadSubmitters
     } = this.props
 
     // If navigated to or from the submission details page
@@ -58,6 +60,9 @@ class ChallengeDetails extends Component {
           loadChallengeSubmissions(challengeId)
         }
       }
+    }
+    if ((submissionDetails || challengeSubmissions.length > 0) && (!submitters || submitters.length === 0)) {
+      loadSubmitters(submissionId ? submissionDetails.memberId : challengeSubmissions.map(s => s.memberId))
     }
   }
 
@@ -76,7 +81,8 @@ class ChallengeDetails extends Component {
       isArtifactsLoading,
       submissionArtifacts,
       currentTab,
-      switchTab
+      switchTab,
+      submitters
     } = this.props
 
     if (!isLoading && invalidChallenge) return <Redirect to='/' />
@@ -85,6 +91,7 @@ class ChallengeDetails extends Component {
 
     return isLoading || shouldWait ? <Loader /> : (
       <ChallengeDetailsComponent
+        submitters={submitters}
         challenge={challengeDetails}
         challengeTypes={challengeTypes}
         submissionId={submissionId}
@@ -107,6 +114,7 @@ ChallengeDetails.propTypes = {
   isLoading: PropTypes.bool,
   loadChallengeDetails: PropTypes.func,
   loadChallengeSubmissions: PropTypes.func,
+  loadSubmitters: PropTypes.func,
   loadSubmissionDetails: PropTypes.func,
   loadSubmissionArtifacts: PropTypes.func,
   switchTab: PropTypes.func,
@@ -115,6 +123,7 @@ ChallengeDetails.propTypes = {
   challengeSubmissionsChallengeId: PropTypes.string,
   isChallengeSubmissionsLoading: PropTypes.bool,
   challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
+  submitters: PropTypes.arrayOf(PropTypes.object),
   isSubmissionLoading: PropTypes.bool,
   submissionDetails: PropTypes.object,
   isArtifactsLoading: PropTypes.bool,
@@ -127,6 +136,7 @@ const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submiss
   ...challengeDetails,
   challengeSubmissionsChallengeId: challengeSubmissions.challengeId,
   challengeSubmissions: challengeSubmissions.challengeSubmissions,
+  submitters: challengeSubmissions.submitters,
   isChallengeSubmissionsLoading: challengeSubmissions.isLoading,
   submissionDetails: submissionDetails.submissionDetails,
   isSubmissionLoading: submissionDetails.isLoading,
@@ -138,6 +148,7 @@ const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submiss
 const mapDispatchToProps = {
   loadChallengeDetails,
   loadChallengeSubmissions,
+  loadSubmitters,
   loadSubmissionDetails,
   loadSubmissionArtifacts,
   switchTab
