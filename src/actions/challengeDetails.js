@@ -36,7 +36,7 @@ export function loadChallengeDetails (challengeId) {
           dispatch({
             type: LOAD_RESOURCE_ROLES_SUCCESS,
             resourceRoles: [
-              ..._resourceRoles,
+              ..._resourceRoles
             ]
           })
         } catch (e) {
@@ -75,4 +75,3 @@ export function loadChallengeDetails (challengeId) {
     }
   }
 }
-
