@@ -3,7 +3,10 @@ import { fetchChallengeSubmissions } from '../services/submissionReview'
 import {
   LOAD_CHALLENGE_SUBMISSIONS_FAILURE,
   LOAD_CHALLENGE_SUBMISSIONS_PENDING,
-  LOAD_CHALLENGE_SUBMISSIONS_SUCCESS
+  LOAD_CHALLENGE_SUBMISSIONS_SUCCESS,
+  LOAD_SUBMITTERS_SUCCESS,
+  LOAD_SUBMITTERS_PENDING,
+  LOAD_SUBMITTERS_FAILURE
 } from '../config/constants'
 
 /**
@@ -38,5 +41,26 @@ export function loadChallengeSubmissions (challengeId) {
         })
       }
     }
+  }
+}
+
+/**
+ * Load submitters details
+ * @param {Array} userIds
+ * @returns {Promise<*>}
+ */
+export async function loadSubmitters (userIds) {
+  dispatch({ type: LOAD_SUBMITTERS_PENDING })
+  try {
+    const submitters = await fetchMemberDetails(userIds)
+    dispatch({
+      type: LOAD_SUBMITTERS_SUCCESS,
+      submitters
+    })
+  } catch (error) {
+    console.error(error)
+    dispatch({
+      type: LOAD_SUBMITTERS_FAILURE
+    })
   }
 }

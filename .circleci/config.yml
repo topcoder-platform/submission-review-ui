@@ -1,17 +1,19 @@
 version: 2
 defaults: &defaults
-    docker:
-      - image: circleci/python:2.7-stretch-browsers
+  docker:
+    - image: cimg/python:3.11.0-browsers
 install_dependency: &install_dependency
   name: Installation of build and deployment dependencies.
   command: |
+    sudo apt update
     sudo apt install jq
-    sudo pip install awscli --upgrade
-    sudo pip install docker-compose
+    sudo apt install python3-pip
+    sudo pip3 install awscli --upgrade
+    sudo pip3 install docker-compose
 install_deploysuite: &install_deploysuite
   name: Installation of install_deploysuite.
   command: |
-    git clone --branch v1.3 https://github.com/topcoder-platform/tc-deploy-scripts ../buildscript
+    git clone --branch v1.4.15 https://github.com/topcoder-platform/tc-deploy-scripts ../buildscript
     cp ./../buildscript/master_deploy.sh .
     cp ./../buildscript/buildenv.sh .
     cp ./../buildscript/awsconfiguration.sh .
@@ -24,22 +26,32 @@ save_cache_settings: &save_cache_settings
     - node_modules
 
 builddeploy_steps: &builddeploy_steps
-      - checkout
-      - setup_remote_docker
-      - run: *install_dependency
-      - run: *install_deploysuite
-      - restore_cache: *restore_cache_settings_for_build
-      - run: ./build.sh $NODE_ENV
-      - save_cache: *save_cache_settings
-      - deploy:
-          name: Running MasterScript.
-          command: |
-            ./awsconfiguration.sh $DEPLOY_ENV
-            source awsenvconf
-            ./buildenv.sh -e $DEPLOY_ENV -b ${DEPLOY_ENV}-${APPNAME}-deployvar
-            source buildenvvar
-            ./master_deploy.sh -d ECS -e $DEPLOY_ENV -t latest -s ${DEPLOY_ENV}-global-appvar,${DEPLOY_ENV}-${APPNAME}-appvar -i ${APPNAME}
-
+  - checkout
+  - setup_remote_docker
+  - run: *install_dependency
+  - run: *install_deploysuite
+  - run:
+      name: "configuring environment"
+      command: |
+        ./awsconfiguration.sh $DEPLOY_ENV
+        ./buildenv.sh -e $DEPLOY_ENV -b ${DEPLOY_ENV}-${APPNAME}-buildvar
+        echo awsenvconf >.dockerignore
+        echo buildenvvar >>.dockerignore
+  - restore_cache: *restore_cache_settings_for_build
+  - run:
+      name: "building image"
+      command: |
+        source buildenvvar
+        ./build.sh $NODE_ENV
+  - save_cache: *save_cache_settings
+  - deploy:
+      name: Running MasterScript.
+      command: |
+        #./awsconfiguration.sh $DEPLOY_ENV
+        source awsenvconf
+        ./buildenv.sh -e $DEPLOY_ENV -b ${DEPLOY_ENV}-${APPNAME}-deployvar
+        source buildenvvar
+        ./master_deploy.sh -d ECS -e $DEPLOY_ENV -t latest -s ${DEPLOY_ENV}-global-appvar,${DEPLOY_ENV}-${APPNAME}-appvar -i ${APPNAME}
 
 jobs:
   # Build & Deploy against development backend
@@ -48,15 +60,15 @@ jobs:
     environment:
       NODE_ENV: "development"
       DEPLOY_ENV: "dev"
-      APPNAME: "submission-review-ui"    
+      APPNAME: "submission-review-ui"
     steps: *builddeploy_steps
 
   "build-prod":
     <<: *defaults
     environment:
       NODE_ENV: "production"
-      DEPLOY_ENV: "prod"    
-      APPNAME: "submission-review-ui"  
+      DEPLOY_ENV: "prod"
+      APPNAME: "submission-review-ui"
     steps: *builddeploy_steps
 
 workflows:
@@ -65,15 +77,16 @@ workflows:
     jobs:
       # Development builds are executed on "develop" branch only.
       - "build-dev":
-          context : org-global
+          context: org-global
           filters:
             branches:
-              only: dev
+              only:
+                - dev
 
       # Production builds are exectuted only on tagged commits to the
       # master branch.
       - "build-prod":
-          context : org-global
+          context: org-global
           filters:
             branches:
               only: master
