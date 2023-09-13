@@ -14,7 +14,6 @@ import { loadSubmissionDetails, loadSubmissionArtifacts, switchTab } from '../..
 import { loadChallengeSubmissions, loadSubmitters } from '../../actions/challengeSubmissions'
 
 import Loader from '../../components/Loader'
-import submissionDetails from '../../reducers/submissionDetails'
 
 class ChallengeDetails extends Component {
   componentDidMount () {
@@ -40,19 +39,20 @@ class ChallengeDetails extends Component {
   componentDidUpdate (prevProps, prevState) {
     const {
       loadSubmissionDetails,
+      challengeSubmissions,
       challengeSubmissionsChallengeId,
       loadChallengeSubmissions,
       loadSubmissionArtifacts,
       challengeId,
       submissionId,
-      loadSubmitters
+      loadSubmitters,
+      submitters
     } = this.props
 
     // If navigated to or from the submission details page
     if (prevProps.submissionId !== submissionId) {
       if (submissionId) {
         loadSubmissionDetails(submissionId)
-        loadChallengeSubmissions(challengeId)
         loadSubmissionArtifacts(submissionId)
       } else {
         // if challenge submissions not loaded already
@@ -61,8 +61,8 @@ class ChallengeDetails extends Component {
         }
       }
     }
-    if ((submissionDetails || challengeSubmissions.length > 0) && (!submitters || submitters.length === 0)) {
-      loadSubmitters(submissionId ? submissionDetails.memberId : challengeSubmissions.map(s => s.memberId))
+    if (!submissionId && (challengeSubmissions.length > 0 && submitters.length === 0)) {
+      loadSubmitters(challengeId, challengeSubmissions.map(s => s.memberId))
     }
   }
 

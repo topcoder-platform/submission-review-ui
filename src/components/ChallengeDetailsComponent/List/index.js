@@ -4,6 +4,7 @@
  */
 import React from 'react'
 import PropTypes from 'prop-types'
+import { find, get } from 'lodash'
 import MMSubmissionList from './MMSubmissionList'
 import SubmissionList from './SubmissionList'
 import Loader from '../../Loader'
@@ -15,8 +16,8 @@ const List = ({ submitters, isChallengeSubmissionsLoading, challengeSubmissions,
   }
 
   const submissionsWithMemberHandleColors = challengeSubmissions.map(s => {
-    const registrant = _.find(submitters, { userId: s.memberId })
-    const memberHandleColor = _.get(registrant, 'ratingColor', '')
+    const registrant = find(submitters, { userId: s.memberId })
+    const memberHandleColor = get(registrant, 'maxRating.ratingColor', '')
 
     return {
       ...s,
