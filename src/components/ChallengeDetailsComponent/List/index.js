@@ -41,7 +41,7 @@ List.propTypes = {
   challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
   submitters: PropTypes.arrayOf(PropTypes.object),
   isMarathonMatch: PropTypes.bool,
-  challengeId: PropTypes.number
+  challengeId: PropTypes.string
 }
 
 export default List

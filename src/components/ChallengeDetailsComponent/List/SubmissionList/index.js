@@ -81,7 +81,7 @@ const SubmissionList = ({ submissions, challengeId }) => {
 
 SubmissionList.propTypes = {
   submissions: PropTypes.arrayOf(PropTypes.object),
-  challengeId: PropTypes.number
+  challengeId: PropTypes.string
 }
 
 export default SubmissionList

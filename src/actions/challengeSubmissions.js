@@ -50,7 +50,7 @@ export function loadChallengeSubmissions (challengeId) {
  * @param {Array} userIds
  * @returns {Promise<*>}
  */
-export async function loadSubmitters (challengeId, userIds) {
+export function loadSubmitters (challengeId, userIds) {
   return async (dispatch, getState) => {
     const getLoadingId = () => _.get(getState(), 'challengeSubmissions.loadingIdOfSubmitters')
     if (challengeId !== getLoadingId()) {
