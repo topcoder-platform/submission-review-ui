@@ -9,9 +9,9 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { get } from 'lodash'
 import ChallengeDetailsComponent from '../../components/ChallengeDetailsComponent'
-import { loadChallengeDetails, loadChallengeTypes } from '../../actions/challengeDetails'
+import { loadChallengeDetails } from '../../actions/challengeDetails'
 import { loadSubmissionDetails, loadSubmissionArtifacts, switchTab } from '../../actions/submissionDetails'
-import { loadChallengeSubmissions } from '../../actions/challengeSubmissions'
+import { loadChallengeSubmissions, loadSubmitters } from '../../actions/challengeSubmissions'
 
 import Loader from '../../components/Loader'
 
@@ -19,7 +19,6 @@ class ChallengeDetails extends Component {
   componentDidMount () {
     const {
       loadChallengeDetails,
-      loadChallengeTypes,
       loadChallengeSubmissions,
       loadSubmissionDetails,
       challengeId,
@@ -35,24 +34,25 @@ class ChallengeDetails extends Component {
     } else {
       loadChallengeSubmissions(challengeId)
     }
-    loadChallengeTypes()
   }
 
   componentDidUpdate (prevProps, prevState) {
     const {
       loadSubmissionDetails,
+      challengeSubmissions,
       challengeSubmissionsChallengeId,
       loadChallengeSubmissions,
       loadSubmissionArtifacts,
       challengeId,
-      submissionId
+      submissionId,
+      loadSubmitters,
+      submitters
     } = this.props
 
     // If navigated to or from the submission details page
     if (prevProps.submissionId !== submissionId) {
       if (submissionId) {
         loadSubmissionDetails(submissionId)
-        loadChallengeSubmissions(challengeId)
         loadSubmissionArtifacts(submissionId)
       } else {
         // if challenge submissions not loaded already
@@ -60,6 +60,9 @@ class ChallengeDetails extends Component {
           loadChallengeSubmissions(challengeId)
         }
       }
+    }
+    if (!submissionId && (challengeSubmissions.length > 0 && submitters.length === 0)) {
+      loadSubmitters(challengeId, challengeSubmissions.map(s => s.memberId))
     }
   }
 
@@ -78,15 +81,17 @@ class ChallengeDetails extends Component {
       isArtifactsLoading,
       submissionArtifacts,
       currentTab,
-      switchTab
+      switchTab,
+      submitters
     } = this.props
 
     if (!isLoading && invalidChallenge) return <Redirect to='/' />
 
-    const shouldWait = challengeId.toString() !== get(challengeDetails, 'challengeId', '').toString()
+    const shouldWait = challengeId.toString() !== get(challengeDetails, 'id', '').toString()
 
     return isLoading || shouldWait ? <Loader /> : (
       <ChallengeDetailsComponent
+        submitters={submitters}
         challenge={challengeDetails}
         challengeTypes={challengeTypes}
         submissionId={submissionId}
@@ -108,8 +113,8 @@ ChallengeDetails.propTypes = {
   challengeTypes: PropTypes.arrayOf(PropTypes.object),
   isLoading: PropTypes.bool,
   loadChallengeDetails: PropTypes.func,
-  loadChallengeTypes: PropTypes.func,
   loadChallengeSubmissions: PropTypes.func,
+  loadSubmitters: PropTypes.func,
   loadSubmissionDetails: PropTypes.func,
   loadSubmissionArtifacts: PropTypes.func,
   switchTab: PropTypes.func,
@@ -118,6 +123,7 @@ ChallengeDetails.propTypes = {
   challengeSubmissionsChallengeId: PropTypes.string,
   isChallengeSubmissionsLoading: PropTypes.bool,
   challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
+  submitters: PropTypes.arrayOf(PropTypes.object),
   isSubmissionLoading: PropTypes.bool,
   submissionDetails: PropTypes.object,
   isArtifactsLoading: PropTypes.bool,
@@ -130,6 +136,7 @@ const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submiss
   ...challengeDetails,
   challengeSubmissionsChallengeId: challengeSubmissions.challengeId,
   challengeSubmissions: challengeSubmissions.challengeSubmissions,
+  submitters: challengeSubmissions.submitters,
   isChallengeSubmissionsLoading: challengeSubmissions.isLoading,
   submissionDetails: submissionDetails.submissionDetails,
   isSubmissionLoading: submissionDetails.isLoading,
@@ -140,8 +147,8 @@ const mapStateToProps = ({ auth, challengeDetails, challengeSubmissions, submiss
 
 const mapDispatchToProps = {
   loadChallengeDetails,
-  loadChallengeTypes,
   loadChallengeSubmissions,
+  loadSubmitters,
   loadSubmissionDetails,
   loadSubmissionArtifacts,
   switchTab

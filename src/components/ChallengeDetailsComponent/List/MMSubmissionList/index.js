@@ -186,7 +186,7 @@ class MMSubmissionList extends React.Component {
 
 MMSubmissionList.propTypes = {
   submissions: PropTypes.arrayOf(PropTypes.object),
-  challengeId: PropTypes.number
+  challengeId: PropTypes.string
 }
 
 export default MMSubmissionList

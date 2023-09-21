@@ -12,15 +12,9 @@ import { CHALLENGE_TRACKS } from '../../config/constants'
  * For a given sub track checks the challengeTypes for formatted subTrack name
  * If it doesn't exist formats subTrack by removing underscores and capitalizing it
  * @param t subTrack
- * @param challengeTypes Challenge Types response
  * @returns {*}
  */
-const stylizedSubTrack = (t, challengeTypes) => {
-  const subTrackTypes = challengeTypes.filter(type => type.subTrack === t)
-  if (subTrackTypes.length === 1) {
-    return subTrackTypes[0].name
-  }
-
+const stylizedSubTrack = (t) => {
   return (t || '').replace(/_/g, ' ')
     .replace(/\w\S*/g,
       // capitalize
@@ -28,7 +22,7 @@ const stylizedSubTrack = (t, challengeTypes) => {
     )
 }
 
-const Tag = ({ track, subTrack, value, challengeTypes, roleTag }) => {
+const Tag = ({ track, subTrack, value, roleTag }) => {
   const className = cn(styles.tag, {
     [styles.dataScience]: track === CHALLENGE_TRACKS.DATA_SCIENCE,
     [styles.development]: track === CHALLENGE_TRACKS.DEVELOP,
@@ -37,7 +31,7 @@ const Tag = ({ track, subTrack, value, challengeTypes, roleTag }) => {
   })
 
   if (subTrack) {
-    value = stylizedSubTrack(subTrack, challengeTypes)
+    value = stylizedSubTrack(subTrack)
   }
 
   return (
@@ -53,7 +47,6 @@ Tag.propTypes = {
   track: PropTypes.string,
   subTrack: PropTypes.string,
   value: PropTypes.string,
-  challengeTypes: PropTypes.arrayOf(PropTypes.object),
   roleTag: PropTypes.bool
 }
 

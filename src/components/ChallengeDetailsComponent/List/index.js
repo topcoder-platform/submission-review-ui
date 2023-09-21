@@ -2,22 +2,22 @@
  * Component to render submissions of a challenge
  * It uses different components for rendering Marathon Matches and other ones
  */
-import _ from 'lodash'
 import React from 'react'
 import PropTypes from 'prop-types'
+import { find, get } from 'lodash'
 import MMSubmissionList from './MMSubmissionList'
 import SubmissionList from './SubmissionList'
 import Loader from '../../Loader'
 import styles from './List.module.scss'
 
-const List = ({ challenge, isChallengeSubmissionsLoading, challengeSubmissions, isMarathonMatch, challengeId }) => {
+const List = ({ submitters, isChallengeSubmissionsLoading, challengeSubmissions, isMarathonMatch, challengeId }) => {
   if (isChallengeSubmissionsLoading) {
     return <Loader />
   }
 
   const submissionsWithMemberHandleColors = challengeSubmissions.map(s => {
-    const registrant = _.find(challenge.registrants, { handle: s.memberHandle })
-    const memberHandleColor = _.get(registrant, 'colorStyle', '').replace(/color:\s*/, '')
+    const registrant = find(submitters, { userId: s.memberId })
+    const memberHandleColor = get(registrant, 'maxRating.ratingColor', '')
 
     return {
       ...s,
@@ -37,11 +37,11 @@ const List = ({ challenge, isChallengeSubmissionsLoading, challengeSubmissions, 
 }
 
 List.propTypes = {
-  challenge: PropTypes.object,
   isChallengeSubmissionsLoading: PropTypes.bool,
   challengeSubmissions: PropTypes.arrayOf(PropTypes.object),
+  submitters: PropTypes.arrayOf(PropTypes.object),
   isMarathonMatch: PropTypes.bool,
-  challengeId: PropTypes.number
+  challengeId: PropTypes.string
 }
 
 export default List

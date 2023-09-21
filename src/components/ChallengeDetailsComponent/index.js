@@ -14,11 +14,10 @@ import List from './List'
 import SubmissionDetails from './SubmissionDetails'
 import { Redirect } from 'react-router-dom'
 
-const isMarathonMatch = c => (MARATHON_MATCH_SUBTRACKS.includes(c.subTrack))
+const isMarathonMatch = c => (MARATHON_MATCH_SUBTRACKS.includes(c.legacy.subTrack))
 
 const ChallengeDetailsComponent = ({
   challenge,
-  challengeTypes,
   submissionId,
   challengeSubmissions,
   isChallengeSubmissionsLoading,
@@ -27,34 +26,35 @@ const ChallengeDetailsComponent = ({
   isArtifactsLoading,
   submissionArtifacts,
   currentTab,
-  switchTab }) => {
-  const { challengeId, challengeTitle } = challenge
-  const challengeTags = <ChallengeTags challenge={challenge} challengeTypes={challengeTypes} />
+  switchTab,
+  submitters }) => {
+  const { id, name } = challenge
+  const challengeTags = <ChallengeTags challenge={challenge} />
   const isOnSubmissionDetailsPage = !!submissionId
   if (challengeSubmissions.length === 0 && submissionId) {
     const submissionIds = _.map(challengeSubmissions, s => (s.submissions[0].id))
-    if (!_.includes(submissionIds, submissionId)) return <Redirect to={`/challenges/${challengeId}`} />
+    if (!_.includes(submissionIds, submissionId)) return <Redirect to={`/challenges/${id}`} />
   }
   return (
     <div>
-      <Helmet title={challengeTitle || 'Challenge Details'} />
-      <PageHeader title={challengeTitle} tags={challengeTags} />
+      <Helmet title={name || 'Challenge Details'} />
+      <PageHeader title={name} tags={challengeTags} />
       <div className={styles.challenges}>
         <ChallengeInfo challenge={challenge} />
         {!isOnSubmissionDetailsPage &&
           <List
-            challenge={challenge}
             isMarathonMatch={isMarathonMatch(challenge)}
             isChallengeSubmissionsLoading={isChallengeSubmissionsLoading}
             challengeSubmissions={challengeSubmissions}
-            challengeId={challengeId}
+            challengeId={id}
+            submitters={submitters}
           />}
         {isOnSubmissionDetailsPage &&
           <SubmissionDetails
             submissionId={submissionId}
             isSubmissionLoading={isSubmissionLoading}
             submissionDetails={submissionDetails}
-            challengeId={challengeId}
+            challengeId={id}
             isArtifactsLoading={isArtifactsLoading}
             submissionArtifacts={submissionArtifacts}
             currentTab={currentTab}
@@ -67,7 +67,6 @@ const ChallengeDetailsComponent = ({
 
 ChallengeDetailsComponent.propTypes = {
   challenge: PropTypes.object,
-  challengeTypes: PropTypes.arrayOf(PropTypes.object),
   submissionId: PropTypes.string,
   submissionDetails: PropTypes.object,
   isSubmissionLoading: PropTypes.bool,
@@ -76,12 +75,12 @@ ChallengeDetailsComponent.propTypes = {
   isArtifactsLoading: PropTypes.bool,
   submissionArtifacts: PropTypes.object,
   currentTab: PropTypes.string,
-  switchTab: PropTypes.func
+  switchTab: PropTypes.func,
+  submitters: PropTypes.arrayOf(PropTypes.object)
 }
 
 ChallengeDetailsComponent.defaultProps = {
-  challenge: null,
-  challengeTypes: []
+  challenge: null
 }
 
 export default ChallengeDetailsComponent

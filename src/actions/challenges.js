@@ -14,9 +14,9 @@ export function loadChallenges () {
       type: LOAD_CHALLENGES_PENDING
     })
 
-    const { handle } = getState().auth.user
+    const { userId } = getState().auth.user
 
-    fetchMemberChallenges(handle).then(challenges => dispatch({
+    fetchMemberChallenges(userId).then(challenges => dispatch({
       type: LOAD_CHALLENGES_SUCCESS,
       challenges
     })).catch(() => dispatch({
