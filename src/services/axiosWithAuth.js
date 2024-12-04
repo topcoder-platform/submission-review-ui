@@ -18,7 +18,6 @@ export const getToken = () => {
           resolve(token)
         })
         .catch((err) => {
-          console.error(err)
           reject(err)
         })
     }
@@ -40,7 +39,6 @@ axiosInstance.interceptors.request.use(config => {
       return config
     })
     .catch((err) => {
-      console.error(err)
       const redirectBackToUrl = window.location.origin
       window.location = ACCOUNTS_APP_LOGIN_URL + '?retUrl=' + redirectBackToUrl
     })

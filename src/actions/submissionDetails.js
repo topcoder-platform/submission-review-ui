@@ -37,7 +37,6 @@ export function loadSubmissionDetails (submissionId) {
           })
         }
       } catch (error) {
-        console.error(error)
         dispatch({
           type: LOAD_SUBMISSION_DETAILS_FAILURE
         })
@@ -68,7 +67,6 @@ export function loadSubmissionArtifacts (submissionId) {
           })
         }
       } catch (error) {
-        console.error(error)
         dispatch({
           type: LOAD_SUBMISSION_ARTIFACTS_FAILURE
         })
