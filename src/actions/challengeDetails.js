@@ -40,7 +40,6 @@ export function loadChallengeDetails (challengeId) {
             ]
           })
         } catch (e) {
-          console.error(e)
           dispatch({
             type: LOAD_RESOURCE_ROLES_FAILURE
           })
@@ -67,7 +66,6 @@ export function loadChallengeDetails (challengeId) {
           })
         }
       } catch (error) {
-        console.error(error)
         dispatch({
           type: LOAD_CHALLENGE_DETAILS_FAILURE
         })
