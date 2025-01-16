@@ -27,7 +27,7 @@ class Routes extends React.Component {
       this.props.saveToken(token)
     }).catch((error) => {
       console.error(error)
-      const redirectBackToUrl = window.location.origin + this.props.location.pathname
+      const redirectBackToUrl = window.location.origin + window.location.pathname
       window.location = ACCOUNTS_APP_LOGIN_URL + '?retUrl=' + redirectBackToUrl
     })
   }
@@ -81,7 +81,6 @@ const mapDispatchToProps = {
 
 Routes.propTypes = {
   saveToken: PropTypes.func,
-  location: PropTypes.object,
   isLoggedIn: PropTypes.bool
 }
 
