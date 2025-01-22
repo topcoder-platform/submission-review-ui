@@ -1,7 +1,7 @@
 # Use the base image with Node.js
 FROM node:10.16.0
 
-ARG NODE_ENV=develop
+ARG NODE_ENV
 ARG FORCE_DEV
 ARG BABEL_ENV
 ARG NODE_ENV_CONFIG
@@ -33,8 +33,14 @@ ENV FILESTACK_API_KEY=$FILESTACK_API_KEY
 ENV FILESTACK_SUBMISSION_CONTAINER=$FILESTACK_SUBMISSION_CONTAINER
 ENV SUBMISSION_REVIEW_API_URL=$SUBMISSION_REVIEW_API_URL
 ENV REACT_APP_FILESTACK_API_KEY=$REACT_APP_FILESTACK_API_KEY
+
+RUN useradd -m -s /bin/bash appuser
+
 # Copy the current directory into the Docker image
 COPY . /submission-review-ui
+
+RUN chown -R appuser:appuser /submission-review-ui
+USER appuser
 
 # Set working directory for future use
 WORKDIR /submission-review-ui
