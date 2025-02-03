@@ -44,23 +44,6 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000
 const HOST = process.env.HOST || '0.0.0.0'
 
-if (process.env.HOST) {
-  console.log(
-    chalk.cyan(
-      `Attempting to bind to HOST environment variable: ${chalk.yellow(
-        chalk.bold(process.env.HOST)
-      )}`
-    )
-  )
-  console.log(
-    `If this was unintentional, check that you haven't mistakenly set it in your shell.`
-  )
-  console.log(
-    `Learn more here: ${chalk.yellow('http://bit.ly/CRA-advanced-config')}`
-  )
-  console.log()
-}
-
 // We require that you explictly set browsers and do not fall back to
 // browserslist defaults.
 const { checkBrowsers } = require('react-dev-utils/browsersHelper')
@@ -93,12 +76,11 @@ checkBrowsers(paths.appPath, isInteractive)
     // Launch WebpackDevServer.
     devServer.listen(port, HOST, err => {
       if (err) {
-        return console.error(err)
+        return err
       }
       if (isInteractive) {
         clearConsole()
       }
-      console.log(chalk.cyan('Starting the development server...\n'))
       openBrowser(constants.DEV_APP_URL ? `${constants.DEV_APP_URL}:${process.env.PORT || 3000}` : urls.localUrlForBrowser)
     })
 
@@ -111,8 +93,5 @@ checkBrowsers(paths.appPath, isInteractive)
     })
   })
   .catch(err => {
-    if (err && err.message) {
-      console.error(err.message)
-    }
     process.exit(1)
   })

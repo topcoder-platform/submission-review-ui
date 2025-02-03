@@ -36,7 +36,6 @@ export function loadChallengeSubmissions (challengeId) {
           })
         }
       } catch (error) {
-        console.error(error)
         dispatch({
           type: LOAD_CHALLENGE_SUBMISSIONS_FAILURE
         })
@@ -62,7 +61,6 @@ export function loadSubmitters (challengeId, userIds) {
           submitters
         })
       } catch (error) {
-        console.error(error)
         dispatch({
           type: LOAD_SUBMITTERS_FAILURE
         })
